@@ -1,0 +1,1446 @@
+<title>یونی‌فلاور</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: one saturated hero that takes the branch colour, then quiet white space; display type is the ornament */
+:root{--accent:#e83e78;--accent-d:#b82a5c;--bg:#faf7f9;--ink:#1d1626;--mut:#75697d;--card:#ffffff;--line:#e8e0ec;--soft:#e83e781c;--hdr:rgba(250,247,249,.94);--dk:#1d1626;--ok:#12805a;--warn:#a86400;--err:#c4264a;--disp:Amiri,"Vazirmatn",Tahoma,serif;--body:Vazirmatn,Tahoma,sans-serif;--ease:cubic-bezier(.2,.8,.2,1)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#150f1b;--ink:#f4ecf7;--mut:#b4a6bd;--card:#1f1727;--line:#34283e;--hdr:rgba(21,15,27,.94);--dk:#0d0911;--ok:#4fcfa2;--warn:#ffb84d;--err:#ff7a93;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#150f1b;--ink:#f4ecf7;--mut:#b4a6bd;--card:#1f1727;--line:#34283e;--hdr:rgba(21,15,27,.94);--dk:#0d0911;--ok:#4fcfa2;--warn:#ffb84d;--err:#ff7a93;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--accent);transition:background-color .5s}
+body.solid::before{background:var(--hdr)}
+body{font-family:var(--body);font-weight:400;background:var(--bg);color:var(--ink);line-height:1.85;min-width:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+a{color:inherit;text-decoration:none}
+.disp,h1,h2,h3.disp{font-family:var(--disp);font-weight:700;line-height:1.35}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 26px;border-radius:2px;background:var(--ink);color:var(--bg);font-weight:500;transition:background-color .3s,color .3s,transform .3s var(--ease);position:relative}
+.btn::after{content:"";width:16px;height:1px;background:currentColor;transition:width .3s var(--ease)}
+.btn:hover{background:var(--accent);color:#fff}.btn:hover::after{width:26px}
+.btn:disabled{opacity:.4;cursor:not-allowed}.btn:disabled:hover{background:var(--ink);color:var(--bg)}.btn:disabled:hover::after{width:16px}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn.ghost:hover{background:var(--ink);color:var(--bg)}
+.btn.sm{padding:6px 14px;font-size:.84rem}.btn.sm::after{display:none}
+.btn.wh{background:#fff;color:#1d1626}.btn.wh:hover{background:#1d1626;color:#fff}
+.lnk{font-size:.86rem;color:var(--mut);background:linear-gradient(currentColor,currentColor) 100% 100%/0 1px no-repeat;transition:background-size .35s var(--ease),color .3s;padding-bottom:2px;align-self:flex-start}
+.lnk:hover{background-size:100% 1px;color:var(--accent)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--accent);color:#fff;transition:background-color .5s,color .5s}
+header.solid{background:var(--hdr);color:var(--ink);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
+.bar{display:flex;align-items:center;gap:16px;height:72px}
+.logo{font-family:var(--disp);font-size:1.7rem;font-weight:700;display:flex;align-items:center;gap:8px;line-height:1;color:inherit}
+.logo svg{width:32px;height:32px}
+nav{display:flex;gap:26px;margin-inline-start:22px;font-size:.93rem}
+nav a{background:linear-gradient(currentColor,currentColor) 100% 100%/0 1px no-repeat;padding-bottom:3px;transition:background-size .35s var(--ease)}
+nav a:hover{background-size:100% 1px}
+.sp{flex:1}
+.branchsel{background:transparent;border:0;border-bottom:1px solid currentColor;color:inherit;padding:4px 2px;max-width:150px;font-size:.9rem}
+.branchsel option{color:#1d1626;background:#fff}
+.cartbtn{position:relative;width:44px;height:44px;display:grid;place-items:center;color:inherit}
+.cartbtn svg{width:24px;height:24px}
+.cartbtn b{position:absolute;top:4px;inset-inline-start:2px;background:#fff;color:#1d1626;border-radius:2px;font-size:.7rem;min-width:18px;height:18px;line-height:18px;text-align:center;font-weight:700}
+header.solid .cartbtn b{background:var(--accent);color:#fff}
+/* hero */
+.hero{background:var(--accent);color:#fff;overflow:hidden;transition:background-color .7s;position:relative}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:20px;align-items:end;min-height:min(640px,86vh)}
+.htxt{padding:64px 0 72px;align-self:center}
+.eyebrow{font-size:.9rem;opacity:.85;margin-bottom:14px;letter-spacing:.02em}
+.hero h1{font-size:clamp(2.8rem,7vw,5.8rem);line-height:1.25}
+.ln{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
+.ln span{display:block;animation:rise 1s var(--ease) both;animation-delay:calc(var(--i)*130ms + 150ms)}
+.hero p.lead{margin:22px 0 30px;max-width:30em;font-size:1.05rem;opacity:.92;animation:fade 1s .6s both}
+.hero .cta{display:flex;gap:22px;flex-wrap:wrap;align-items:center;animation:fade 1s .8s both}
+.hero .cta .lnk{color:#fff;font-size:.95rem}
+.hero .cta .lnk:hover{color:#fff;opacity:.8}
+.heroart{align-self:end;transform:translateY(7%);filter:drop-shadow(0 30px 30px rgba(29,22,38,.28))}
+.heroart svg{width:100%;height:auto;display:block;overflow:visible}
+@keyframes rise{from{transform:translateY(108%)}to{transform:none}}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes bloom{0%{transform:scale(.15) rotate(-60deg);opacity:0}55%{opacity:1}100%{transform:none;opacity:1}}
+@keyframes sway{from{transform:rotate(-1.4deg)}to{transform:rotate(1.4deg)}}
+.fl{transition:transform .6s var(--ease)}
+.sc{transition:transform .6s var(--ease)}
+.in.pop{animation:bloom .85s var(--ease) both;animation-delay:var(--d,0ms)}
+svg.sway .top{transform-origin:200px 352px;animation:sway 6.5s ease-in-out infinite alternate}
+/* ticker */
+.tick{background:var(--dk);color:#f4ecf7;overflow:hidden;direction:ltr;padding:14px 0}
+.track{display:flex;width:max-content;gap:0;animation:tick 48s linear infinite}
+.track span{font-family:var(--disp);font-size:1.5rem;padding:0 28px;white-space:nowrap;direction:rtl}
+.track i{align-self:center;width:7px;height:7px;background:var(--accent);transform:rotate(45deg);flex:none}
+@keyframes tick{to{transform:translateX(-50%)}}
+section{padding:84px 0}
+.sh{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:34px;flex-wrap:wrap}
+.sh h2{font-size:clamp(2rem,4vw,3.1rem)}
+.sh p{color:var(--mut);max-width:36em;margin-top:6px}
+/* branches index */
+.bidx{display:grid;grid-template-columns:1.5fr 1fr;gap:56px;align-items:start}
+.brow{display:grid;grid-template-columns:18px 1fr auto;column-gap:16px;align-items:baseline;width:100%;text-align:start;padding:16px 0;border-bottom:1px solid var(--line);position:relative;transition:padding .4s var(--ease),background-color .3s}
+.brow .bm{width:9px;height:9px;background:var(--line);transform:rotate(45deg);align-self:center;transition:background-color .3s,transform .4s var(--ease)}
+.brow .bn{font-family:var(--disp);font-size:clamp(1.6rem,3.2vw,2.5rem);font-weight:700;line-height:1.3;transition:color .3s}
+.brow .bu{grid-column:2;color:var(--mut);font-size:.88rem;margin-top:-6px}
+.brow .bh{grid-row:1;grid-column:3;font-size:.85rem;color:var(--mut)}
+.brow:hover{padding-inline-start:14px;background:color-mix(in srgb,var(--bc) 8%,transparent)}
+.brow:hover .bm{background:var(--bc)}
+.brow.on .bm{background:var(--bc);transform:rotate(45deg) scale(1.5)}
+.brow.on .bn{color:var(--bc)}
+.brow:disabled{opacity:.45;cursor:default}.brow:disabled:hover{padding-inline-start:0;background:none}
+.binfo{position:sticky;top:calc(96px + env(safe-area-inset-top,0px));background:var(--accent);color:#fff;padding:32px 30px;min-width:0;transition:background-color .6s}
+.binfo small{opacity:.8}.binfo h3{font-size:2.3rem;margin:4px 0 0}.binfo p{opacity:.9;margin-bottom:18px}
+.binfo dl{display:grid;gap:12px}.binfo dl div{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #ffffff55;padding-top:10px}
+.binfo dt{opacity:.8;font-size:.88rem}.binfo dd{font-weight:500;text-align:left}
+/* shop */
+.toolbar{display:flex;gap:22px;flex-wrap:wrap;align-items:center;margin-bottom:28px}
+.chip{font-size:.95rem;color:var(--mut);padding:4px 0;background:linear-gradient(var(--accent),var(--accent)) 100% 100%/0 2px no-repeat;transition:background-size .35s var(--ease),color .3s}
+.chip:hover{color:var(--ink)}
+.chip.on{color:var(--ink);background-size:100% 2px;font-weight:500}
+.toolbar select{border:0;border-bottom:1px solid var(--line);background:transparent;padding:4px 2px;font-size:.9rem}
+.toolbar select option{color:#1d1626;background:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:40px 24px}
+.pc{display:flex;flex-direction:column;gap:6px;min-width:0}
+.tile{position:relative;background:color-mix(in srgb,var(--t) 26%,var(--card));aspect-ratio:1/1.08;overflow:hidden;display:grid;place-items:center;transition:background-color .4s}
+.tile>svg,.tile>img{width:92%;height:92%;object-fit:cover;transition:transform .7s var(--ease)}
+.pc:hover .tile>svg,.pc:hover .tile>img{transform:scale(1.07) rotate(-1deg)}
+.ftag{position:absolute;top:0;inset-inline-start:0;background:var(--accent);color:#fff;font-size:.74rem;padding:2px 12px;z-index:2}
+.quick{position:absolute;inset:auto 0 0 0;background:var(--ink);color:var(--bg);padding:11px;font-size:.88rem;transform:translateY(101%);transition:transform .45s var(--ease),background-color .3s;z-index:2}
+.pc:hover .quick,.quick:focus-visible{transform:none}
+.quick:hover{background:var(--accent);color:#fff}
+@media (hover:none){.quick{transform:none;position:static;width:100%}.tile{display:flex;flex-direction:column;justify-content:flex-end}.tile>svg,.tile>img{height:auto;flex:1}}
+.pi{display:flex;justify-content:space-between;gap:10px;align-items:baseline;margin-top:10px}
+.pi h3{font-family:var(--disp);font-size:1.45rem;font-weight:700}
+.pp{font-weight:500;white-space:nowrap}
+.pm{color:var(--mut);font-size:.82rem;line-height:1.6}
+.pre{opacity:0;transform:translateY(26px)}
+.pc,[data-rv]{transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:calc(var(--i,0)*90ms)}
+.note{font-size:.82rem;color:var(--mut);margin-top:32px;max-width:48em}
+/* how */
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:36px}
+.how div{border-top:2px solid var(--ink);padding-top:16px;min-width:0}
+.how i{font-style:normal;font-family:var(--disp);font-size:3rem;line-height:1;color:var(--accent);display:block;margin-bottom:6px}
+.how b{font-weight:500}
+footer{background:var(--dk);color:#e9ddef;padding:70px 0 40px;overflow:hidden}
+footer .big{font-family:var(--disp);font-weight:700;font-size:clamp(4rem,16vw,12rem);line-height:1;color:var(--accent);margin-bottom:30px;transition:color .6s}
+footer .wrap>div{display:flex;gap:24px;flex-wrap:wrap;justify-content:space-between}
+footer small{color:#b5a6bd}
+/* cart */
+.ov{position:fixed;inset:0;background:#0007;z-index:50;opacity:0;pointer-events:none;transition:opacity .4s}
+.ov.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;bottom:0;inset-inline-start:0;width:min(450px,100%);background:var(--card);z-index:60;transform:translateX(-105%);transition:transform .5s var(--ease);display:flex;flex-direction:column}
+[dir=rtl] .drawer{transform:translateX(105%)}
+.drawer.on,[dir=rtl] .drawer.on{transform:none}
+.dh{padding:calc(18px + env(safe-area-inset-top,0px)) 24px 16px;display:flex;justify-content:space-between;align-items:center;font-family:var(--disp);font-size:1.7rem;font-weight:700}
+.db{flex:1;overflow:auto;padding:4px 24px 14px}
+.df{padding:16px 24px calc(18px + env(safe-area-inset-bottom,0px));background:var(--bg)}
+.ci{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.ci svg{width:84px;height:84px;flex:none;background:color-mix(in srgb,var(--accent) 12%,var(--card))}
+.ci .t{flex:1;font-size:.88rem;min-width:0}.ci .t b{display:block;font-family:var(--disp);font-size:1.25rem;font-weight:700}.ci .t small{color:var(--mut);display:block;line-height:1.6}
+.ci .x{color:var(--mut);font-size:.8rem}
+.fld{margin-bottom:12px}.fld label{font-size:.8rem;color:var(--mut);display:block}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ok{text-align:center;padding:40px 10px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom,0px));left:50%;transform:translate(-50%,90px);background:var(--ink);color:var(--bg);padding:10px 24px;z-index:80;transition:transform .5s var(--ease),opacity .4s;opacity:0;max-width:90vw;text-align:center;font-size:.9rem}
+.toast.on{transform:translate(-50%,0);opacity:1}
+@media(max-width:900px){.hero .wrap,.bl,.bidx{grid-template-columns:1fr}.hero .wrap{min-height:0}.htxt{padding:44px 0 10px}.heroart{max-width:420px;margin:0 auto;transform:translateY(5%)}.side{position:static}.binfo{position:static}nav{display:none}section{padding:56px 0}.bidx{gap:30px}.bl{gap:34px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.pre{opacity:1;transform:none}}
+
+.hero h1{font-size:clamp(2.4rem,5.4vw,4.4rem)}
+img{background:transparent!important}
+
+/* ---- ویزارد سه‌بعدی ---- */
+.lg{width:30px;height:30px;display:inline-block;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0 8%,transparent 9%),radial-gradient(circle,#fff 0 22%,transparent 23% 100%);box-shadow:inset 0 0 0 3px currentColor;position:relative}
+.lg::after{content:"";position:absolute;inset:7px;border-radius:50%;background:currentColor;opacity:.9}
+.heroart{align-self:stretch;min-height:480px;transform:none;filter:none;position:relative}
+.heroart canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero .wrap{align-items:stretch}
+#studio{background:color-mix(in srgb,var(--accent) 7%,var(--bg));transition:background-color .6s}
+.wz{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:start}
+.stageWrap{position:sticky;top:calc(92px + env(safe-area-inset-top,0px));min-width:0}
+.stage{position:relative;aspect-ratio:1/1.08;background:radial-gradient(120% 90% at 50% 25%,color-mix(in srgb,var(--accent) 6%,#fff),color-mix(in srgb,var(--accent) 22%,#ece4ee));overflow:hidden;transition:background .6s}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .stage{background:radial-gradient(120% 90% at 50% 25%,color-mix(in srgb,var(--accent) 18%,#2a2030),color-mix(in srgb,var(--accent) 30%,#150f1b))}}
+:root[data-theme="dark"] .stage{background:radial-gradient(120% 90% at 50% 25%,color-mix(in srgb,var(--accent) 18%,#2a2030),color-mix(in srgb,var(--accent) 30%,#150f1b))}
+.stage .tools{position:absolute;inset-inline-end:10px;top:10px;display:flex;gap:6px;z-index:3}
+.stage .tools button{background:var(--card);color:var(--ink);font-size:.78rem;padding:4px 12px;box-shadow:0 1px 0 var(--line);transition:background-color .25s,color .25s}
+.stage .tools button:hover:not(:disabled){background:var(--ink);color:var(--bg)}
+.stage .tools button:disabled{opacity:.4;cursor:not-allowed}
+.stage .hintT{position:absolute;inset-inline-start:12px;bottom:10px;font-size:.74rem;color:var(--mut);pointer-events:none}
+.sbar{background:var(--card);padding:14px 18px;display:grid;gap:8px}
+.sbar .r1{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.sbar .pr{font-family:var(--disp);font-size:1.9rem;font-weight:700;line-height:1.2;font-variant-numeric:tabular-nums}
+.sbar small{color:var(--mut);font-size:.8rem}
+.meter{height:3px;background:var(--line)}.meter i{display:block;height:100%;background:var(--accent);transition:width .45s var(--ease)}
+.stepper{list-style:none;display:flex;gap:0;overflow-x:auto;margin-bottom:36px;border-bottom:1px solid var(--line);scrollbar-width:none}
+.stepper::-webkit-scrollbar{display:none}
+.stepper li{flex:1 0 auto;min-width:74px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 8px 12px;cursor:pointer;color:var(--mut);position:relative;font-size:.82rem;transition:color .3s}
+.stepper li i{font-style:normal;font-family:var(--disp);font-size:1.5rem;line-height:1.2}
+.stepper li::after{content:"";position:absolute;inset-inline:0;bottom:-1px;height:2px;background:var(--accent);transform:scaleX(0);transition:transform .5s var(--ease)}
+.stepper li.on{color:var(--ink);font-weight:500}.stepper li.on::after{transform:scaleX(1)}
+.stepper li.done{color:var(--accent)}
+.stepper li:hover{color:var(--ink)}
+#stepHead small{color:var(--accent);font-size:.82rem}
+#stepHead h3{font-size:clamp(1.9rem,3.2vw,2.6rem)}
+#stepHead p{color:var(--mut);margin:2px 0 22px}
+.blk{padding:20px 0;border-top:1px solid var(--line);min-width:0}
+#stepBody>.blk:first-child{border-top:0;padding-top:0}
+.blk h4{font-size:.8rem;font-weight:500;color:var(--mut);margin-bottom:12px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;letter-spacing:.03em}
+.blk h4 small{font-weight:400}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{padding:8px 16px;box-shadow:inset 0 0 0 1px var(--line);background:transparent;line-height:1.5;text-align:center;transition:background-color .25s,color .25s,box-shadow .25s}
+.seg button small{display:block;color:var(--mut);font-size:.72rem}
+.seg button:hover{box-shadow:inset 0 0 0 1px var(--ink)}
+.seg button.on{background:var(--ink);color:var(--bg);box-shadow:none}.seg button.on small{color:inherit;opacity:.75}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip2{padding:6px 14px;box-shadow:inset 0 0 0 1px var(--line);font-size:.86rem;transition:background-color .25s,color .25s;text-align:start}
+.chip2:hover{box-shadow:inset 0 0 0 1px var(--ink)}.chip2.on{background:var(--accent);color:#fff;box-shadow:none}
+.mgrid,.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:12px}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.mcard,.tcard,.ccard{display:flex;flex-direction:column;gap:2px;text-align:start;padding:10px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .25s,transform .35s var(--ease);min-width:0}
+.mcard:hover,.tcard:hover,.ccard:hover{transform:translateY(-3px);box-shadow:inset 0 0 0 1px var(--ink)}
+.mcard.on,.tcard.on,.ccard.on{box-shadow:inset 0 0 0 2px var(--accent)}
+.mcard .mi{aspect-ratio:1;background:color-mix(in srgb,var(--accent) 10%,var(--bg));display:grid;place-items:center;margin-bottom:6px}
+.mcard .mi img,.tcard img,.ccard img{width:100%;height:100%;object-fit:contain;display:block;animation:fade .6s both}
+.tcard img{aspect-ratio:1;background:color-mix(in srgb,var(--accent) 10%,var(--bg));margin-bottom:6px}
+.ccard img{aspect-ratio:3/2;object-fit:cover;margin-bottom:6px}
+.mcard b,.tcard b,.ccard b{font-family:var(--disp);font-size:1.25rem;line-height:1.4}
+.mcard small,.tcard small,.ccard small{color:var(--mut);font-size:.76rem;line-height:1.6}
+.sw{display:flex;gap:10px;flex-wrap:wrap}
+.sw button{width:30px;height:30px;border-radius:50%;box-shadow:inset 0 0 0 1px #0003;transition:transform .25s var(--ease),outline-offset .25s;outline:2px solid transparent;outline-offset:2px}
+.sw button:hover{transform:scale(1.15)}.sw button.on{outline-color:var(--ink);outline-offset:3px}
+.sw.sm button{width:22px;height:22px}
+.frow{display:flex;align-items:center;gap:16px;padding:14px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+.frow:first-of-type{border-top:0}
+.frow .ic{width:68px;height:68px;flex:none;background:color-mix(in srgb,var(--accent) 10%,var(--bg));object-fit:contain}
+.frow .nm{flex:1;min-width:170px}.frow .nm b{font-family:var(--disp);font-size:1.35rem;display:block;line-height:1.4}.frow .nm b i{font-style:normal;font-family:var(--body);font-size:.68rem;color:var(--accent);margin-inline-start:6px}
+.frow .nm small{color:var(--mut);display:block;line-height:1.6;font-size:.78rem}
+.step{display:flex;align-items:center;gap:6px}
+.step button{width:36px;height:36px;box-shadow:inset 0 0 0 1px var(--line);font-size:1.2rem;transition:background-color .25s,color .25s}
+.step button:hover:not(:disabled){background:var(--ink);color:var(--bg)}.step button:disabled{opacity:.3;cursor:not-allowed}
+.step span{min-width:32px;text-align:center;font-weight:500;font-variant-numeric:tabular-nums}
+.grow{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.exr{display:flex;align-items:center;gap:12px;padding:8px 0}.exr input{accent-color:var(--accent);width:17px;height:17px}.exr span{flex:1}.exr span i{font-style:normal;color:var(--mut);font-size:.74rem;margin-inline-start:6px}
+textarea,.in{width:100%;border:0;box-shadow:inset 0 0 0 1px var(--line);padding:10px 12px;background:var(--card);border-radius:0}
+textarea:focus,.in:focus{box-shadow:inset 0 0 0 2px var(--accent);outline:none}
+textarea{resize:vertical;min-height:76px}
+.hint{font-size:.84rem;color:var(--mut)}
+.empty{padding:18px;background:color-mix(in srgb,var(--accent) 8%,var(--card));font-size:.9rem;line-height:1.9}
+.acts2{margin-top:12px}
+.up{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.up input{position:absolute;opacity:0;width:1px;height:1px}
+.up label{cursor:pointer}
+#stepNav{display:flex;justify-content:space-between;gap:12px;margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
+#stepNav .btn[data-a=next],#stepNav .btn[data-a=addcart]{margin-inline-start:auto}
+#stepWarn{margin-top:16px;display:flex;flex-direction:column;gap:4px}
+#stepWarn div,.warns div{font-size:.8rem;padding-inline-start:10px;border-inline-start:2px solid;line-height:1.7}
+.warns{display:flex;flex-direction:column;gap:4px;margin:14px 0}
+.e{color:var(--err)}.w{color:var(--warn)}.g{color:var(--ok)}
+.bsel{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.bsel button{text-align:start;padding:12px 14px;box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .25s,background-color .25s;display:flex;flex-direction:column}
+.bsel button b{font-family:var(--disp);font-size:1.25rem}.bsel button small{color:var(--mut);font-size:.76rem}
+.bsel button.on{box-shadow:inset 0 0 0 2px var(--bc);background:color-mix(in srgb,var(--bc) 8%,transparent)}
+.fsum{display:grid;gap:0}.fsum div{display:grid;grid-template-columns:90px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:.9rem}
+.fsum dt{color:var(--mut)}.fsum dd{line-height:1.8}
+.fsum .lnk{margin-inline-start:10px;font-size:.78rem}
+.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+.specs small{display:block;color:var(--mut);font-size:.74rem}.specs b{font-weight:500}
+.hb{display:inline-flex;gap:7px;align-items:center}.hb i{width:8px;height:8px;transform:rotate(45deg)}
+.bd2{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:6px}
+.bd2 td{padding:4px 0;color:var(--mut)}.bd2 td:last-child{text-align:left;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bd2 tr.t td{color:var(--ink);font-family:var(--disp);font-size:1.6rem;font-weight:700;padding-top:12px;border-top:1px solid var(--line)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.saved{display:flex;flex-direction:column;gap:2px;margin-top:10px}
+.saved div{display:flex;gap:10px;align-items:center;font-size:.82rem;color:var(--mut);border-top:1px solid var(--line);padding:3px 0}.saved div span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tile .ph{position:absolute;inset:0;display:grid;place-items:center}
+.tile .ph img{width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.94);transition:opacity .7s var(--ease),transform 1s var(--ease);position:relative}
+.tile .ph img.in{opacity:1;transform:none}
+.pc:hover .tile .ph img{transform:scale(1.06)}
+.tile{aspect-ratio:1/1.05}
+.ci img{width:84px;height:84px;flex:none;object-fit:contain;background:color-mix(in srgb,var(--accent) 12%,var(--card))}
+@media(max-width:900px){.wz{grid-template-columns:1fr;gap:26px}.stageWrap{order:-1;position:sticky;top:calc(64px + env(safe-area-inset-top,0px));z-index:6;background:var(--bg)}.stage{aspect-ratio:auto;height:38vh;min-height:260px}.sbar{padding:8px 14px}.sbar .pr{font-size:1.4rem}.heroart{min-height:380px}.specs{grid-template-columns:1fr 1fr}}
+</style>
+<header><div class="wrap bar">
+  <a href="#" class="logo" id="logo"></a>
+  <nav><a href="#branches">شعبه‌ها</a><a href="#shop">طرح‌های آماده</a><a href="#studio">طراحی سفارشی</a></nav>
+  <div class="sp"></div>
+  <select id="hdrBranch" class="branchsel" aria-label="شعبه"></select>
+  <button class="cartbtn" id="openCart" aria-label="سبد خرید"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><b id="cartN">۰</b></button>
+</div></header>
+<main>
+<div class="hero"><div class="wrap">
+  <div class="htxt">
+    <div class="eyebrow">گل‌فروشی دانشگاهی</div>
+    <h1><span class="ln" style="--i:0"><span style="--i:0">دسته‌گلت رو</span></span><span class="ln"><span style="--i:1">قدم به قدم بساز</span></span></h1>
+    <p class="lead">مدل، گل اصلی و فرعی، کاغذ، روبان، نخ کنفی و کارت تبریک رو یکی‌یکی انتخاب کن و دسته‌گل خودت رو سه‌بعدی ببین؛ بچرخونش و بعد توی شعبه‌ی دانشگاه خودت تحویل بگیر.</p>
+    <div class="cta"><a class="btn wh" href="#studio">شروع طراحی</a><a class="lnk" href="#shop">دیدن طرح‌های آماده</a></div>
+  </div>
+  <div class="heroart" id="heroArt" aria-label="نمونه‌ی سه‌بعدی دسته‌گل"></div>
+</div></div>
+<div class="tick" aria-hidden="true"><div class="track" id="ticker"></div></div>
+
+<section id="branches"><div class="wrap">
+  <div class="sh" data-rv><div><h2>شعبه‌ها</h2><p>دانشگاهت رو انتخاب کن. رنگ سایت، ساعت کاری، محل تحویل و طرح‌های ویژه‌ی همون شعبه عوض می‌شه.</p></div></div>
+  <div class="bidx"><div id="branchGrid" data-rv></div><div class="binfo" id="binfo" data-rv></div></div>
+</div></section>
+
+<section id="shop" style="padding-top:20px"><div class="wrap">
+  <div class="sh" data-rv><div><h2>طرح‌های آماده</h2><p id="shopSub"></p></div></div>
+  <div class="toolbar" data-rv>
+    <button class="chip on" data-k="all">همه</button><button class="chip" data-k="bouquet">دسته‌گل</button><button class="chip" data-k="box">باکس گل</button>
+    <div class="sp"></div>
+    <select id="sort" aria-label="مرتب‌سازی"><option value="pop">پیشنهاد شعبه</option><option value="asc">ارزان‌ترین</option><option value="desc">گران‌ترین</option></select>
+  </div>
+  <div class="grid" id="grid"></div>
+  <p class="note">قیمت‌ها تخمینی و بر پایه‌ی بازار گل تهران‌اند و قبل از راه‌اندازی باید با قیمت روز تأمین‌کننده تنظیم بشن. همه‌ی قیمت‌ها از یک جدول واحد (PRICES) خونده می‌شن.</p>
+</div></section>
+
+<section id="studio"><div class="wrap">
+  <div class="sh" data-rv><div><h2>طراحی سفارشی</h2><p>ده مرحله‌ی کوتاه. هر انتخاب همون لحظه روی دسته‌گل سه‌بعدی سمت چپ اثر می‌ذاره.</p></div></div>
+  <ol class="stepper" id="stepper"></ol>
+  <div class="wz">
+    <div>
+      <div id="stepHead"></div>
+      <div id="stepBody"></div>
+      <div id="stepWarn"></div>
+      <div id="stepNav"></div>
+    </div>
+    <div class="stageWrap">
+      <div class="stage" id="stage"><div class="tools"><button type="button" id="bUndo">برگشت</button><button type="button" id="bRedo">جلو</button><button type="button" id="bShuf">چیدمان جدید</button><button type="button" id="bOver">نمای کلی</button></div><div class="hintT">بکشید تا بچرخه • دوبار کلیک: نمای کلی</div></div>
+      <div class="sbar"><div class="r1"><small>قیمت تخمینی</small><span class="pr" id="sPrice">۰ تومان</span></div><div class="meter"><i id="sCap"></i></div><small id="sCapT"></small></div>
+    </div>
+  </div>
+</div></section>
+</main>
+<footer><div class="wrap"><div class="big" aria-hidden="true">یونی‌فلاور</div>
+  <div><small>نام و اطلاعات تماس نمونه‌ست و بعداً با اطلاعات واقعی جایگزین می‌شه.</small><div><small>شعبه‌ها: <span id="ftBranches"></span></small></div></div>
+</div></footer>
+<div class="ov" id="ov"></div>
+<aside class="drawer" id="drawer"><div class="dh"><span>سبد خرید</span><button id="closeCart" style="font-size:1.4rem" aria-label="بستن">✕</button></div><div class="db" id="cartBody"></div><div class="df" id="cartFoot"></div></aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>document.documentElement.dir='rtl';document.documentElement.lang='fa';
+/* ============ داده‌ها و جدول قیمت (تخمینی و قابل ویرایش) ============ */
+window.FD=(function(){
+const FL={
+ rose:{n:'رز هلندی',vol:1,vase:7,desc:'کلاسیک و پرگلبرگ',cols:[['قرمز','#b5122e',1],['صورتی','#e8789a',1],['سفید','#f3ece2',1.05],['هلویی','#f4a083',1.05],['زرد','#efc53a',1],['نارنجی','#ee7d38',1.05],['بنفش','#8a5cc2',1.2]]},
+ lily:{n:'لیلیوم',vol:1.7,vase:10,desc:'درشت و معطر',cols:[['صورتی','#e98fb6',1],['سفید','#f7f3ec',1],['نارنجی','#f08a3c',1],['زرد','#f2c640',1]]},
+ tulip:{n:'لاله',vol:.8,vase:5,desc:'ظریف و بهاری',cols:[['قرمز','#d4202f',1],['زرد','#f0c22c',1],['بنفش','#8e56c4',1.1],['صورتی','#ef7fb2',1],['سفید','#f4efe6',1]]},
+ gerbera:{n:'ژربرا',vol:1.2,vase:8,desc:'شاد و پرنور',cols:[['نارنجی','#f26b1d',1],['صورتی','#e6458a',1],['زرد','#f6c91f',1],['قرمز','#d52b33',1]]},
+ daisy:{n:'مینا گل',vol:.5,vase:7,filler:1,desc:'ریز و دوست‌داشتنی',cols:[['سفید','#ffffff',1],['صورتی','#f4b6cf',1],['زرد','#f6df72',1]]},
+ baby:{n:'ژیپسوفیلا',vol:.45,vase:14,filler:1,desc:'ابری و سبک',cols:[['سفید','#ffffff',1]]}
+};
+const ORDER=['rose','lily','tulip','gerbera','daisy','baby'];
+const MAINS=['rose','lily','tulip','gerbera'];
+const BLOOM={bud:['غنچه',0],half:['نیمه‌باز',.55],open:['شکفته',1]};
+const PAPERS=[['کرافت','#cfae7e'],['صورتی پودری','#efc2cf'],['شیری','#f1ebe1'],['مشکی مات','#2f2a31'],['سبز مریمی','#a9c4a5'],['لیلاکی','#cbb8e6'],['آبی یخی','#b7cfe0'],['زرشکی','#7a1f3a']];
+const RIBS=[['قرمز','#b2162f'],['طلایی','#c9a24f'],['سفید','#f6f2ec'],['مشکی','#1c1820'],['صورتی','#e58aa8'],['زرشکی','#6a1630'],['سبز','#2f6b4a'],['آبی','#2d5a8c']];
+const BOXCOL=[['صورتی','#e9a6bd'],['سفید','#f2ece4'],['مشکی','#26212a'],['قرمز','#a31c36'],['کرافت','#c9a572'],['لیلاکی','#c4aee6'],['سبز سدری','#6f8f78']];
+const MODELS={
+ bouquet:[['wrap','دورپیچ کلاسیک','کاغذ مخروطی، حالت رایج'],['hand','ساقه‌بلند ساده','بدون کاغذ، بسته با روبان'],['posy','گرد کوچک','فشرده و خوش‌دست'],['arm','بغلی بلند','بیضی و مجلسی']],
+ box:[['round','گرد','باکس استوانه‌ای'],['square','مربع','باکس شیک و مینیمال'],['heart','قلب','برای هدیه‌ی عاشقانه'],['rect','مستطیل','طولی و پرگل']]
+};
+const SIZES={bouquet:{S:{n:'کوچک',cap:12},M:{n:'متوسط',cap:22},L:{n:'بزرگ',cap:36}},box:{S:{n:'کوچک',cap:10},M:{n:'متوسط',cap:18},L:{n:'بزرگ',cap:30}}};
+const CARDS=[['kraft','کرافت ساده','کاغذ کرافت و قاب خط‌چین'],['water','گل آبرنگی','ایوری با لکه‌ی آبرنگ'],['rose','زرشکی و طلایی','قاب طلاکوب'],['noir','مشکی و طلایی','مینیمال و رسمی'],['photo','عکس‌دار','عکس خودتون + متن']];
+const OCCASIONS={
+ none:['بدون مناسبت',[]],
+ love:['ولنتاین و عشق',['دوستت دارم، امروز هم مثل همیشه.','با تو هر روز بهار است.','تقدیم به تو که همیشه هستی.']],
+ birth:['تولد',['تولدت مبارک! سالی پر از شادی.','سالروز تولدت، بهانه‌ی یه دسته‌گل!','هر سال زیباتر از قبل.']],
+ grad:['فارغ‌التحصیلی',['تبریک بابت این موفقیت بزرگ!','افتخار می‌کنم، راه تازه مبارک.','زحمت‌هات به ثمر نشست، تبریک!']],
+ thanks:['قدردانی و روز معلم',['از زحمات شما سپاسگزارم.','ممنون که یاد دادید و همراه بودید.','دست‌مریزاد، با احترام.']],
+ get:['عیادت و آرزوی سلامتی',['زودتر خوب شو، منتظرتیم.','برات آرزوی سلامتی دارم.','سلامتی و شادی برات آرزو می‌کنم.']],
+ sorry:['عذرخواهی',['ببخشید، دلم نمی‌خواد ناراحت باشی.','منو ببخش.','دل‌خوری‌ها رو کنار بذاریم؟']]
+};
+const PRICES={
+ stem:{rose:85000,lily:120000,tulip:55000,gerbera:35000,daisy:25000,baby:30000},
+ stemLen:{40:.85,50:1,60:1.2},
+ base:{wrap:{S:90000,M:130000,L:190000},hand:{S:50000,M:70000,L:100000},posy:{S:70000,M:100000,L:140000},arm:{S:130000,M:190000,L:270000},
+       round:{S:260000,M:380000,L:560000},square:{S:280000,M:420000,L:620000},heart:{S:320000,M:470000,L:690000},rect:{S:300000,M:440000,L:650000}},
+ paperStyle:{kraft:0,matte:15000,tissue:25000},
+ ribbon:{satin:25000,organza:30000,grosgrain:20000},ribbonW:{S:0,M:10000,L:25000},
+ jute:15000,
+ card:{kraft:20000,water:35000,rose:45000,noir:45000,photo:60000},
+ green:{euc:35000,rus:30000},
+ extras:{choc:90000,food:15000,bag:40000},
+ service:80000
+};
+const EXTRAS={choc:['شکلات فرِرو‌روشه (۶ عدد)',true],food:['بسته‌ی ماندگاری گل',false],bag:['کیسه‌ی هدیه',false]};
+return {FL,ORDER,MAINS,BLOOM,PAPERS,RIBS,BOXCOL,MODELS,SIZES,CARDS,OCCASIONS,PRICES,EXTRAS};
+})();
+
+/* ============ موتور سه‌بعدی گل (Three.js r128) ============ */
+(function(){
+const T=THREE;
+const PI=Math.PI;
+const rngf=seed=>{let a=(seed*2654435761)>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}};
+function shadeHex(h,p){const n=parseInt(h.slice(1),16),f=v=>Math.max(0,Math.min(255,Math.round(p<0?v*(1+p):v+(255-v)*p)));return'#'+((1<<24)+(f(n>>16)<<16)+(f(n>>8&255)<<8)+f(n&255)).toString(16).slice(1)}
+const mkC=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c};
+function tex(c,srgb=true,rep){const t=new T.CanvasTexture(c);if(srgb)t.encoding=T.sRGBEncoding;t.anisotropy=4;if(rep){t.wrapS=t.wrapT=T.RepeatWrapping;t.repeat.set(rep[0],rep[1])}return t}
+
+/* ---------- بافت گلبرگ‌ها ---------- */
+const texCache={};
+function petalTex(type,hex){
+ const key=type+hex;if(texCache[key])return texCache[key];
+ const W=128,H=256,c=mkC(W,H),x=c.getContext('2d'),b=mkC(W,H),y=b.getContext('2d');
+ const r=Math.random;
+ let g=x.createLinearGradient(0,H,0,0);
+ if(type==='rose'){g.addColorStop(0,shadeHex(hex,.45));g.addColorStop(.25,shadeHex(hex,.12));g.addColorStop(.7,hex);g.addColorStop(1,shadeHex(hex,-.2))}
+ else if(type==='lily'){g.addColorStop(0,'#dfe9a6');g.addColorStop(.18,shadeHex(hex,.35));g.addColorStop(.6,hex);g.addColorStop(1,shadeHex(hex,.12))}
+ else if(type==='tulip'){g.addColorStop(0,shadeHex(hex,.7));g.addColorStop(.3,shadeHex(hex,.2));g.addColorStop(.7,hex);g.addColorStop(1,shadeHex(hex,-.12))}
+ else if(type==='gerbera'){g.addColorStop(0,shadeHex(hex,-.3));g.addColorStop(.35,hex);g.addColorStop(1,shadeHex(hex,.18))}
+ else if(type==='daisy'){g.addColorStop(0,'#eadf8a');g.addColorStop(.25,shadeHex(hex,-.02));g.addColorStop(1,shadeHex(hex,-.05))}
+ else {g.addColorStop(0,hex);g.addColorStop(1,hex)}
+ x.fillStyle=g;x.fillRect(0,0,W,H);
+ y.fillStyle='#808080';y.fillRect(0,0,W,H);
+ // edge falloff
+ const hg=x.createLinearGradient(0,0,W,0);const ed=type==='rose'?.26:.14;
+ hg.addColorStop(0,`rgba(0,0,0,${ed})`);hg.addColorStop(.2,'rgba(0,0,0,0)');hg.addColorStop(.8,'rgba(0,0,0,0)');hg.addColorStop(1,`rgba(0,0,0,${ed})`);x.fillStyle=hg;x.fillRect(0,0,W,H);
+ // veins
+ const nv=type==='gerbera'||type==='daisy'?10:type==='rose'?11:8;
+ for(let k=0;k<nv;k++){const u=(k+.5)/nv*W;const cx=W/2+(u-W/2)*.12,ex=W/2+(u-W/2)*(type==='gerbera'||type==='daisy'?.75:1.05);
+  x.strokeStyle=`rgba(0,0,0,${type==='rose'?.035:.03})`;x.lineWidth=1.1;x.beginPath();x.moveTo(cx,H);x.quadraticCurveTo(u,H*.45,ex,H*.06);x.stroke();
+  y.strokeStyle='rgba(60,60,60,.28)';y.lineWidth=2.4;y.beginPath();y.moveTo(cx,H);y.quadraticCurveTo(u,H*.45,ex,H*.06);y.stroke()}
+ if(type==='lily'){ // رگه‌ی میانی و خال‌ها
+  x.strokeStyle='rgba(255,255,255,.35)';x.lineWidth=3;x.beginPath();x.moveTo(W/2,H);x.lineTo(W/2,H*.12);x.stroke();
+  for(let i=0;i<46;i++){const px=W/2+(r()-.5)*W*.5*(1-0),py=H*(.45+r()*.5);const rr=1.4+r()*2.6;x.fillStyle=`rgba(${60+r()*40|0},20,40,${.35+r()*.35})`;x.beginPath();x.ellipse(px,py,rr,rr*1.2,r()*3,0,7);x.fill()}
+  const sg=x.createLinearGradient(0,H,0,H*.45);sg.addColorStop(0,'rgba(90,40,70,.28)');sg.addColorStop(1,'rgba(90,40,70,0)');x.fillStyle=sg;x.fillRect(W*.3,H*.45,W*.4,H*.55)}
+ if(type==='tulip'){for(let i=0;i<9;i++){const px=r()*W;const lg=x.createLinearGradient(0,H,0,0);lg.addColorStop(0,'rgba(255,255,255,0)');lg.addColorStop(.5,`rgba(255,255,255,${.06+r()*.1})`);lg.addColorStop(1,'rgba(255,255,255,0)');x.strokeStyle=lg;x.lineWidth=2+r()*4;x.beginPath();x.moveTo(px,H);x.quadraticCurveTo(px+(r()-.5)*30,H*.5,W/2+(px-W/2)*.8,0);x.stroke()}}
+ for(let i=0;i<500;i++){const v=r();x.fillStyle=v>.5?`rgba(255,255,255,${r()*.05})`:`rgba(0,0,0,${r()*.04})`;x.fillRect(r()*W,r()*H,1.2,2.4);y.fillStyle=`rgba(${v>.5?255:0},${v>.5?255:0},${v>.5?255:0},${r()*.12})`;y.fillRect(r()*W,r()*H,1.2,2.4)}
+ const o={map:tex(c),bump:tex(b,false)};texCache[key]=o;return o;
+}
+function leafTex(hex){
+ const key='leaf'+hex;if(texCache[key])return texCache[key];
+ const W=128,H=256,c=mkC(W,H),x=c.getContext('2d');
+ const g=x.createLinearGradient(0,H,0,0);g.addColorStop(0,shadeHex(hex,.08));g.addColorStop(1,shadeHex(hex,-.12));x.fillStyle=g;x.fillRect(0,0,W,H);
+ x.strokeStyle='rgba(255,255,255,.28)';x.lineWidth=2;x.beginPath();x.moveTo(W/2,H);x.lineTo(W/2,0);x.stroke();
+ x.strokeStyle='rgba(255,255,255,.12)';x.lineWidth=1;for(let i=1;i<9;i++){const yy=H-i*H/9;x.beginPath();x.moveTo(W/2,yy);x.lineTo(0,yy-H*.12);x.moveTo(W/2,yy);x.lineTo(W,yy-H*.12);x.stroke()}
+ const o=tex(c);texCache[key]=o;return o;
+}
+function paperTex(kind,hex){
+ const key='paper'+kind+hex;if(texCache[key])return texCache[key];
+ const S=256,c=mkC(S,S),x=c.getContext('2d');x.fillStyle=hex;x.fillRect(0,0,S,S);
+ const r=Math.random,n=kind==='kraft'?900:300;
+ for(let i=0;i<n;i++){const l=r()*14+3,px=r()*S,py=r()*S,a=r()*6.28;x.strokeStyle=r()>.5?`rgba(255,255,255,${.04+r()*.07})`:`rgba(60,35,10,${.04+r()*.08})`;x.lineWidth=.6+r()*.8;x.beginPath();x.moveTo(px,py);x.lineTo(px+Math.cos(a)*l,py+Math.sin(a)*l);x.stroke()}
+ const o=tex(c,true,[2,2]);texCache[key]=o;return o;
+}
+function ropeTex(){
+ if(texCache.rope)return texCache.rope;
+ const c=mkC(64,128),x=c.getContext('2d');x.fillStyle='#b99a68';x.fillRect(0,0,64,128);
+ for(let i=-8;i<24;i++){x.strokeStyle=i%2?'#8a6d40':'#d3b883';x.lineWidth=5;x.beginPath();x.moveTo(-10,i*8);x.lineTo(74,i*8+40);x.stroke()}
+ for(let i=0;i<500;i++){x.fillStyle=`rgba(${Math.random()>.5?255:40},${Math.random()>.5?240:30},180,${Math.random()*.15})`;x.fillRect(Math.random()*64,Math.random()*128,1,3)}
+ const t=tex(c,true,[1,12]);texCache.rope=t;return t;
+}
+
+/* ---------- هندسه‌ی گلبرگ و برگ ---------- */
+const geoCache={};
+function surf(o){
+ const su=o.su||8,sv=o.sv||12,pos=[],uv=[],idx=[];
+ for(let j=0;j<=sv;j++){const v=j/sv,w=o.wid*o.prof(v);
+  for(let i=0;i<=su;i++){const u=i/su*2-1,x=u*w/2;
+   let yy=o.len*v-(o.cup||0)*x*x*.35;
+   let z=-(o.cup||0)*x*x-(o.bend||0)*v*v*o.len*.5+(o.reflex||0)*Math.pow(Math.max(0,v-.5),2)*o.len*2;
+   if(o.ruffle)z+=o.ruffle*Math.sin(v*16+u*4)*Math.pow(Math.abs(u),2)*v*o.len;
+   if(o.twist)z+=o.twist*x*v;
+   pos.push(x,yy,z);uv.push(i/su,v)}}
+ for(let j=0;j<sv;j++)for(let i=0;i<su;i++){const a=j*(su+1)+i,b=a+1,c=a+su+1,d=c+1;idx.push(a,c,b,b,c,d)}
+ const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(pos,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setIndex(idx);g.computeVertexNormals();return g;
+}
+function getSurf(key,o){return geoCache[key]||(geoCache[key]=surf(o))}
+const profRose=v=>Math.pow(Math.max(0,Math.sin(PI*Math.pow(v,.72))),.5)*.98+.03;
+const profLily=v=>Math.pow(Math.max(0,Math.sin(PI*Math.pow(v,.8))),.85)*(1-.25*v)*Math.pow(1-v*.2,1)+.015;
+const profTulip=v=>Math.pow(Math.max(0,Math.sin(PI*Math.pow(v,.9))),.6)+.03;
+const profStrap=v=>{const t=Math.min(1,v/.14),e=Math.sqrt(Math.max(0,1-Math.pow(Math.max(0,(v-.84)/.16),2.4)));return(.35+.65*t)*e+.01};
+const profLeaf=v=>Math.pow(Math.max(0,Math.sin(PI*Math.pow(v,.75))),.8)*(1-.2*v)+.01;
+const profRound=v=>Math.sqrt(Math.max(0,Math.sin(PI*v)))*1.0+.01;
+const profLance=v=>Math.pow(Math.max(0,Math.sin(PI*Math.pow(v,.65))),.9)+.01;
+
+const M4=new T.Matrix4(),Q=new T.Quaternion(),E_=new T.Euler(),V3=new T.Vector3(),S3=new T.Vector3();
+function mat(px,py,pz,rx,ry,rz,sx,sy,sz){E_.set(rx,ry,rz,'YXZ');Q.setFromEuler(E_);V3.set(px,py,pz);S3.set(sx||1,sy||1,sz||1);return new T.Matrix4().compose(V3,Q,S3)}
+function merge(list){
+ if(!list.length)return null;
+ let np=0,ni=0;const gs=list.map(({g,m})=>{const c=g.clone();c.applyMatrix4(m);np+=c.attributes.position.count;ni+=c.index.count;return c});
+ const P=new Float32Array(np*3),N=new Float32Array(np*3),U=new Float32Array(np*2),I=new Uint32Array(ni);let po=0,io=0;
+ gs.forEach(g=>{const n=g.attributes.position.count;P.set(g.attributes.position.array,po*3);N.set(g.attributes.normal.array,po*3);if(g.attributes.uv)U.set(g.attributes.uv.array,po*2);const ix=g.index.array;for(let i=0;i<ix.length;i++)I[io+i]=ix[i]+po;po+=n;io+=ix.length;g.dispose()});
+ const o=new T.BufferGeometry();o.setAttribute('position',new T.BufferAttribute(P,3));o.setAttribute('normal',new T.BufferAttribute(N,3));o.setAttribute('uv',new T.BufferAttribute(U,2));o.setIndex(new T.BufferAttribute(I,1));return o;
+}
+function tube(pts,r,seg=10,rad=6){const c=new T.CatmullRomCurve3(pts.map(p=>new T.Vector3(p[0],p[1],p[2])));return new T.TubeGeometry(c,seg,r,rad,false)}
+const sphereG=(r,ws=8,hs=6)=>new T.SphereGeometry(r,ws,hs);
+
+/* ---------- مواد ---------- */
+const matCache={};
+function petalMat(type,hex){
+ const key=type+hex;if(matCache[key])return matCache[key];
+ const t=petalTex(type,hex);
+ const m=new T.MeshPhysicalMaterial({map:t.map,bumpMap:t.bump,bumpScale:type==='rose'?.35:.25,roughness:type==='tulip'?.42:type==='lily'?.5:.58,metalness:0,clearcoat:type==='tulip'||type==='lily'?.25:.08,clearcoatRoughness:.5,side:T.DoubleSide,envMapIntensity:.7});
+ m.emissive=new T.Color(hex).multiplyScalar(type==='daisy'?.05:.14);m.emissiveIntensity=.55;
+ matCache[key]=m;return m;
+}
+const solid=(c,rough=.7,o={})=>{const k='s'+c+rough+JSON.stringify(o);return matCache[k]||(matCache[k]=new T.MeshStandardMaterial(Object.assign({color:c,roughness:rough,metalness:0,side:T.DoubleSide},o)))};
+function leafMat(hex){const k='lf'+hex;return matCache[k]||(matCache[k]=new T.MeshStandardMaterial({map:leafTex(hex).map||leafTex(hex),color:0xffffff,roughness:.55,side:T.DoubleSide,envMapIntensity:.6}))}
+const STEM=()=>solid('#3f6b2f',.6);
+
+/* ---------- ساخت گل‌ها (واحد: شعاع سر ≈ ۱) ---------- */
+const flCache={};
+function buildFlower(type,open,variant){
+ const key=type+open.toFixed(1)+variant;if(flCache[key])return flCache[key];
+ const R=rngf(variant*97+type.charCodeAt(0)+Math.round(open*10)),pet=[],grn=[],oth=[],dark=[],yel=[];
+ const addP=(geo,m)=>pet.push({g:geo,m});
+ const j=a=>(R()-.5)*a;
+ if(type==='rose'){
+  const LY=[[3,.02,5,.55,.5,1.9,.55,0],[4,.05,10,.78,.72,1.5,.38,0],[5,.1,22,.92,.92,1.2,.18,0],[6,.16,36,1,1.05,1,.05,0],[7,.22,52,1.05,1.15,.8,0,.15],[8,.28,68,1.05,1.22,.6,0,.32]];
+  const nL=open<.3?4:open<.8?5:6,ts=open<.3?.5:open<.8?.82:1;
+  LY.slice(0,nL).forEach((l,i)=>{const[n,rho,th,len,wid,cup,bend,rf]=l;const geo=getSurf('rose'+i,{len,wid,cup,bend,reflex:rf,prof:profRose,su:8,sv:12,ruffle:i>=3?.04:0});
+   for(let k=0;k<n;k++){const phi=k*2*PI/n+i*1.9+j(.3),tilt=th*ts*PI/180+j(.1);addP(geo,mat(rho*Math.sin(phi),-i*.03,rho*Math.cos(phi),tilt,phi,0,1+j(.1),1+j(.08),1))}});
+  const sg=getSurf('sepal',{len:.8,wid:.22,cup:.3,bend:0,prof:profLance,su:2,sv:6});
+  for(let k=0;k<5;k++){const phi=k*2*PI/5+j(.2);grn.push({g:sg,m:mat(0,-.08,0,2.0+j(.3),phi,0,1,1,1)})}
+  grn.push({g:sphereG(.22,8,6),m:mat(0,-.2,0,0,0,0,1,.9,1)});
+ }
+ else if(type==='lily'){
+  const th=(25+open*45)*PI/180;
+  for(let k=0;k<6;k++){const inner=k%2===1,phi=k*PI/3+j(.1);
+   const geo=getSurf('lily'+(inner?'i':'o'),{len:1.15,wid:inner?1.0:.78,cup:inner?.9:.7,bend:0,reflex:inner?.9:.8,prof:profLily,su:8,sv:14,ruffle:inner?.05:.015});
+   addP(geo,mat(0,0,0,th+(inner?.08:0)+j(.1),phi,0,1,1+j(.05),1))}
+  for(let k=0;k<6;k++){const phi=k*PI/3+.3,ex=Math.sin(phi)*.3,ez=Math.cos(phi)*.3;
+   oth.push({g:tube([[0,0,0],[ex*.4,.45,ez*.4],[ex,.85,ez]],.022,6,4),m:mat(0,0,0,0,0,0)});
+   dark.push({g:sphereG(.075,8,6),m:mat(ex,.88,ez,0,0,0,1,1.8,1)})}
+  oth.push({g:tube([[0,0,0],[.02,.5,.04],[.05,.95,.12]],.03,6,4),m:mat(0,0,0,0,0,0)});
+  yel.push({g:sphereG(.06,8,6),m:mat(.05,.97,.12,0,0,0,1,1.2,1)});
+  grn.push({g:sphereG(.14,8,6),m:mat(0,-.05,0,0,0,0,1,.9,1)});
+ }
+ else if(type==='tulip'){
+  const rho=.38;
+  for(let k=0;k<6;k++){const inner=k%2===1,phi=k*PI/3+j(.05);
+   const geo=getSurf('tulip'+(inner?'i':'o'),{len:inner?1.2:1.3,wid:inner?.9:.95,cup:inner?1.7:1.5,bend:inner?.12:.05,reflex:open*.35,prof:profTulip,su:8,sv:12});
+   const tilt=(inner?2:7)*PI/180+open*(inner?.16:.26)+j(.03);
+   addP(geo,mat(rho*Math.sin(phi)*(inner?.85:1),0,rho*Math.cos(phi)*(inner?.85:1),tilt,phi,0,1,1+j(.04),1))}
+  for(let k=0;k<6;k++){const phi=k*PI/3;dark.push({g:tube([[0,0,0],[Math.sin(phi)*.1,.4,Math.cos(phi)*.1]],.025,4,4),m:mat(0,0,0,0,0,0)});yel.push({g:sphereG(.05,6,4),m:mat(Math.sin(phi)*.1,.42,Math.cos(phi)*.1,0,0,0,1,1.5,1)})}
+  grn.push({g:sphereG(.2,8,6),m:mat(0,-.02,0,0,0,0,1,.9,1)});
+ }
+ else if(type==='gerbera'||type==='daisy'){
+  const ger=type==='gerbera';
+  const rows=ger?[[18,1.05,.2,0,.1],[18,.92,.19,.5,.06],[14,.74,.18,.25,.02]]:[[17,.95,.22,0,.1],[17,.82,.2,.5,.06]];
+  const tl=ger?[78,66,50]:[80,68];const ts=open<.3?.4:open<.8?.78:1;
+  rows.forEach((rw,ri)=>{const[n,len,wid,off,dy]=rw;const geo=getSurf(type+ri,{len,wid:wid*2.0,cup:ger?.9:.7,bend:-.15,reflex:0,prof:profStrap,su:5,sv:10});
+   for(let k=0;k<n;k++){const phi=(k+off)*2*PI/n+j(.05),tilt=tl[ri]*ts*PI/180+j(.1);addP(geo,mat(.2*Math.sin(phi),dy+ri*.03,.2*Math.cos(phi),tilt,phi,0,1+j(.1),1+j(.1),1))}});
+  const dr=ger?.24:.3;
+  oth.push({g:new T.SphereGeometry(dr,16,8,0,PI*2,0,PI/2),m:mat(0,.06,0,0,0,0,1,ger?.45:.65,1)});
+  grn.push({g:sphereG(.2,8,6),m:mat(0,-.05,0,0,0,0,1,.7,1)});
+  const sg=getSurf('sepalg',{len:.5,wid:.18,cup:.2,prof:profLance,su:2,sv:5});for(let k=0;k<8;k++)grn.push({g:sg,m:mat(0,-.04,0,2.2,k*PI/4,0)});
+ }
+ else if(type==='baby'){
+  for(let b=0;b<9;b++){const a=b*2.4+j(.3),el=.35+R()*.6,len=.7+R()*.45,dx=Math.sin(a)*Math.sin(el)*len,dz=Math.cos(a)*Math.sin(el)*len,dy=Math.cos(el)*len;
+   grn.push({g:tube([[0,0,0],[dx*.5,dy*.5,dz*.5],[dx,dy,dz]],.012,4,3),m:mat(0,0,0,0,0,0)});
+   for(let s=0;s<3;s++){const t2=.45+s*.25,bx=dx*t2,by=dy*t2,bz=dz*t2,a2=a+(s-1)*.9,ex=bx+Math.sin(a2)*.28,ey=by+.2,ez=bz+Math.cos(a2)*.28;
+    grn.push({g:tube([[bx,by,bz],[(bx+ex)/2,(by+ey)/2+.04,(bz+ez)/2],[ex,ey,ez]],.008,3,3),m:mat(0,0,0,0,0,0)});
+    addP(sphereG(.06+R()*.025,7,5),mat(ex,ey,ez,0,0,0));yel.push({g:sphereG(.02,4,3),m:mat(ex,ey+.04,ez,0,0,0)})}
+   addP(sphereG(.07,7,5),mat(dx,dy,dz,0,0,0))}
+ }
+ const out={pet:merge(pet),grn:merge(grn),oth:merge(oth),dark:merge(dark),yel:merge(yel)};
+ flCache[key]=out;return out;
+}
+function flowerGroup(type,hex,open,variant){
+ const b=buildFlower(type,open,variant),g=new T.Group();
+ const add=(geo,m,cast=true)=>{if(!geo)return;const me=new T.Mesh(geo,m);me.castShadow=cast;me.receiveShadow=true;g.add(me)};
+ const pm=type==='baby'?solid('#fbfbf8',.8,{emissive:'#ffffff',emissiveIntensity:.18}):petalMat(type,hex);
+ add(b.pet,pm);
+ add(b.grn,type==='baby'?solid('#7d9a61',.8):solid('#3f6b2f',.6));
+ if(type==='lily'){add(b.oth,solid('#cfd9a3',.6));add(b.dark,solid('#6b3513',.5));add(b.yel,solid('#c9d870',.5))}
+ else if(type==='tulip'){add(b.dark,solid('#2d2a2a',.6));add(b.yel,solid('#3a2d3d',.6))}
+ else if(type==='gerbera'){add(b.oth,new T.MeshStandardMaterial({color:'#3a2213',roughness:.8,map:discTex('#3a2213','#e9b83b')}))}
+ else if(type==='daisy'){add(b.oth,new T.MeshStandardMaterial({color:'#f2c218',roughness:.85,map:discTex('#e8a90a','#fbe27a')}))}
+ else if(type==='baby'){add(b.yel,solid('#e8d98a',.7))}
+ return g;
+}
+function discTex(a,b){const k='disc'+a+b;if(texCache[k])return texCache[k];const c=mkC(128,128),x=c.getContext('2d');x.fillStyle=a;x.fillRect(0,0,128,128);for(let i=0;i<420;i++){const ang=i*2.39996,r=Math.sqrt(i)*3;x.fillStyle=i%7?b:a;x.globalAlpha=.55;x.beginPath();x.arc(64+Math.cos(ang)*r,64+Math.sin(ang)*r,1.5,0,7);x.fill()}const t=tex(c);texCache[k]=t;return t}
+
+/* ---------- سبزینه ---------- */
+function greenGroup(kind,variant){
+ const R=rngf(variant*31+7),leaves=[],stem=[];const euc=kind==='euc';
+ const hexL=euc?'#86ab9c':'#2f6a3e';
+ const lg=euc?getSurf('eucl',{len:1,wid:.95,cup:.9,prof:profRound,su:6,sv:8}):getSurf('rusl',{len:1,wid:.55,cup:.5,prof:profLance,su:4,sv:8});
+ const n=euc?11:9,len=euc?5.5:5.5;
+ const pts=[[0,0,0],[.4,len*.35,.2],[.2,len*.7,-.3],[.1,len,.1]];
+ stem.push({g:tube(pts,.06,14,4),m:mat(0,0,0,0,0,0)});
+ for(let i=0;i<n;i++){const t=(i+1)/(n+1),py=len*t,side=i%2?1:-1,sc=(euc?1.5:1.7)*(1-.45*t)*(.9+R()*.2),ang=side*(.9+R()*.3);
+  leaves.push({g:lg,m:mat(Math.sin(t*3)*.35,py,Math.cos(t*2)*.1,-.9-R()*.3,ang+PI/2*(1-side)/2*0+(side>0?0:PI),0,sc,sc,sc)})}
+ leaves.push({g:lg,m:mat(.1,len,.1,-.3,0,0,.9,.9,.9)});
+ const g=new T.Group();
+ const a=new T.Mesh(merge(leaves),euc?leafMat('#86ab9c'):leafMat('#2f6a3e'));a.castShadow=true;a.receiveShadow=true;g.add(a);
+ const b=new T.Mesh(merge(stem),solid('#6b8a58',.7));g.add(b);return g;
+}
+function roseLeaf(){const g=getSurf('rleaf',{len:2.6,wid:1.5,cup:.25,bend:.2,prof:profLeaf,su:6,sv:10,ruffle:.02});const m=new T.Mesh(g,leafMat('#3f7a3f'));m.castShadow=true;return m}
+
+window.__F3parts={rngf,shadeHex,mkC,tex,petalTex,leafTex,paperTex,ropeTex,surf,getSurf,mat,merge,tube,sphereG,solid,leafMat,petalMat,flowerGroup,greenGroup,roseLeaf,profLance,profLeaf,profRound,STEM,discTex,geoCache,matCache,texCache};
+})();
+
+/* ============ سازنده‌ی صحنه: دسته‌گل، باکس، روبان، نخ کنفی، کارت ============ */
+(function(){
+const T=THREE,F=window.__F3parts,PI=Math.PI,GOLD=137.508*PI/180;
+const FD=window.FD; // داده‌های گل (از برنامه)
+const HS={rose:1,lily:1.05,tulip:1,gerbera:1.05,daisy:.9,baby:1.1};
+const REFF={rose:1.15,lily:1.6,tulip:.95,gerbera:1.3,daisy:.8,baby:.7};
+const FILL={daisy:1,baby:1};
+const V=(x,y,z)=>new T.Vector3(x,y,z);
+const hash=(a,b)=>{const x=Math.sin(a*12.9898+b*78.233)*43758.5453;return x-Math.floor(x)};
+
+/* ---------- مدل‌ها ---------- */
+const BQ={
+ wrap:{th:60,top:5.4,paper:'cone',elong:1,back:2.3,rimLift:-.5},
+ hand:{th:54,top:5.2,paper:null,elong:1},
+ posy:{th:78,top:3.7,paper:'cone',elong:1,back:.9,rimLift:-.2,short:true},
+ arm:{th:56,top:6.2,paper:'cone',elong:1.5,back:2.8,rimLift:-.5}
+};
+const BX={round:{},square:{},heart:{},rect:{}};
+const SIZE_BOX={round:{S:2.6,M:3.2,L:4},square:{S:5.2,M:6.4,L:8},heart:{S:2.8,M:3.5,L:4.4},rect:{S:[7,4.4],M:[8.8,5.4],L:[11,6.6]}};
+
+/* ---------- ابزار هندسه ---------- */
+function stripGeo(pts,width,closed,segs,side){
+ const curve=new T.CatmullRomCurve3(pts,closed,'catmullrom',.5),pos=[],uv=[],idx=[];
+ for(let i=0;i<=segs;i++){const t=i/segs,p=curve.getPoint(closed?t%1:t);
+  pos.push(p.x-side.x*width/2,p.y-side.y*width/2,p.z-side.z*width/2,p.x+side.x*width/2,p.y+side.y*width/2,p.z+side.z*width/2);uv.push(0,t*6,1,t*6)}
+ for(let i=0;i<segs;i++){const a=i*2;idx.push(a,a+1,a+2,a+1,a+3,a+2)}
+ const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(pos,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setIndex(idx);g.computeVertexNormals();return g;
+}
+let weaveT=null;
+function weave(){if(weaveT)return weaveT;const c=F.mkC(64,64),x=c.getContext('2d');x.fillStyle='#808080';x.fillRect(0,0,64,64);for(let i=0;i<64;i+=2){x.fillStyle='rgba(255,255,255,.35)';x.fillRect(0,i,64,1)}for(let i=0;i<64;i+=4){x.fillStyle='rgba(0,0,0,.2)';x.fillRect(i,0,1,64)}weaveT=new T.CanvasTexture(c);weaveT.wrapS=weaveT.wrapT=T.RepeatWrapping;weaveT.repeat.set(2,24);return weaveT}
+function ribbonMat(hex,style){
+ const k='rb'+hex+style;if(F.matCache[k])return F.matCache[k];
+ let m;
+ if(style==='organza')m=new T.MeshPhysicalMaterial({color:hex,roughness:.35,transparent:true,opacity:.62,side:T.DoubleSide,clearcoat:.3,depthWrite:false});
+ else if(style==='grosgrain')m=new T.MeshStandardMaterial({color:hex,roughness:.78,bumpMap:weave(),bumpScale:.5,side:T.DoubleSide});
+ else m=new T.MeshPhysicalMaterial({color:hex,roughness:.28,clearcoat:.55,clearcoatRoughness:.25,side:T.DoubleSide,bumpMap:weave(),bumpScale:.15,envMapIntensity:.55});
+ F.matCache[k]=m;return m;
+}
+function bow(w,s,hex,style,sc){
+ const g=new T.Group(),mt=ribbonMat(hex,style),Z=V(0,0,1);
+ const loopPts=[V(0,0,0),V(.55,.6,.05),V(1.5,.85,.12),V(2.2,.25,.1),V(1.6,-.5,.12),V(.6,-.4,.06)].map(p=>p.multiplyScalar(s));
+ [1,-1].forEach(sd=>{
+  const lp=loopPts.map(p=>V(p.x*sd,p.y,p.z));
+  const m=new T.Mesh(stripGeo(lp,w,true,60,Z),mt);m.rotation.y=sd*.18;m.rotation.x=.06*sd;m.castShadow=true;g.add(m);
+  const inner=[V(0,0,0),V(.5,.3,.14),V(1.0,.38,.2),V(1.35,.08,.17),V(1.0,-.25,.17),V(.45,-.2,.1)].map(p=>V(p.x*s*sd,p.y*s,p.z*s));
+  const m2=new T.Mesh(stripGeo(inner,w*.95,true,40,Z),mt);m2.rotation.y=sd*.12;m2.castShadow=true;g.add(m2);
+  const tl=[V(0,0,0),V(.35*sd*s,-1.1*s,.14),V(.15*sd*s,-2.3*s,.2),V(.6*sd*s,-3.4*s,.16)];
+  const t=new T.Mesh(stripGeo(tl,w,false,28,Z),mt);t.rotation.z=sd*.12;t.castShadow=true;g.add(t);
+ });
+ const k=new T.Mesh(new T.SphereGeometry(w*.62,16,12),mt);k.scale.set(1.1,1.15,.8);k.position.z=.06;g.add(k);
+ return g;
+}
+function bandLathe(r,y,h,hex,style){
+ const pts=[];for(let i=0;i<=1;i++)pts.push(new T.Vector2(r,i*h));
+ const m=new T.Mesh(new T.CylinderGeometry(r,r,h,64,1,true),ribbonMat(hex,style));m.position.y=y;return m;
+}
+function twineHelix(rAt,y0,y1,turns,R){
+ const pts=[];const N=Math.round(turns*20);
+ for(let k=0;k<=N;k++){const t=k/N,a=t*turns*2*PI,y=y0+(y1-y0)*t,r=rAt(y)+.05;pts.push(V(r*Math.sin(a),y,r*Math.cos(a)))}
+ const c=new T.CatmullRomCurve3(pts);
+ const m=new T.Mesh(new T.TubeGeometry(c,N*2,.055,6,false),new T.MeshStandardMaterial({color:'#b59a68',roughness:1,map:F.ropeTex(),bumpMap:F.ropeTex(),bumpScale:.8}));
+ m.castShadow=true;return m;
+}
+function twineBow(front,y,s){
+ const g=new T.Group(),mat=new T.MeshStandardMaterial({color:'#b59a68',roughness:1,map:F.ropeTex(),bumpMap:F.ropeTex(),bumpScale:.8});
+ [1,-1].forEach(sd=>{
+  const lp=[V(0,0,0),V(.4*sd,.35,.08),V(.95*sd,.4,.12),V(1.25*sd,.05,.1),V(.9*sd,-.28,.1),V(.4*sd,-.15,.05)].map(p=>p.multiplyScalar(s));
+  g.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(lp,true),40,.05,5,true),mat));
+  const tl=[V(0,0,0),V(.2*sd*s,-.8*s,.1),V(.5*sd*s,-1.6*s,.12),V(.4*sd*s,-2.3*s,.1)];
+  g.add(new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3(tl),20,.05,5,false),mat));
+ });
+ const k=new T.Mesh(new T.SphereGeometry(.14,10,8),mat);g.add(k);g.position.set(0,y,front);return g;
+}
+function polyShape(poly,holes){const sh=new T.Shape(poly.map(p=>new T.Vector2(p[0],p[1])));(holes||[]).forEach(h=>sh.holes.push(new T.Path(h.map(p=>new T.Vector2(p[0],p[1])))));return sh}
+function outline(kind,size){
+ const pts=[];const N=kind==='heart'?160:kind==='round'?96:0;
+ if(kind==='round'){const R=SIZE_BOX.round[size];for(let i=0;i<N;i++){const a=i/N*2*PI;pts.push([R*Math.cos(a),R*Math.sin(a)])}}
+ else if(kind==='heart'){const R=SIZE_BOX.heart[size]/17;for(let i=0;i<N;i++){const t=i/N*2*PI;pts.push([R*16*Math.pow(Math.sin(t),3),R*(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))])}}
+ else{const d=kind==='square'?[SIZE_BOX.square[size],SIZE_BOX.square[size]]:SIZE_BOX.rect[size],rr=Math.min(d[0],d[1])*.12,hx=d[0]/2,hy=d[1]/2;
+  [[hx-rr,hy-rr,0],[-hx+rr,hy-rr,PI/2],[-hx+rr,-hy+rr,PI],[hx-rr,-hy+rr,3*PI/2]].forEach(c=>{for(let i=0;i<=8;i++){const a=c[2]+i/8*PI/2;pts.push([c[0]+rr*Math.cos(a),c[1]+rr*Math.sin(a)])}})}
+ return pts;
+}
+function scalePoly(p,k){return p.map(q=>[q[0]*k,q[1]*k])}
+function inPoly(x,y,poly){let c=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const a=poly[i],b=poly[j];if((a[1]>y)!==(b[1]>y)&&x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])c=!c}return c}
+function polyArea(p){let a=0;for(let i=0,j=p.length-1;i<p.length;j=i++)a+=(p[j][0]+p[i][0])*(p[j][1]-p[i][1]);return Math.abs(a/2)}
+
+/* ---------- گل‌ها: چیدمان ---------- */
+function slotsFor(cfg,R){
+ const L=[];ORD().forEach(k=>{const it=cfg.items[k];if(it&&it[0]>0)for(let i=0;i<it[0];i++)L.push({t:k,c:FD.FL[k].cols[it[1]][1]})});
+ const foc=L.filter(f=>!FILL[f.t]),fil=L.filter(f=>FILL[f.t]),n=L.length;
+ const sh=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(R()*(i+1));[a[i],a[j]]=[a[j],a[i]]}};
+ sh(foc);sh(fil);
+ const slot=Array(n).fill(null),idx=[];for(let i=Math.floor(n*.3);i<n;i++)idx.push(i);sh(idx);
+ fil.forEach((f,i)=>{slot[idx[i%idx.length]]=f});
+ let fi=0;for(let i=0;i<n;i++)if(!slot[i])slot[i]=foc[fi++]||fil.pop();
+ return slot;
+}
+const ORD=()=>FD.ORDER;
+function placeFlower(grp,pos,normal,roll,scale,type,hex,open,variant){
+ const f=F.flowerGroup(type,hex,open,variant);
+ const q=new T.Quaternion().setFromUnitVectors(V(0,1,0),normal.clone().normalize());
+ const r=new T.Quaternion().setFromAxisAngle(V(0,1,0),roll);
+ f.quaternion.copy(q).multiply(r);f.position.copy(pos);f.userData.s=scale;f.scale.setScalar(scale);
+ grp.add(f);return f;
+}
+
+/* ---------- دسته‌گل ---------- */
+function buildBouquet(cfg){
+ const root=new T.Group(),M=BQ[cfg.model]||BQ.wrap,R=F.rngf((cfg.seed||7)*13+5),info={flowers:[]};
+ const slots=slotsFor(cfg,R),n=slots.length,open=FD.BLOOM[cfg.bloom][1];
+ const stemCm=cfg.stem||50,Htot=stemCm/3,top=M.top,Hs=Math.max(3.2,(Htot-top)*(M.paper?(M.short?.6:.56):.85));
+ const th=M.th*PI/180,elong=M.elong;
+ let sr=0;slots.forEach(s=>sr+=Math.pow(REFF[s.t]*HS[s.t],2));
+ const Rd=Math.max(3.2,Math.sqrt(sr*1.1/(2*(1-Math.cos(th)))));
+ const C=V(0,top-Rd,0),Bp=V(0,0,0);
+ const stems=[],leaves=[],heads=[];
+ const leafG=n?F.roseLeaf().geometry:null;
+ let maxRim=0,minRimY=99,xmax=0;
+ slots.forEach((s,i)=>{
+  const u=(i+.5)/n,t=th*Math.sqrt(u),ph=i*GOLD+(R()-.5)*.3;
+  const d=V(Math.sin(t)*Math.sin(ph),Math.cos(t),Math.sin(t)*Math.cos(ph));
+  const P=C.clone().add(d.clone().multiplyScalar(Rd));P.x*=elong;P.x+=(R()-.5)*.25;P.z+=(R()-.5)*.25;P.y+=(R()-.5)*.2;
+  const nrm=V((P.x-C.x)/(elong*elong),P.y-C.y,P.z-C.z).normalize();
+  const sc=HS[s.t]*(.94+R()*.12);
+  const fl=placeFlower(root,P,nrm,R()*6.28,sc,s.t,s.c,open,i%4);fl.userData.key=s.t+s.c+i;heads.push(fl);
+  const rim=Math.hypot(P.x,P.z);if(t>th*.8){maxRim=Math.max(maxRim,rim);minRimY=Math.min(minRimY,P.y)}xmax=Math.max(xmax,Math.abs(P.x));
+  const base=P.clone().sub(nrm.clone().multiplyScalar(.25*sc));
+  const dh=V(base.x,0,base.z).length();
+  const dirOut=V(base.x,0,base.z).normalize();
+  const end=V(-dirOut.x*(.25+R()*.45)+(R()-.5)*.4,-Hs,-dirOut.z*(.25+R()*.45)+(R()-.5)*.4);
+  const pts=[base,base.clone().lerp(Bp,.55).add(V((R()-.5)*.2,0,(R()-.5)*.2)),V(0,0,0).add(V(dirOut.x*.12,0,dirOut.z*.12)),V(-dirOut.x*.25,-Hs*.35,-dirOut.z*.25),end];
+  const crv=new T.CatmullRomCurve3(pts,false,'centripetal');
+  stems.push({g:new T.TubeGeometry(crv,26,.1+.02*(s.t==='lily'),5,false),m:new T.Matrix4()});
+  if(s.t==='rose'&&i%2===0&&leafG){const pp=crv.getPoint(.42),dir=V(dirOut.x*.8,.7,dirOut.z*.8).normalize();const q=new T.Quaternion().setFromUnitVectors(V(0,1,0),dir);leaves.push({g:leafG,m:new T.Matrix4().compose(pp,q.multiply(new T.Quaternion().setFromAxisAngle(V(0,1,0),R()*6)),V(.55,.55,.55))})}
+ });
+ info.heads=heads;info.top=top;info.Rd=Rd;info.rimR=maxRim+.4;info.rimY=minRimY;
+ const stemMesh=new T.Mesh(F.merge(stems),new T.MeshStandardMaterial({color:'#3f6b2f',roughness:.65}));stemMesh.castShadow=true;stemMesh.receiveShadow=true;root.add(stemMesh);
+ if(leaves.length){const lm=new T.Mesh(F.merge(leaves),F.leafMat('#3f7a3f'));lm.castShadow=true;root.add(lm)}
+ // سبزینه
+ if(cfg.green&&cfg.green.n>0){
+  const ng=cfg.green.n,Rg=F.rngf(55);
+  for(let i=0;i<ng;i++){
+   const g=F.greenGroup(cfg.green.k,i+3),a=i/ng*2*PI+Rg()*.5,tilt=(th*180/PI+14+Rg()*10)*PI/180;
+   const dir=V(Math.sin(tilt)*Math.sin(a),Math.cos(tilt),Math.sin(tilt)*Math.cos(a));
+   const q=new T.Quaternion().setFromUnitVectors(V(0,1,0),dir);g.quaternion.copy(q);g.position.set(0,-.3,0);
+   const len=Math.hypot(Rd*Math.sin(th)*elong,top-Rd*(1-Math.cos(th)))*1.08;g.scale.setScalar(len/5.5);
+   g.userData.key='g'+i;root.add(g);heads.push(g);g.userData.s=len/5.5;
+  }
+ }
+ // کاغذ
+ const yR=M.short?-.9:-1.2,rB=M.paper?1.45:.95;
+ let rAt=y=>rB;
+ if(M.paper){
+  const yb=-Hs+.7,yt=minRimY+(M.rimLift||0)-.2;
+  const o={yb,yB:yR,yt,ytRef:yt,r0:.85,rB,rt:maxRim+.9,elong,back:M.back};
+  const cg=coneGeo(o,0),ci=coneGeo(o,-.07);
+  const pc=FD.PAPERS[cfg.paper.c][1],style=cfg.paper.style;
+  const pm=new T.MeshStandardMaterial({color:pc,roughness:style==='tissue'?.55:.92,map:F.paperTex(style==='kraft'?'kraft':'p',pc),side:T.DoubleSide,transparent:style==='tissue',opacity:style==='tissue'?.9:1,metalness:0});
+  const pi=new T.MeshStandardMaterial({color:F.shadeHex(pc,.55),roughness:.9,side:T.DoubleSide});
+  const a=new T.Mesh(cg,pm),b=new T.Mesh(ci,pi);[a,b].forEach(m=>{m.castShadow=true;m.receiveShadow=true;root.add(m)});
+  rAt=y=>{if(y<yR){const k=Math.max(0,(y-yb)/(yR-yb));return o.r0+(o.rB-o.r0)*Math.pow(k,.9)}const k=Math.min(1,(y-yR)/(yt-yR));return o.rB+(o.rt-o.rB)*Math.pow(k,1.45)};
+ }
+ // روبان و نخ
+ const front=rAt(yR)*1;
+ const rb=cfg.ribbon;const wMap={S:.38,M:.85,L:1.5},w=wMap[rb.w]||.85;
+ info.ribbonY=yR;info.front=front+.15;
+ if(rb.on){
+  const rc=F.shadeHex(FD.RIBS[rb.c][1],-.12);
+  const band=bandLathe(front+.04,yR,w,rc,rb.style);band.castShadow=true;root.add(band);
+  const bw=bow(w*(rb.w==='L'?.9:1),rb.w==='L'?.9:.85+cfg.size.length*0+({S:0,M:.12,L:.28})[cfg.size],rc,rb.style);
+  bw.position.set(0,yR,front+.1);root.add(bw);info.bow=bw;
+ }
+ if(cfg.jute){
+  const jy0=yR-(rb.on?w*.2:.4),jy1=yR+(rb.on?w*.5:.4);
+  root.add(twineHelix(y=>rAt(y)+(rb.on?.08:.02),jy0,jy1,rb.on?5:4,0));
+  const tb=twineBow(front+(rb.on?.2:.1),yR+(rb.on?w*.55:.35),.9);tb.rotation.z=rb.on?.35:0;tb.position.x=rb.on?-.9:0;root.add(tb);
+ }
+ // کارت
+ info.cardAnchor=V(rb.on?2.1:1.4,yR-(rb.on?2.6:1.4),front+.55);
+ if(cfg.card&&cfg.card.on){const co=cardObject(cfg,V(info.cardAnchor.x,info.cardAnchor.y+.1,info.cardAnchor.z),rb.on?V(.3,yR-.1,front+.35):V(.4,yR,front+.2));root.add(co);if(co.userData.string)root.add(co.userData.string)}
+ // افزودنی
+ if(cfg.extras.includes('choc'))root.add(chocBox(V(Math.max(maxRim,3)+2.6,-Hs+1.4,2.2)));
+ info.height=top+Hs;info.Hs=Hs;
+ return {group:root,info};
+}
+function coneGeo(o,inset){
+ const su=96,sv=30,pos=[],uv=[],idx=[];
+ for(let j=0;j<=sv;j++){const s=j/sv;
+  for(let i=0;i<=su;i++){const ph=i/su*2*PI,front=(1-Math.cos(ph))/2;
+   const ytop=o.yt+(o.back||0)*front+.2*Math.sin(ph*5+1)+.1*Math.sin(ph*11)-(front<.12?.5*(1-front/.12):0);
+   const y=o.yb+(ytop-o.yb)*s;
+   let r;if(y<o.yB){const k=Math.max(0,(y-o.yb)/(o.yB-o.yb));r=o.r0+(o.rB-o.r0)*Math.pow(k,.9)}else{const k=Math.min(1.3,(y-o.yB)/(o.ytRef-o.yB));r=o.rB+(o.rt-o.rB)*Math.pow(k,1.45)}
+   const pl=1+(.035+.045*Math.min(1,s*1.4))*Math.sin(ph*7+s*1.9)*Math.min(1,Math.max(0,(y-o.yB+1)/2.5))+.018*Math.sin(ph*19+s*3);
+   r=(r*pl)+(inset||0);
+   pos.push(r*Math.sin(ph)*o.elong,y,r*Math.cos(ph));uv.push(i/su*3,s*2)}}
+ for(let j=0;j<sv;j++)for(let i=0;i<su;i++){const a=j*(su+1)+i,b=a+1,c=a+su+1,d=c+1;idx.push(a,b,c,b,d,c)}
+ const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(pos,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setIndex(idx);g.computeVertexNormals();return g;
+}
+function chocBox(p){
+ const g=new T.Group();
+ const b=new T.Mesh(new T.BoxGeometry(3.2,.9,3.2),new T.MeshStandardMaterial({color:'#3a1f16',roughness:.5}));b.castShadow=true;g.add(b);
+ for(let i=0;i<9;i++){const m=new T.Mesh(new T.SphereGeometry(.38,16,12),new T.MeshStandardMaterial({color:i%3?'#c9982f':'#5a2c19',roughness:.28,metalness:i%3?.8:0}));m.position.set(-.9+(i%3)*.9,.62,-.9+Math.floor(i/3)*.9);m.castShadow=true;g.add(m)}
+ g.position.copy(p);g.rotation.y=-.4;return g;
+}
+
+/* ---------- باکس ---------- */
+function buildBox(cfg){
+ const root=new T.Group(),R=F.rngf((cfg.seed||7)*13+9),info={};
+ const open=FD.BLOOM[cfg.bloom][1],slots=slotsFor(cfg,R),n=slots.length;
+ const poly=outline(cfg.model,cfg.size),area=polyArea(poly);
+ const h=2.8,wall=.28,col=FD.BOXCOL[cfg.boxCol][1];
+ const bodyMat=new T.MeshStandardMaterial({color:col,roughness:.82,map:F.paperTex('p',col),bumpMap:F.paperTex('p',col),bumpScale:.4,side:T.DoubleSide});
+ const inMat=new T.MeshStandardMaterial({color:F.shadeHex(col,-.15),roughness:.9,side:T.DoubleSide});
+ const ex=(sh,depth,bevel)=>new T.ExtrudeGeometry(sh,{depth,bevelEnabled:true,bevelThickness:bevel,bevelSize:bevel,bevelSegments:3,curveSegments:24});
+ const inner=scalePoly(poly,cfg.model==='heart'?.92:.93);
+ // دیواره
+ const wallG=ex(polyShape(poly,[inner.slice().reverse()]),h-.12,.06);wallG.rotateX(-PI/2);
+ const wall_=new T.Mesh(wallG,bodyMat);wall_.castShadow=true;wall_.receiveShadow=true;root.add(wall_);
+ const baseG=ex(polyShape(poly),.2,.06);baseG.rotateX(-PI/2);const base=new T.Mesh(baseG,bodyMat);base.castShadow=true;root.add(base);
+ // فوم
+ const foamTop=h-.55;
+ const fG=new T.ExtrudeGeometry(polyShape(scalePoly(poly,.92)),{depth:foamTop-.2,bevelEnabled:false});fG.rotateX(-PI/2);
+ const foam=new T.Mesh(fG,new T.MeshStandardMaterial({color:'#0f1a10',roughness:1}));foam.position.y=.2;root.add(foam);
+ // لبه‌ی طلایی
+ // گل‌ها
+ const ip=scalePoly(poly,.86);
+ const sp=Math.sqrt(area*.82/Math.max(n,1));
+ const pts=[];const cf=sp*.62;
+ for(let i=0;i<n*14&&pts.length<n;i++){const r=cf*Math.sqrt(i+.5),a=i*GOLD,x=r*Math.cos(a),z=r*Math.sin(a);if(inPoly(x,z,ip))pts.push([x,z])}
+ while(pts.length<n)pts.push([0,0]);
+ let rmax=0;pts.forEach(p=>rmax=Math.max(rmax,Math.hypot(p[0],p[1])));rmax=Math.max(rmax,1);
+ const sf=Math.max(.5,Math.min(1.35,Math.sqrt(area*1.0/(slots.reduce((a,s)=>a+Math.pow(REFF[s.t]*HS[s.t],2),0)*PI*1.05))));
+ const domeH=Math.min(2.4,rmax*.34),heads=[];
+ const sorted=pts.map((p,i)=>({p,i,r:Math.hypot(p[0],p[1])})).sort((a,b)=>a.r-b.r);
+ const stems=[];
+ sorted.forEach((o,k)=>{
+  const s=slots[k]||slots[0];if(!s)return;
+  const x=o.p[0],z=o.p[1],rr=o.r/rmax,y=foamTop+.6+domeH*(1-rr*rr)+(R()-.5)*.15;
+  const gx=-2*domeH*x/(rmax*rmax),gz=-2*domeH*z/(rmax*rmax),nrm=V(-gx,1,-gz).normalize();
+  const sc=HS[s.t]*sf*(.95+R()*.1);
+  const P=V(x,y,z);const fl=placeFlower(root,P,nrm,R()*6.28,sc,s.t,s.c,open,k%4);fl.userData.key=s.t+s.c+k;heads.push(fl);
+  stems.push({g:new T.CylinderGeometry(.08,.08,y-foamTop+.3,5),m:new T.Matrix4().makeTranslation(x,(y+foamTop-.3)/2,z)});
+ });
+ if(stems.length){const sm=new T.Mesh(F.merge(stems),new T.MeshStandardMaterial({color:'#3f6b2f',roughness:.65}));root.add(sm)}
+ // سبزینه دور باکس
+ if(cfg.green&&cfg.green.n>0){
+  const ng=cfg.green.n,gp=poly;
+  for(let i=0;i<ng;i++){
+   const a=i/ng*2*PI+.4,pt=gp[Math.floor(((a/(2*PI))%1)*gp.length)],len=3.8;
+   const g=F.greenGroup(cfg.green.k,i+3),dir=V(pt[0],.9,pt[1]).normalize();
+   g.quaternion.setFromUnitVectors(V(0,1,0),dir);g.position.set(pt[0]*.7,foamTop+.3,pt[1]*.7);g.scale.setScalar(len/5.5);g.userData.key='g'+i;g.userData.s=len/5.5;root.add(g);heads.push(g);
+  }
+ }
+ info.heads=heads;info.top=foamTop+domeH+1.2;
+ // روبان
+ const rb=cfg.ribbon,wMap={S:.38,M:.85,L:1.5},w=wMap[rb.w]||.85;
+ const front=Math.max(...poly.map(p=>p[1]))*(cfg.model==='heart'?-1:1);
+ let fz=0;const zs=poly.map(p=>p[1]);fz=Math.max(...zs); // جلو = +z، پس z محور شکل بعد از چرخش: y→-z
+ const midY=h*.52;
+ // بعد از rotateX(-PI/2): y شکل -> -z دنیا. پس نقطه‌ی جلو (z دنیا بیشینه) = minimum y شکل
+ const frontZ=-Math.min(...poly.map(p=>p[1]));
+ info.ribbonY=midY;info.front=frontZ;
+ if(rb.on){
+  const rc=F.shadeHex(FD.RIBS[rb.c][1],-.12);
+  const bg=ex(polyShape(scalePoly(poly,1.012),[scalePoly(poly,.985).reverse()]),w,.01);bg.rotateX(-PI/2);
+  const bm=new T.Mesh(bg,ribbonMat(rc,rb.style));bm.position.y=midY-w/2;bm.castShadow=true;root.add(bm);
+  const bw=bow(w*(rb.w==='L'?.9:1),.78+({S:0,M:.1,L:.24})[cfg.size],rc,rb.style);
+  bw.position.set(0,midY,frontZ+.15);bw.rotation.x=0;root.add(bw);info.bow=bw;
+ }
+ if(cfg.jute){
+  const tw=twineBow(frontZ+(rb.on?.35:.12),midY+(rb.on?w*.55:0),.85);tw.position.x=rb.on?-.8:0;root.add(tw);
+ }
+ // کارت روی چوب
+ if(cfg.card&&cfg.card.on){
+  const stick=new T.Mesh(new T.CylinderGeometry(.05,.05,5.4,6),new T.MeshStandardMaterial({color:'#caa86a',roughness:.8}));
+  const sx=ip.length?ip[Math.floor(ip.length*.12)][0]*.78:2,sz=-(ip.length?ip[Math.floor(ip.length*.12)][1]:0)*.5;
+  stick.position.set(sx,foamTop+2.2,sz+1.2);stick.rotation.z=-.22;stick.rotation.x=.12;root.add(stick);
+  const cp=V(sx+.5,foamTop+4.6,sz+1.6);root.add(cardObject(cfg,cp,null,true));
+  info.cardAnchor=cp.clone();
+ } else info.cardAnchor=V(0,midY,frontZ+1);
+ if(cfg.extras.includes('choc'))root.add(chocBox(V(SIZE_BOX.round.L+(cfg.model==='rect'?SIZE_BOX.rect[cfg.size][0]/2-4:0)+.8,.6,1.2)));
+ info.height=h+domeH;info.box=true;info.rmax=rmax;
+ return {group:root,info};
+}
+
+/* ---------- کارت تبریک ---------- */
+function drawCard(card,W=768,H=512){
+ const c=F.mkC(W,H),x=c.getContext('2d'),m=card.m,txt=(card.text||'').trim();
+ const bg={kraft:'#c9a572',water:'#fbf7f0',rose:'#5e1129',noir:'#15111a',photo:'#fbfaf7'}[m];
+ x.fillStyle=bg;x.fillRect(0,0,W,H);
+ const R=F.rngf(5);let ink='#3a2a1a',acc='#8a6a3c';
+ if(m==='kraft'){for(let i=0;i<1400;i++){x.strokeStyle=R()>.5?'rgba(255,255,255,.08)':'rgba(70,40,10,.1)';x.lineWidth=1;const px=R()*W,py=R()*H,l=R()*12+3,a=R()*6.28;x.beginPath();x.moveTo(px,py);x.lineTo(px+Math.cos(a)*l,py+Math.sin(a)*l);x.stroke()}
+  x.setLineDash([10,8]);x.strokeStyle='#5b4326';x.lineWidth=3;x.strokeRect(28,28,W-56,H-56);x.setLineDash([]);
+  x.strokeStyle='#5b4326';x.lineWidth=3;x.lineCap='round';x.beginPath();x.moveTo(W/2,112);x.quadraticCurveTo(W/2+6,70,W/2+2,40);x.stroke();for(let i=0;i<4;i++){const yy=100-i*17,s=i%2?1:-1;x.beginPath();x.ellipse(W/2+s*16,yy,14,6,s*.7,0,7);x.stroke()}
+  ink='#3a2512'}
+ else if(m==='water'){
+  const blob=(cx,cy,r,col)=>{const g=x.createRadialGradient(cx,cy,r*.1,cx,cy,r);g.addColorStop(0,col+'cc');g.addColorStop(1,col+'00');x.fillStyle=g;x.beginPath();x.arc(cx,cy,r,0,7);x.fill()};
+  blob(W*.9,H*.95,260,'#ee8fae');blob(W*.78,H*1.0,220,'#f6b79c');blob(W*.98,H*.7,170,'#c79bd6');blob(W*.05,H*.05,220,'#a9d2b1');blob(W*.15,H*.0,170,'#f2c1d2');
+  x.strokeStyle='#4f8a5e';x.lineWidth=3;x.lineCap='round';for(let k=0;k<3;k++){const bx=W*(.78+.06*k),by=H*.98;x.beginPath();x.moveTo(bx,by);x.quadraticCurveTo(bx-30+k*20,H*(.7+.03*k),bx-10,H*(.52+.04*k));x.stroke();for(let i=0;i<5;i++){const t=.2+i*.16,lx=bx-10-18*(1-t)*(i%2?-1:1),ly=by-(by-H*(.52+.04*k))*t;x.fillStyle='rgba(79,138,94,.7)';x.beginPath();x.ellipse(lx,ly,16,6,(i%2?-.6:.6),0,7);x.fill()}}
+  ink='#4a2540'}
+ else if(m==='rose'){
+  x.strokeStyle='#d9b66a';x.lineWidth=3;x.strokeRect(26,26,W-52,H-52);x.lineWidth=1.5;x.strokeRect(40,40,W-80,H-80);
+  x.fillStyle='#d9b66a';x.beginPath();const hx=W/2,hy=92;x.moveTo(hx,hy+22);x.bezierCurveTo(hx-46,hy-12,hx-22,hy-44,hx,hy-18);x.bezierCurveTo(hx+22,hy-44,hx+46,hy-12,hx,hy+22);x.fill();
+  ink='#f3e3c3'}
+ else if(m==='noir'){
+  x.strokeStyle='#c9a24f';x.lineWidth=2;x.strokeRect(34,34,W-68,H-68);
+  x.strokeStyle='#c9a24f';x.lineWidth=2;const cx=W/2,cy=96;for(let i=0;i<8;i++){x.beginPath();x.ellipse(cx,cy-18,8,22,i*PI/4,0,7);x.stroke()}x.beginPath();x.arc(cx,cy-18,5,0,7);x.stroke();x.beginPath();x.moveTo(cx,cy+8);x.lineTo(cx,cy+50);x.stroke();
+  ink='#d9b868'}
+ else if(m==='photo'){
+  const ph=card.photoImg;const pw=W-80,pH=Math.round(H*.6);
+  if(ph&&ph.width){const rr=Math.max(pw/ph.width,pH/ph.height),sw=pw/rr,sh=pH/rr;x.drawImage(ph,(ph.width-sw)/2,(ph.height-sh)/2,sw,sh,40,40,pw,pH)}
+  else{const g=x.createLinearGradient(0,40,pw,pH);g.addColorStop(0,'#efd9d4');g.addColorStop(1,'#d7c3e0');x.fillStyle=g;x.fillRect(40,40,pw,pH);x.fillStyle='rgba(60,30,60,.45)';x.font='500 30px Vazirmatn,Tahoma';x.textAlign='center';x.direction='rtl';x.fillText('عکس شما اینجا قرار می‌گیرد',W/2,40+pH/2+10)}
+  ink='#2f2230'}
+ // متن
+ const hasPh=m==='photo';
+ const box={x:70,w:W-140,top:hasPh?Math.round(H*.6)+60:(m==='kraft'||m==='rose'||m==='noir'?150:70),bot:H-62};
+ let fs=hasPh?34:42,lines=[];const fam='Vazirmatn,Tahoma,sans-serif';
+ const T0=txt||'متن کارت تبریک شما اینجا نوشته می‌شود';
+ for(;fs>=22;fs-=2){x.font=`500 ${fs}px ${fam}`;x.direction='rtl';lines=[];T0.split('\n').forEach(par=>{let cur='';par.split(/\s+/).forEach(wd=>{const tt=cur?cur+' '+wd:wd;if(x.measureText(tt).width>box.w&&cur){lines.push(cur);cur=wd}else cur=tt});lines.push(cur)});if(lines.length*fs*1.55<=box.bot-box.top)break}
+ x.fillStyle=txt?ink:ink+'88';x.textAlign='center';x.direction='rtl';x.font=`500 ${fs}px ${fam}`;
+ const tot=lines.length*fs*1.55,y0=box.top+((box.bot-box.top)-tot)/2+fs*1.1;
+ lines.forEach((l,i)=>x.fillText(l,W/2,y0+i*fs*1.55));
+ return c;
+}
+function cardObject(cfg,pos,knot,onStick){
+ const g=new T.Group(),card=cfg.card,cv=drawCard(card),tx=F.tex(cv);
+ const w=3.5,h=2.4;
+ const edge=new T.MeshStandardMaterial({color:'#f4efe6',roughness:.9}),back=new T.MeshStandardMaterial({color:card.m==='noir'?'#15111a':card.m==='rose'?'#5e1129':'#f4efe6',roughness:.9});
+ const front=new T.MeshStandardMaterial({map:tx,roughness:.75,metalness:0});
+ const mesh=new T.Mesh(new T.BoxGeometry(w,h,.06),[edge,edge,edge,edge,front,back]);mesh.castShadow=true;g.add(mesh);
+ g.position.copy(pos);g.rotation.z=onStick?-.1:-.12;g.rotation.x=onStick?-.05:-.06;g.userData.card=true;
+ if(knot){
+  const hole=pos.clone().add(V(-w*.42*.0,h/2-.15,.02)),s=new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3([knot,V((knot.x+hole.x)/2,(knot.y+hole.y)/2-.3,(knot.z+hole.z)/2+.12),hole]),20,.03,4,false),new T.MeshStandardMaterial({color:'#b59a68',roughness:1}));
+  s.userData.str=true;g.userData.string=s;
+ }
+ return g;
+}
+window.SC={buildBouquet,buildBox,drawCard,BQ,SIZE_BOX,hash,REFF};
+})();
+
+/* ============ نمایشگر سه‌بعدی (چرخش با کشیدن، حرکت نرم دوربین) ============ */
+(function(){
+const T=THREE,F=window.__F3parts,PI=Math.PI;
+const V=(x,y,z)=>new T.Vector3(x,y,z);
+const ease=k=>1-Math.pow(1-k,3);
+class Viewer{
+ constructor(el,opt={}){
+  this.el=el;this.opt=opt;this.vis=true;this.dirty=true;this.t0=performance.now();
+  const r=this.r=new T.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:!!opt.keep});
+  r.setPixelRatio(Math.min(window.devicePixelRatio||1,opt.thumb?1:2));
+  r.outputEncoding=T.sRGBEncoding;r.toneMapping=T.ACESFilmicToneMapping;r.toneMappingExposure=.82;
+  r.shadowMap.enabled=true;r.shadowMap.type=T.PCFSoftShadowMap;
+  r.domElement.style.cssText='width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab';
+  el.appendChild(r.domElement);
+  const s=this.scene=new T.Scene();
+  s.add(new T.HemisphereLight('#fff4ec','#a89aad',.42));
+  const k=this.key=new T.DirectionalLight('#fff0dd',1.15);k.position.set(9,16,12);k.castShadow=true;k.shadow.mapSize.set(opt.thumb?1024:2048,opt.thumb?1024:2048);
+  Object.assign(k.shadow.camera,{left:-20,right:20,top:22,bottom:-22,near:1,far:60});k.shadow.bias=-.0004;k.shadow.normalBias=.04;s.add(k);
+  const f=new T.DirectionalLight('#dfe6ff',.38);f.position.set(-12,6,8);s.add(f);
+  const b=new T.DirectionalLight('#ffe3ee',.5);b.position.set(-4,10,-14);s.add(b);
+  // محیط نرم برای بازتاب‌ها
+  try{const pm=new T.PMREMGenerator(r),es=new T.Scene();
+   es.background=new T.Color('#8f8794');
+   const bx=(c,i,p,sc)=>{const m=new T.Mesh(new T.PlaneGeometry(sc[0],sc[1]),new T.MeshBasicMaterial({color:new T.Color(c).multiplyScalar(i),side:T.DoubleSide}));m.position.set(...p);m.lookAt(0,0,0);es.add(m)};
+   bx('#ffffff',2.2,[6,8,6],[8,8]);bx('#ffe8d0',1.4,[-8,3,4],[6,10]);bx('#cfe0ff',1,[0,-2,9],[12,5]);bx('#ffffff',1.2,[0,10,-6],[10,6]);
+   s.environment=pm.fromScene(es,.04).texture;pm.dispose();}catch(e){}
+  this.cam=new T.PerspectiveCamera(opt.fov||27,1,.1,300);
+  this.rig={yaw:opt.yaw??.18,pitch:opt.pitch??.3,dist:40,tx:0,ty:0,tz:0,tYaw:null,tPitch:null,tDist:40,tTx:0,tTy:0,tTz:0};
+  this.world=new T.Group();s.add(this.world);
+  const g=this.ground=new T.Mesh(new T.PlaneGeometry(80,80),new T.ShadowMaterial({opacity:.13}));g.rotation.x=-PI/2;g.receiveShadow=true;s.add(g);
+  this.idle=opt.auto?1:0;this.lastInput=0;this.cur=null;this.known=new Set();
+  this._bind();this._resize();
+  if(!opt.thumb){this.ro=new ResizeObserver(()=>this._resize());this.ro.observe(el);
+   this.io=new IntersectionObserver(es=>{this.vis=es[0].isIntersecting;if(this.vis){this.dirty=true;this._tick()}},{threshold:0});this.io.observe(el);
+   this._loop=this._loop.bind(this);this.raf=requestAnimationFrame(this._loop)}
+ }
+ _bind(){
+  const c=this.r.domElement;let drag=null;
+  c.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,yaw:this.rig.yaw,pitch:this.rig.pitch,id:e.pointerId,moved:false};c.setPointerCapture(e.pointerId);c.style.cursor='grabbing';this.lastInput=performance.now()});
+  c.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)>3)drag.moved=true;this.rig.yaw=drag.yaw-dx*.008;this.rig.pitch=Math.max(-.05,Math.min(1.2,drag.pitch+dy*.006));this.rig.tYaw=null;this.rig.tPitch=null;this.dirty=true;this.lastInput=performance.now()});
+  const up=()=>{drag=null;c.style.cursor='grab'};c.addEventListener('pointerup',up);c.addEventListener('pointercancel',up);
+  c.addEventListener('dblclick',()=>this.focus('all'));
+ }
+ _resize(){const w=this.el.clientWidth||300,h=this.el.clientHeight||300;this.r.setSize(w,h,false);this.cam.aspect=w/h;this.cam.updateProjectionMatrix();this.dirty=true;if(this.cur)this._fit(true)}
+ setConfig(cfg){
+  const old=this.cur&&this.cur.group;
+  if(old){this.world.remove(old)}
+  const built=cfg.kind==='box'?SC.buildBox(cfg):SC.buildBouquet(cfg);
+  built.group.traverse(o=>{if(o.material){[].concat(o.material).forEach(m=>{if(m.envMapIntensity!==undefined&&m.envMapIntensity>.5)m.envMapIntensity=.5})}});this.cur=built;this.cfg=cfg;this.world.add(built.group);
+  // ظهور گل‌های تازه
+  const now=performance.now(),firstLoad=!this.known.size;let rank=0;
+  const keys=new Set();
+  built.info.heads.forEach(h=>{const k=h.userData.key;keys.add(k);if(!this.known.has(k)){h.userData.born=now+(firstLoad&&this.opt.stagger?rank*70:rank*35);rank++;h.scale.setScalar(.001)}});
+  this.known=keys;this.animating=true;
+  // فیلتر نمایش: یک‌بار bbox
+  this._measure();this._fit(false);this.dirty=true;this._tick();
+ }
+ _measure(){
+  const g=this.cur.group;const hide=[];g.traverse(o=>{if(o.userData&&o.userData.card){hide.push(o)}});
+  hide.forEach(o=>o.visible=false);
+  this.bbox=new T.Box3().setFromObject(g);hide.forEach(o=>o.visible=true);
+  const b=this.bbox;this.ground.position.y=b.min.y-.02;
+ }
+ _fit(snap){
+  const b=this.bbox;if(!b)return;const sz=b.getSize(V(0,0,0)),ct=b.getCenter(V(0,0,0)),i=this.cur.info;
+  const fov=this.cam.fov*PI/180,asp=this.cam.aspect;
+  const needH=sz.y*1.0,needW=Math.max(sz.x,sz.z)*1.12;
+  const d=Math.max(needH/(2*Math.tan(fov/2)),needW/(2*Math.tan(fov/2)*asp))+Math.max(sz.z,sz.x)*.22;
+  this.base={d,c:ct,sz,i};
+  const f=this.opt.focusMode||'all';this.focus(this.focusName||f,snap);
+ }
+ focus(name,snap){
+  if(!this.base)return;this.focusName=name;const{d,c,sz,i}=this.base,r=this.rig;
+  let t=c.clone(),dist=d,yaw=null,pitch=null;
+  const heads=i.heads&&i.heads.length;
+  if(name==='flowers'){const top=i.box?i.top-.8:i.top*.82;t=V(0,top,0);dist=d*.62;pitch=.5}
+  else if(name==='ribbon'){const y=i.ribbonY!=null?i.ribbonY:c.y;t=V(0,y+.4,i.front?i.front*.4:0);dist=d*.5;yaw=0;pitch=.18}
+  else if(name==='card'){const a=i.cardAnchor||c;t=V(a.x*.7,a.y,a.z*.4);dist=d*.46;yaw=0;pitch=.12}
+  else if(name==='pack'){t=V(c.x,c.y*.85,c.z);dist=d*.9;pitch=.35}
+  else if(name==='top'){dist=d*.8;pitch=.9}
+  r.tTx=t.x;r.tTy=t.y;r.tTz=t.z;r.tDist=dist;r.tYaw=yaw;r.tPitch=pitch;
+  if(snap){r.tx=t.x;r.ty=t.y;r.tz=t.z;r.dist=dist;if(yaw!=null)r.yaw=yaw;if(pitch!=null)r.pitch=pitch}
+  this.dirty=true;this._tick();
+ }
+ _tick(){if(!this.opt.thumb)return;}
+ _loop(now){
+  this.raf=requestAnimationFrame(this._loop);
+  if(!this.vis||document.hidden||!this.cur)return;
+  const r=this.rig;let ch=false;
+  const dt=Math.min(.1,(now-(this._lt||now))/1000);this._lt=now;const lerp=(a,b,k)=>a+(b-a)*k,k=1-Math.exp(-dt*7);
+  ['Tx:tx','Ty:ty','Tz:tz','Dist:dist'].forEach(p=>{const[tk,ck]=p.split(':');const t=r['t'+tk],c=r[ck];if(Math.abs(t-c)>.002){r[ck]=lerp(c,t,k);ch=true}});
+  if(r.tYaw!=null){const d=r.tYaw-r.yaw;if(Math.abs(d)>.002){r.yaw+=d*k;ch=true}}
+  if(r.tPitch!=null){const d=r.tPitch-r.pitch;if(Math.abs(d)>.002){r.pitch+=d*k;ch=true}}
+  if(this.idle&&now-this.lastInput>2200){r.yaw+=.0035;ch=true}
+  if(this.animating){let any=false;this.cur.info.heads.forEach(h=>{const b=h.userData.born;if(b==null)return;const k2=(now-b)/750;if(k2<1){any=true;const e=k2<=0?.001:Math.max(.001,this._back(k2));h.scale.setScalar(h.userData.s*e)}else{h.scale.setScalar(h.userData.s);h.userData.born=null}});this.animating=any;ch=true}
+  if(ch||this.dirty){this._render();this.dirty=false}
+ }
+ _back(t){const c1=1.5,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)}
+ _render(){
+  const r=this.rig,c=this.cam;const cp=Math.cos(r.pitch),sp=Math.sin(r.pitch);
+  c.position.set(r.tx+r.dist*cp*Math.sin(r.yaw),r.ty+r.dist*sp,r.tz+r.dist*cp*Math.cos(r.yaw));c.lookAt(r.tx,r.ty,r.tz);
+  this.r.render(this.scene,c);
+ }
+ snapshot(size,bg){ // تصویر ثابت (برای سبد و کارت‌ها)
+  const w=this.el.clientWidth,h=this.el.clientHeight;
+  this.r.setSize(size,size,false);this.cam.aspect=1;this.cam.updateProjectionMatrix();
+  this.animating=false;this.cur.info.heads.forEach(h=>{h.scale.setScalar(h.userData.s);h.userData.born=null});
+  const sv={...this.rig};
+  this.focus('all',true);this._render();
+  const out=document.createElement('canvas');out.width=out.height=size;const x=out.getContext('2d');
+  if(bg){x.fillStyle=bg;x.fillRect(0,0,size,size)}
+  x.drawImage(this.r.domElement,0,0,size,size);
+  Object.assign(this.rig,sv);this._resize();return out.toDataURL('image/jpeg',.86);
+ }
+ snapshotFree(cfg,size){ // برای thumbs: رندر آفلاین
+  this.setConfig(cfg);
+  this.cur.info.heads.forEach(h=>{h.scale.setScalar(h.userData.s);h.userData.born=null});this.animating=false;
+  this.r.setSize(size,size,false);this.cam.aspect=1;this.cam.updateProjectionMatrix();this._measure();this._fit(true);this.rig.yaw=.35;this.rig.pitch=.28;
+  this._render();return this.r.domElement.toDataURL('image/png');
+ }
+ icon(type,hex,open,size){
+  const g=F.flowerGroup(type,hex,open,1);g.rotation.x=type==='tulip'?.35:.95;g.rotation.y=.4;
+  const keep=this.world.children.slice();keep.forEach(o=>this.world.remove(o));this.world.add(g);this.ground.visible=false;
+  const b=new T.Box3().setFromObject(g),ct=b.getCenter(V(0,0,0)),sz=b.getSize(V(0,0,0));
+  this.r.setSize(size,size,false);this.cam.aspect=1;this.cam.updateProjectionMatrix();
+  const d=Math.max(sz.x,sz.y,sz.z)*1.15/(2*Math.tan(this.cam.fov*PI/360))+sz.z*.5;
+  this.cam.position.set(ct.x,ct.y+d*.18,ct.z+d);this.cam.lookAt(ct);this.r.render(this.scene,this.cam);
+  const url=this.r.domElement.toDataURL('image/png');this.world.remove(g);keep.forEach(o=>this.world.add(o));this.ground.visible=true;return url;
+ }
+ dispose(){cancelAnimationFrame(this.raf);this.r.dispose()}
+}
+window.Viewer=Viewer;
+})();
+
+/* ============ برنامه: شعبه‌ها، ویزارد مرحله‌ای، سبد ============ */
+(function(){
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const fa=n=>Number(n).toLocaleString('fa-IR');
+const T$=n=>fa(Math.round(n))+' تومان';
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const FD=window.FD,F=window.__F3parts,{FL,ORDER,MAINS,BLOOM,PAPERS,RIBS,BOXCOL,MODELS,SIZES,CARDS,OCCASIONS,PRICES,EXTRAS}=FD;
+const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const shade=F.shadeHex;
+const clone=c=>JSON.parse(JSON.stringify(c,(k,v)=>k==='photoImg'?undefined:v));
+const MIN_F=5;
+
+/* ---------- شعبه‌ها ---------- */
+const BRANCHES=[
+ {id:'elmosanat',name:'علموص فلاور',uni:'دانشگاه علم و صنعت',c:'#2f7de0',hours:'۹ تا ۱۹',spot:'مقابل ورودی اصلی',feat:['p1','b2','p5']},
+ {id:'sharif',name:'شریف فلاور',uni:'دانشگاه صنعتی شریف',c:'#8a58e6',hours:'۹ تا ۲۰',spot:'مقابل سلف مرکزی',feat:['b1','p3','b4']},
+ {id:'poly',name:'پلی فلاور',uni:'دانشگاه صنعتی امیرکبیر (پلی‌تکنیک)',c:'#e8792c',hours:'۹ تا ۱۹',spot:'کنار میدان اصلی',feat:['p2','b3','p6']},
+ {id:'tehran',name:'تهران فلاور',uni:'دانشگاه تهران',c:'#17a574',hours:'۸:۳۰ تا ۱۹',spot:'نزدیک دروازه‌ی اصلی',feat:['p4','b5','p1']},
+ {id:'beheshti',name:'بهشتی فلاور',uni:'دانشگاه شهید بهشتی',c:'#e03a72',hours:'۹ تا ۱۸',spot:'ابتدای محوطه‌ی مرکزی',feat:['b2','p5','b1']},
+ {id:'soon',name:'شعبه‌های بعدی',uni:'به‌زودی ...',c:'#a08aa0',soon:true}
+];
+let branch=store.get('uf_branch','tehran');
+const curBranch=()=>BRANCHES.find(b=>b.id===branch)||BRANCHES[3];
+
+/* ---------- پیکربندی ---------- */
+const def=(k,o)=>Object.assign({kind:k,model:k==='box'?'round':'wrap',size:'M',occasion:'none',mainT:'rose',items:{rose:[9,0],baby:[3,0]},green:{k:'euc',n:2},paper:{c:0,style:'kraft'},boxCol:0,ribbon:{on:true,c:1,style:'satin',w:'M'},jute:false,card:{on:true,m:'kraft',text:'',photo:null},bloom:'half',stem:50,extras:[],seed:7,note:''},o||{});
+const PRESETS=[
+ Object.assign(def('bouquet',{mainT:'rose',items:{rose:[12,0],baby:[3,0]},paper:{c:7,style:'matte'},ribbon:{on:true,c:1,style:'satin',w:'M'},bloom:'open',seed:3,card:{on:true,m:'rose',text:'دوستت دارم، امروز هم مثل همیشه.',photo:null}}),{id:'p1',name:'عاشقانه',d:'۱۲ رز قرمز در کاغذ زرشکی'}),
+ Object.assign(def('bouquet',{mainT:'tulip',items:{tulip:[8,3],daisy:[4,0],gerbera:[3,2]},model:'posy',paper:{c:2,style:'tissue'},ribbon:{on:true,c:4,style:'organza',w:'M'},jute:true,seed:11,green:{k:'rus',n:2},card:{on:true,m:'water',text:'بهار با تو قشنگ‌تره.',photo:null}}),{id:'p2',name:'بهار',d:'لاله و مینا گل، گرد کوچک'}),
+ Object.assign(def('bouquet',{mainT:'rose',items:{rose:[7,2],lily:[3,1],baby:[3,0]},paper:{c:2,style:'matte'},ribbon:{on:true,c:2,style:'grosgrain',w:'M'},stem:60,seed:5,card:{on:true,m:'noir',text:'تبریک بابت این موفقیت بزرگ!',photo:null}}),{id:'p3',name:'فارغ‌التحصیلی',d:'رز و لیلیوم سفید'}),
+ Object.assign(def('bouquet',{mainT:'gerbera',items:{gerbera:[9,0],daisy:[5,0],baby:[2,0]},model:'hand',ribbon:{on:true,c:2,style:'satin',w:'M'},jute:true,seed:9,green:{k:'euc',n:3},card:{on:false,m:'kraft',text:'',photo:null}}),{id:'p4',name:'شادی',d:'ژربرای نارنجی، ساقه‌بلند'}),
+ Object.assign(def('bouquet',{mainT:'rose',items:{rose:[9,1],lily:[2,0],baby:[3,0]},paper:{c:1,style:'tissue'},ribbon:{on:true,c:2,style:'organza',w:'L'},bloom:'open',seed:14,card:{on:true,m:'water',text:'',photo:null}}),{id:'p5',name:'رویای صورتی',d:'رز و لیلیوم صورتی'}),
+ Object.assign(def('bouquet',{mainT:'rose',items:{rose:[6,5],gerbera:[5,0],lily:[2,3]},model:'arm',paper:{c:0,style:'kraft'},ribbon:{on:true,c:5,style:'grosgrain',w:'M'},jute:true,seed:21,green:{k:'rus',n:3},card:{on:true,m:'kraft',text:'',photo:null}}),{id:'p6',name:'پاییزی',d:'رنگ‌های گرم، بغلی'}),
+ Object.assign(def('box',{model:'round',mainT:'rose',items:{rose:[12,0],baby:[2,0]},boxCol:2,ribbon:{on:true,c:1,style:'satin',w:'M'},bloom:'open',seed:4,card:{on:true,m:'noir',text:'',photo:null},green:{k:'euc',n:2}}),{id:'b1',name:'باکس رز سرخ',d:'باکس گرد مشکی'}),
+ Object.assign(def('box',{model:'heart',mainT:'rose',items:{rose:[10,1],baby:[3,0]},boxCol:0,ribbon:{on:true,c:2,style:'satin',w:'M'},seed:8,card:{on:true,m:'rose',text:'',photo:null},green:{k:'euc',n:0}}),{id:'b2',name:'باکس قلب',d:'باکس قلبی صورتی'}),
+ Object.assign(def('box',{model:'square',size:'S',mainT:'rose',items:{rose:[5,2],daisy:[3,0]},boxCol:1,ribbon:{on:false,c:2,style:'satin',w:'M'},seed:6,card:{on:false,m:'kraft',text:'',photo:null},green:{k:'euc',n:1}}),{id:'b3',name:'باکس مینیمال',d:'سفید و ساده'}),
+ Object.assign(def('box',{model:'rect',size:'L',mainT:'tulip',items:{tulip:[8,3],gerbera:[5,2],daisy:[6,1],baby:[3,0]},boxCol:5,ribbon:{on:true,c:4,style:'grosgrain',w:'M'},seed:17,jute:true,green:{k:'rus',n:2},card:{on:true,m:'water',text:'',photo:null}}),{id:'b4',name:'باکس بهاری',d:'مخلوط رنگارنگ'}),
+ Object.assign(def('box',{model:'round',mainT:'rose',items:{rose:[8,0],lily:[3,1]},boxCol:4,ribbon:{on:true,c:3,style:'satin',w:'M'},extras:['choc'],seed:2,card:{on:true,m:'kraft',text:'',photo:null}}),{id:'b5',name:'باکس هدیه ویژه',d:'همراه شکلات'})
+];
+
+/* ---------- محاسبات ---------- */
+const count=c=>ORDER.reduce((a,k)=>a+(c.items[k]?c.items[k][0]:0),0);
+const pts=c=>ORDER.reduce((a,k)=>a+(c.items[k]?c.items[k][0]*FL[k].vol:0),0)+(c.green.n||0)*.6;
+const capOf=c=>SIZES[c.kind][c.size].cap;
+const hasPaper=c=>c.kind==='bouquet'&&c.model!=='hand';
+function breakdown(c){
+ const P=PRICES,L=[];let t=0;const add=(l,v)=>{if(v>0){L.push([l,v]);t+=v}};
+ const md=MODELS[c.kind].find(m=>m[0]===c.model);
+ add(`${c.kind==='box'?'باکس':'دسته'} ${md[1]} ${SIZES[c.kind][c.size].n}`,P.base[c.model][c.size]);
+ ORDER.forEach(k=>{const it=c.items[k];if(it&&it[0]>0){const col=FL[k].cols[it[1]];add(`${fa(it[0])} ${FL[k].n} ${col[0]}`,it[0]*P.stem[k]*P.stemLen[c.stem]*col[2])}});
+ if(c.green.n>0)add(`${fa(c.green.n)} شاخه ${c.green.k==='euc'?'اکالیپتوس':'راسکوس'}`,c.green.n*P.green[c.green.k]);
+ if(hasPaper(c))add('کاغذ '+PAPERS[c.paper.c][0],P.paperStyle[c.paper.style]);
+ if(c.ribbon.on)add(`روبان ${RSTY[c.ribbon.style]} ${RIBS[c.ribbon.c][0]}`,P.ribbon[c.ribbon.style]+P.ribbonW[c.ribbon.w]);
+ if(c.jute)add('نخ کنفی',P.jute);
+ if(c.card.on)add('کارت '+CARDS.find(x=>x[0]===c.card.m)[1],P.card[c.card.m]);
+ c.extras.forEach(e=>add(EXTRAS[e][0],P.extras[e]));
+ add('چیدمان و بسته‌بندی',P.service);
+ return{lines:L,tot:t};
+}
+const price=c=>breakdown(c).tot;
+const RSTY={satin:'ساتن',organza:'ارگانزا',grosgrain:'گروگرن'};
+function hsl(h){const n=parseInt(h.slice(1),16),r=(n>>16)/255,g=(n>>8&255)/255,b=(n&255)/255,mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2;let hh=0,s=0;if(mx!==mn){const d=mx-mn;s=l>.5?d/(2-mx-mn):d/(mx+mn);hh=mx===r?(g-b)/d+(g<b?6:0):mx===g?(b-r)/d+2:(r-g)/d+4;hh*=60}return[hh,s,l]}
+function harmony(c){
+ const cs=[];ORDER.forEach(k=>{const it=c.items[k];if(it&&it[0]&&!FL[k].filler)cs.push(hsl(FL[k].cols[it[1]][1]))});
+ const ch=cs.filter(h=>h[1]>.28&&h[2]<.9);
+ if(!count(c))return{t:'—',s:0,col:'var(--mut)'};
+ if(!ch.length)return{t:'خنثی و ساده',s:82,col:'var(--ok)',tip:'ترکیب سفید و ملایم همیشه شیکه.'};
+ const fam=[...new Set(ch.map(h=>Math.round(h[0]/30)%12))];let sp=0;ch.forEach(a=>ch.forEach(b=>{const d=Math.abs(a[0]-b[0]);sp=Math.max(sp,Math.min(d,360-d))}));
+ if(fam.length===1)return{t:'تک‌رنگ',s:95,col:'var(--ok)'};
+ if(sp<=65)return{t:'مشابه',s:90,col:'var(--ok)'};
+ if(sp>=150&&fam.length<=2)return{t:'مکمل',s:84,col:'var(--ok)'};
+ if(fam.length<=3)return{t:'سه‌رنگ متعادل',s:72,col:'var(--warn)',tip:'اگه شلوغ شد یکی از رنگ‌ها رو کمتر کن.'};
+ return{t:'رنگارنگ',s:55,col:'var(--warn)',tip:'رنگ‌ها زیادن؛ برای هماهنگی بیشتر دو تا رو نگه دار.'};
+}
+function vaseLife(c){let w=0,s=0;ORDER.forEach(k=>{const it=c.items[k];if(it&&it[0]){w+=FL[k].vase*it[0];s+=it[0]}});if(!s)return 0;return Math.max(2,Math.round(w/s+(c.bloom==='bud'?2:c.bloom==='open'?-2:0)))}
+function analyze(c){
+ const n=count(c),p=pts(c),cap=capOf(c),W=[];
+ if(n<MIN_F)W.push(['e',`حداقل ${fa(MIN_F)} شاخه‌ی گل لازمه (الان ${fa(n)}).`]);
+ const fillN=ORDER.reduce((a,k)=>a+(FL[k].filler&&c.items[k]?c.items[k][0]:0),0),sh=n?fillN/n:0;
+ if(n>=8&&sh<.08&&c.green.n<1)W.push(['w','گل یا سبزینه‌ی پرکننده کمه؛ ۱۰ تا ۲۵ درصد بهتره.']);
+ if(sh>.4)W.push(['w','گل پرکننده زیاده و گل اصلی گم می‌شه.']);
+ if(n>=5&&p/cap<.5)W.push(['w','هنوز جا برای گل بیشتر داری، طرح کم‌پشت دیده می‌شه.']);
+ if(p/cap>=.97)W.push(['w','ظرفیت تقریباً پر شد.']);
+ const h=harmony(c);if(h.s&&h.s<65&&h.tip)W.push(['w',h.tip]);
+ if(c.card.on&&!c.card.text.trim())W.push(['w','کارت تبریک انتخاب شده ولی متنی ننوشتی.']);
+ if(!W.length)W.push(['g','طرح متعادل و آماده‌ست.']);
+ return W;
+}
+function desc(c){
+ const md=MODELS[c.kind].find(m=>m[0]===c.model);
+ const parts=ORDER.filter(k=>c.items[k]&&c.items[k][0]).map(k=>`${fa(c.items[k][0])} ${FL[k].n} ${FL[k].cols[c.items[k][1]][0]}`);
+ return `${c.kind==='box'?'باکس':'دسته‌گل'} ${md[1]} ${SIZES[c.kind][c.size].n} | ${parts.join('، ')}${c.green.n?` | ${fa(c.green.n)} ${c.green.k==='euc'?'اکالیپتوس':'راسکوس'}`:''} | ${c.ribbon.on?'روبان '+RIBS[c.ribbon.c][0]:'بدون روبان'}${c.jute?' + نخ کنفی':''}${c.card.on?' | کارت':''}`;
+}
+
+/* ---------- نمایشگرها ---------- */
+let HERO,STUDIO,THUMB;
+const thumbEl=document.createElement('div');
+function thumb(){return THUMB||(THUMB=new Viewer(thumbEl,{thumb:true,fov:27}))}
+const photoCache={};
+function prep(c){if(c.card&&c.card.photo){const u=c.card.photo;if(!photoCache[u]){const im=new Image();im.onload=()=>{if(S&&S.card&&S.card.photo===u)buildStudio()};im.src=u;photoCache[u]=im}c.card.photoImg=photoCache[u]}return c}
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2200)};
+
+/* ---------- وضعیت ویزارد ---------- */
+let S=def('bouquet'),step=0,hist=[],hi=-1,lastTot=0;
+const DELIV=Object.assign({branch:null,date:'',time:'۱۱ تا ۱۳',name:'',phone:'',anon:false,note:''},store.get('uf_deliv',{}));
+const STEPS=[
+ {id:'model',t:'مدل',h:'نوع و مدل محصول',p:'اول ببینیم دسته‌گل می‌خوای یا باکس گل، و چه مدلی.',f:'all'},
+ {id:'main',t:'گل اصلی',h:'گل اصلی و تعدادش',p:'ستاره‌ی طرح رو انتخاب کن؛ بقیه‌ی گل‌ها دورش می‌چینن.',f:'flowers'},
+ {id:'subs',t:'گل فرعی',h:'گل‌های فرعی و سبزینه',p:'گل‌های همراه و برگ‌های تزئینی، با مقدار دلخواه.',f:'flowers'},
+ {id:'pack',t:'بسته‌بندی',h:'کاغذ دورپیچ یا رنگ باکس',p:'رنگ و جنس بسته‌بندی روی حس کلی طرح خیلی اثر داره.',f:'pack'},
+ {id:'ribbon',t:'روبان',h:'روبان و رنگش',p:'جنس، پهنا و رنگ روبان و پاپیون.',f:'ribbon'},
+ {id:'jute',t:'نخ کنفی',h:'نخ کنفی',p:'حس دست‌ساز و طبیعی؛ مثل نخ دور روبان یا به‌جای اون.',f:'ribbon'},
+ {id:'card',t:'کارت',h:'کارت تبریک',p:'مدل کارت، متن و (اگه خواستی) عکس.',f:'card'},
+ {id:'detail',t:'جزئیات',h:'جزئیات فنی و افزودنی‌ها',p:'مرحله‌ی شکفتگی، طول ساقه، افزودنی‌ها و یادداشت برای گل‌فروش.',f:'flowers'},
+ {id:'deliver',t:'تحویل',h:'شعبه و زمان تحویل',p:'کجا و کی تحویل بگیری، و گیرنده کیه.',f:'all'},
+ {id:'final',t:'مرور',h:'مرور نهایی',p:'دسته‌گل انتخابی تو. بچرخونش، بررسی کن و به سبد اضافه کن.',f:'all'}
+];
+function commit(){const j=JSON.stringify(S,(k,v)=>k==='photoImg'?undefined:v);if(hist[hi]===j)return;hist=hist.slice(0,hi+1);hist.push(j);if(hist.length>60)hist.shift();hi=hist.length-1}
+function fixCap(){const cap=capOf(S);while(pts(S)>cap+1e-9){const k=[...ORDER].reverse().find(k=>S.items[k]&&S.items[k][0]>0&&k!==S.mainT)||S.mainT;if(S.items[k]&&S.items[k][0]>0)S.items[k][0]--;else if(S.green.n>0)S.green.n--;else break}}
+function ensureMain(){if(!S.items[S.mainT]||S.items[S.mainT][0]<1){S.items[S.mainT]=[Math.min(5,Math.max(1,Math.floor(capOf(S)/3))),S.items[S.mainT]?S.items[S.mainT][1]:0]}}
+
+/* ---------- ساخت صحنه‌ی استودیو ---------- */
+let buildT=0;
+function buildStudio(now){
+ const run=()=>{S.seed=S.seed||7;STUDIO.setConfig(prep(S));refreshInfo()};
+ if(now)run();else{clearTimeout(buildT);buildT=setTimeout(run,30)}
+}
+function refreshInfo(){
+ const W=analyze(S),B=breakdown(S),cap=capOf(S),p=pts(S);
+ $('#sPrice').textContent=T$(lastTot);tween($('#sPrice'),B.tot);
+ $('#sCap').style.width=Math.min(100,p/cap*100)+'%';
+ $('#sCapT').textContent=`${fa(Math.round(p*10)/10)} از ${fa(cap)} واحد`;
+ const el=$('#stepWarn');if(el)el.innerHTML=W.map(w=>`<div class="${w[0]}">${w[1]}</div>`).join('');
+ $('#bUndo').disabled=hi<=0;$('#bRedo').disabled=hi>=hist.length-1;
+ const fin=$('#finBox');if(fin&&step===9)renderFinal();
+}
+function tween(el,to){const from=lastTot;lastTot=to;const t0=performance.now();cancelAnimationFrame(tween.r);const st=t=>{const k=Math.min(1,(t-t0)/450),e=1-Math.pow(1-k,3);el.textContent=T$(from+(to-from)*e);if(k<1)tween.r=requestAnimationFrame(st)};tween.r=requestAnimationFrame(st)}
+function change(fn,rebuild=true){fn();fixCap();commit();renderPanel(true);if(rebuild)buildStudio();else refreshInfo()}
+
+/* ---------- تصاویر آیکن ---------- */
+const iconCache={};
+function flowerIcon(type,hex,open){const k=type+hex+open;return iconCache[k]||(iconCache[k]=thumb().icon(type,hex,open,170))}
+const modelCache={};
+function modelThumb(kind,model){
+ const k=kind+model+'|'+S.items[S.mainT][1]+S.mainT+'|'+S.paper.c+S.boxCol;if(modelCache[k])return modelCache[k];
+ const c=def(kind,{model,size:'M',mainT:S.mainT,items:{[S.mainT]:[8,S.items[S.mainT][1]],baby:[3,0]},paper:S.paper,boxCol:S.boxCol,green:{k:'euc',n:1},card:{on:false,m:'kraft',text:'',photo:null},ribbon:{on:true,c:S.ribbon.c,style:'satin',w:'M'},seed:7});
+ return modelCache[k]=thumb().snapshotFree(c,230);
+}
+const cardCache={};
+function cardThumb(m){if(cardCache[m])return cardCache[m];const c=SC.drawCard({m,text:'با بهترین آرزوها',photoImg:S.card.photoImg},384,256);return cardCache[m]=c.toDataURL('image/jpeg',.85)}
+
+/* ---------- پنل مرحله‌ها ---------- */
+const sw=(arr,cur,act,extra='')=>`<div class="sw">${arr.map((c,i)=>`<button type="button" title="${c[0]}" aria-label="${c[0]}" class="${i===cur?'on':''}" style="background:${c[1]}" data-a="${act}" data-v="${i}" ${extra}></button>`).join('')}</div>`;
+const seg=(opts,cur,act,fmt)=>`<div class="seg">${opts.map(o=>`<button type="button" class="${cur===o[0]?'on':''}" data-a="${act}" data-v="${o[0]}">${fmt?fmt(o):o[1]}</button>`).join('')}</div>`;
+function stepper(k,n,can){return `<div class="step"><button type="button" data-a="minus" data-k="${k}" ${n<=0?'disabled':''} aria-label="کم">−</button><span>${fa(n)}</span><button type="button" data-a="plus" data-k="${k}" ${!can?'disabled':''} aria-label="زیاد">+</button></div>`}
+function flowerRow(k,main){
+ const f=FL[k],it=S.items[k]||[0,Math.min(S.items[k]?S.items[k][1]:0,f.cols.length-1)],col=f.cols[it[1]||0],unit=PRICES.stem[k]*PRICES.stemLen[S.stem]*col[2];
+ const can=pts(S)+f.vol<=capOf(S)+1e-9;
+ return `<div class="frow ${main?'main':''}"><img class="ic" alt="${f.n}" src="${flowerIcon(k,col[1],BLOOM[S.bloom][1])}"><div class="nm"><b>${f.n}${f.filler?' <i>پرکننده</i>':''}</b><small>${f.desc} • ${T$(unit)} هر شاخه • ماندگاری حدود ${fa(f.vase)} روز</small>${f.cols.length>1?`<div class="sw sm" style="margin-top:8px">${f.cols.map((c,i)=>`<button type="button" title="${c[0]}${c[2]>1?' (+'+fa(Math.round((c[2]-1)*100))+'٪)':''}" aria-label="${c[0]}" class="${i===(it[1]||0)?'on':''}" style="background:${c[1]}" data-a="fc" data-k="${k}" data-v="${i}"></button>`).join('')}</div>`:''}</div>${stepper(k,it[0]||0,can)}</div>`;
+}
+function panel(){
+ const s=STEPS[step],c=S;
+ switch(s.id){
+ case 'model':return `<div class="blk"><h4>نوع</h4>${seg([['bouquet','دسته‌گل'],['box','باکس گل']],c.kind,'kind')}</div>
+  <div class="blk"><h4>مدل <small>${c.kind==='box'?'شکل باکس':'فرم دسته'}</small></h4><div class="mgrid">${MODELS[c.kind].map(m=>`<button type="button" class="mcard ${c.model===m[0]?'on':''}" data-a="model" data-v="${m[0]}"><span class="mi" data-mt="${m[0]}"></span><b>${m[1]}</b><small>${m[2]}</small></button>`).join('')}</div></div>
+  <div class="blk"><h4>اندازه <small>ظرفیت بر حسب واحد حجم گل</small></h4>${seg(Object.entries(SIZES[c.kind]).map(([k,v])=>[k,v]),c.size,'size',o=>`${o[1].n}<small>تا ${fa(o[1].cap)} واحد</small>`)}</div>
+  <div class="blk"><h4>مناسبت <small>اختیاری؛ برای پیشنهاد متن کارت</small></h4><div class="chips">${Object.entries(OCCASIONS).map(([k,v])=>`<button type="button" class="chip2 ${c.occasion===k?'on':''}" data-a="occ" data-v="${k}">${v[0]}</button>`).join('')}</div></div>`;
+ case 'main':return `<div class="blk"><h4>نوع گل اصلی</h4><div class="tgrid">${MAINS.map(k=>`<button type="button" class="tcard ${c.mainT===k?'on':''}" data-a="mainT" data-v="${k}"><img alt="" src="${flowerIcon(k,FL[k].cols[(c.items[k]||[0,0])[1]||0][1],BLOOM[c.bloom][1])}"><b>${FL[k].n}</b><small>${FL[k].desc}</small></button>`).join('')}</div></div>
+  <div class="blk"><h4>رنگ و تعداد <small>حداقل ${fa(MIN_F)} شاخه‌ی کل طرح</small></h4>${flowerRow(c.mainT,true)}</div>`;
+ case 'subs':{const subs=ORDER.filter(k=>k!==c.mainT);
+  return `<div class="blk"><h4>گل‌های فرعی <small>هرکدوم رو می‌تونی صفر بذاری</small></h4>${subs.map(k=>flowerRow(k)).join('')}</div>
+  <div class="blk"><h4>سبزینه <small>برگ تزئینی دور گل‌ها</small></h4>${seg([['none','بدون'],['euc','اکالیپتوس'],['rus','راسکوس']],c.green.n?c.green.k:'none','green')}${c.green.n?`<div class="grow"><span>تعداد شاخه</span>${stepper('green',c.green.n,c.green.n<6&&pts(c)+.6<=capOf(c))}</div>`:''}</div>`}
+ case 'pack':
+  if(c.kind==='box')return `<div class="blk"><h4>رنگ باکس</h4>${sw(BOXCOL,c.boxCol,'boxCol')}<p class="hint" style="margin-top:8px">${BOXCOL[c.boxCol][0]}</p></div>`;
+  if(c.model==='hand')return `<div class="blk"><div class="empty">این مدل کاغذ دورپیچ نداره؛ ساقه‌ها با روبان بسته می‌شن. اگه کاغذ می‌خوای، مدل رو به «دورپیچ کلاسیک» یا «گرد کوچک» تغییر بده.</div><div class="acts2"><button type="button" class="btn ghost sm" data-a="model" data-v="wrap">تغییر به دورپیچ کلاسیک</button></div></div>`;
+  return `<div class="blk"><h4>رنگ کاغذ</h4>${sw(PAPERS,c.paper.c,'paper')}<p class="hint" style="margin-top:8px">${PAPERS[c.paper.c][0]}</p></div>
+  <div class="blk"><h4>جنس کاغذ</h4>${seg([['kraft','کرافت'],['matte','مات ضخیم'],['tissue','شفاف (تیشو)']],c.paper.style,'pstyle',o=>`${o[1]}<small>${PRICES.paperStyle[o[0]]?'+'+T$(PRICES.paperStyle[o[0]]):'بدون هزینه'}</small>`)}</div>`;
+ case 'ribbon':return `<div class="blk"><h4>روبان</h4>${seg([['1','دارد'],['0','بدون روبان']],c.ribbon.on?'1':'0','rbon')}</div>`+(c.ribbon.on?`
+  <div class="blk"><h4>رنگ روبان</h4>${sw(RIBS,c.ribbon.c,'rbc')}<p class="hint" style="margin-top:8px">${RIBS[c.ribbon.c][0]}</p></div>
+  <div class="blk"><h4>جنس</h4>${seg([['satin','ساتن<small>براق و نرم</small>'],['organza','ارگانزا<small>شفاف و سبک</small>'],['grosgrain','گروگرن<small>مات و بافت‌دار</small>']],c.ribbon.style,'rbs',o=>o[1])}</div>
+  <div class="blk"><h4>پهنا</h4>${seg([['S','باریک'],['M','متوسط'],['L','پهن']],c.ribbon.w,'rbw')}</div>`:'');
+ case 'jute':return `<div class="blk"><h4>نخ کنفی</h4>${seg([['1','با نخ کنفی'],['0','بدون نخ کنفی']],c.jute?'1':'0','jute',o=>`${o[1]}${o[0]==='1'?`<small>+${T$(PRICES.jute)}</small>`:''}`)}<p class="hint" style="margin-top:12px">نخ کنفی چند دور دور محل بسته شدن می‌پیچه و با یه گره‌ی کوچک بسته می‌شه. با روبان ترکیب هم می‌شه.</p></div>`;
+ case 'card':{const occ=OCCASIONS[c.occasion][1];
+  return `<div class="blk"><h4>کارت تبریک</h4>${seg([['1','با کارت'],['0','بدون کارت']],c.card.on?'1':'0','cardon')}</div>`+(c.card.on?`
+  <div class="blk"><h4>مدل کارت</h4><div class="cgrid">${CARDS.map(m=>`<button type="button" class="ccard ${c.card.m===m[0]?'on':''}" data-a="cardm" data-v="${m[0]}"><img alt="" src="${cardThumb(m[0])}"><b>${m[1]}</b><small>${m[2]} • ${T$(PRICES.card[m[0]])}</small></button>`).join('')}</div></div>
+  ${c.card.m==='photo'?`<div class="blk"><h4>عکس کارت</h4><div class="up"><input type="file" id="photoIn" accept="image/*"><label for="photoIn" class="btn ghost sm">${c.card.photo?'تعویض عکس':'انتخاب عکس'}</label>${c.card.photo?'<button type="button" class="btn ghost sm" data-a="photoDel">حذف عکس</button>':''}</div></div>`:''}
+  <div class="blk"><h4>متن کارت <small id="cc">${fa(160-c.card.text.length)} حرف باقی‌مونده</small></h4><textarea id="cardT" maxlength="160" placeholder="متنت رو بنویس...">${c.card.text.replace(/</g,'&lt;')}</textarea>
+  ${occ.length?`<div class="chips" style="margin-top:10px">${occ.map((t,i)=>`<button type="button" class="chip2" data-a="sugg" data-v="${i}">${t}</button>`).join('')}</div>`:'<p class="hint" style="margin-top:8px">برای پیشنهاد متن، مناسبت رو توی مرحله‌ی اول انتخاب کن.</p>'}</div>`:'')}
+ case 'detail':return `<div class="blk"><h4>مرحله‌ی شکفتگی <small>روی ماندگاری اثر داره</small></h4>${seg(Object.entries(BLOOM).map(([k,v])=>[k,v[0]]),c.bloom,'bloom')}</div>
+  <div class="blk"><h4>طول ساقه <small>۴۰ ارزان‌تر، ۶۰ گران‌تر</small></h4>${seg(Object.keys(PRICES.stemLen).map(k=>[k,fa(k)+' سانتی‌متر']),String(c.stem),'stem',o=>`${o[1]}<small>×${fa(PRICES.stemLen[o[0]])}</small>`)}</div>
+  <div class="blk"><h4>افزودنی‌ها</h4>${Object.entries(EXTRAS).map(([k,v])=>`<label class="exr"><input type="checkbox" data-a="ex" data-v="${k}" ${c.extras.includes(k)?'checked':''}><span>${v[0]}${v[1]?'':' <i>بدون نمایش سه‌بعدی</i>'}</span><b>${T$(PRICES.extras[k])}</b></label>`).join('')}</div>
+  <div class="blk"><h4>یادداشت برای گل‌فروش <small>اختیاری</small></h4><textarea id="noteT" maxlength="200" placeholder="مثلاً: رنگ گل‌ها ملایم‌تر باشه">${(c.note||'').replace(/</g,'&lt;')}</textarea></div>`;
+ case 'deliver':return `<div class="blk"><h4>شعبه‌ی تحویل</h4><div class="bsel">${BRANCHES.filter(b=>!b.soon).map(b=>`<button type="button" class="${(DELIV.branch||branch)===b.id?'on':''}" style="--bc:${b.c}" data-a="dbranch" data-v="${b.id}"><b>${b.name}</b><small>${b.spot} • ${b.hours}</small></button>`).join('')}</div></div>
+  <div class="blk"><h4>زمان</h4><div class="f2"><div class="fld"><label for="dDate">تاریخ</label><input class="in" type="date" id="dDate" value="${DELIV.date||new Date(Date.now()+864e5).toISOString().slice(0,10)}" min="${new Date().toISOString().slice(0,10)}"></div><div class="fld"><label for="dTime">بازه‌ی ساعت</label><select class="in" id="dTime">${['۹ تا ۱۱','۱۱ تا ۱۳','۱۳ تا ۱۵','۱۵ تا ۱۷','۱۷ تا ۱۹'].map(t=>`<option ${DELIV.time===t?'selected':''}>${t}</option>`).join('')}</select></div></div></div>
+  <div class="blk"><h4>گیرنده و فرستنده</h4><div class="f2"><div class="fld"><label for="dName">نام گیرنده</label><input class="in" id="dName" value="${(DELIV.name||'').replace(/"/g,'')}"></div><div class="fld"><label for="dPhone">شماره‌ی تماس شما</label><input class="in" id="dPhone" inputmode="tel" placeholder="۰۹۱۲..." value="${DELIV.phone||''}"></div></div>
+  <label class="exr"><input type="checkbox" id="dAnon" ${DELIV.anon?'checked':''}><span>فرستنده ناشناس بمونه <i>گیرنده اسم شما رو نمی‌شنوه</i></span></label></div>`;
+ case 'final':return `<div id="finBox"></div>`;
+ }
+}
+function renderPanel(keepScroll){
+ const s=STEPS[step],body=$('#stepBody');
+ $('#stepHead').innerHTML=`<small>مرحله‌ی ${fa(step+1)} از ${fa(STEPS.length)}</small><h3 class="disp">${s.h}</h3><p>${s.p}</p>`;
+ const sc=keepScroll?window.scrollY:0;
+ body.innerHTML=panel();
+ $('#stepNav').innerHTML=`<button type="button" class="btn ghost" data-a="prev" ${step===0?'disabled':''}>قبلی</button>${step<STEPS.length-1?`<button type="button" class="btn" data-a="next">${STEPS[step+1].t}</button>`:`<button type="button" class="btn" data-a="addcart" ${analyze(S).some(w=>w[0]==='e')?'disabled':''}>افزودن به سبد خرید</button>`}`;
+ $$('#stepper li').forEach((li,i)=>{li.classList.toggle('on',i===step);li.classList.toggle('done',i<step)});
+ STUDIO.idle=(s.id==='final'&&!REDUCE)?1:0;
+ // تصاویر مدل‌ها را تنبل بساز
+ if(s.id==='model'){$$('.mi[data-mt]').forEach((el,i)=>setTimeout(()=>{if(el.isConnected&&!el.firstChild){const im=new Image();im.alt='';im.src=modelThumb(S.kind,el.dataset.mt);el.appendChild(im)}},i*60))}
+ if(s.id==='final')renderFinal();
+ if(keepScroll)window.scrollTo(0,sc);
+ refreshInfo();
+}
+function renderFinal(){
+ const B=breakdown(S),W=analyze(S),h=harmony(S),vl=vaseLife(S),md=MODELS[S.kind].find(m=>m[0]===S.model);
+ const rows=[['مدل',`${S.kind==='box'?'باکس':'دسته‌گل'} ${md[1]} ${SIZES[S.kind][S.size].n}`,0],['گل‌ها',ORDER.filter(k=>S.items[k]&&S.items[k][0]).map(k=>`${fa(S.items[k][0])} ${FL[k].n} ${FL[k].cols[S.items[k][1]][0]}`).join('، ')+(S.green.n?`، ${fa(S.green.n)} ${S.green.k==='euc'?'اکالیپتوس':'راسکوس'}`:''),1],
+  [S.kind==='box'?'باکس':'کاغذ',S.kind==='box'?BOXCOL[S.boxCol][0]:(hasPaper(S)?PAPERS[S.paper.c][0]+' / '+({kraft:'کرافت',matte:'مات',tissue:'شفاف'})[S.paper.style]:'بدون کاغذ'),3],
+  ['روبان',S.ribbon.on?`${RSTY[S.ribbon.style]} ${RIBS[S.ribbon.c][0]}، پهنای ${({S:'باریک',M:'متوسط',L:'پهن'})[S.ribbon.w]}`:'ندارد',4],['نخ کنفی',S.jute?'دارد':'ندارد',5],['کارت',S.card.on?CARDS.find(x=>x[0]===S.card.m)[1]+(S.card.text?`: «${S.card.text.slice(0,60)}»`:''):'ندارد',6],
+  ['جزئیات',`${BLOOM[S.bloom][0]} • ساقه ${fa(S.stem)} سم${S.extras.length?' • '+S.extras.map(e=>EXTRAS[e][0]).join('، '):''}`,7],['تحویل',`${BRANCHES.find(b=>b.id===(DELIV.branch||branch)).name} • ${DELIV.date||'فردا'} • ${DELIV.time}`,8]];
+ $('#finBox').innerHTML=`<div class="fin"><dl class="fsum">${rows.map(r=>`<div><dt>${r[0]}</dt><dd>${r[1]}${r[2]?`<button type="button" class="lnk" data-a="goto" data-v="${r[2]}">ویرایش</button>`:''}</dd></div>`).join('')}</dl>
+ <div class="specs"><div><small>تعداد شاخه</small><b>${fa(count(S))}</b></div><div><small>ماندگاری تقریبی</small><b>${vl?fa(vl)+' روز':'—'}</b></div><div><small>هماهنگی رنگ</small><b class="hb"><i style="background:${h.col}"></i>${h.t}${h.s?' • '+fa(h.s):''}</b></div></div>
+ <div class="warns">${W.map(w=>`<div class="${w[0]}">${w[1]}</div>`).join('')}</div>
+ <table class="bd2">${B.lines.map(l=>`<tr><td>${l[0]}</td><td>${T$(l[1])}</td></tr>`).join('')}<tr class="t"><td>جمع کل</td><td>${T$(B.tot)}</td></tr></table>
+ <div class="acts"><button type="button" class="btn ghost sm" data-a="save">ذخیره‌ی طرح</button><button type="button" class="btn ghost sm" data-a="copy">کپی کد طرح</button><button type="button" class="btn ghost sm" data-a="import">بارگذاری کد</button></div><textarea id="codeT" placeholder="کد طرح رو اینجا بچسبون" style="direction:ltr;font-size:.74rem;min-height:46px;margin-top:8px"></textarea><div class="saved" id="saved"></div></div>`;
+ renderSaved();
+}
+function renderSaved(){const el=$('#saved');if(!el)return;const L=store.get('uf_designs3',[]);el.innerHTML=L.map((d,i)=>`<div><span>${d.name}</span><button type="button" class="btn ghost sm" data-a="loadd" data-v="${i}">باز کن</button><button type="button" class="x" data-a="deld" data-v="${i}" aria-label="حذف">✕</button></div>`).join('')}
+
+/* ---------- رویدادها ---------- */
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-a]');if(!t)return;const a=t.dataset.a,v=t.dataset.v,k=t.dataset.k;
+ switch(a){
+ case 'next':step=Math.min(STEPS.length-1,step+1);goStep();return;
+ case 'prev':step=Math.max(0,step-1);goStep();return;
+ case 'goto':step=+v;goStep();return;
+ case 'kind':if(S.kind===v)return;change(()=>{const o=S;S=def(v);S.items=o.items;S.mainT=o.mainT;S.bloom=o.bloom;S.stem=o.stem;S.seed=o.seed;S.extras=o.extras;S.occasion=o.occasion;S.card=o.card;S.green=o.green;S.ribbon=o.ribbon;S.jute=o.jute;S.paper=o.paper;S.boxCol=o.boxCol;S.note=o.note});return;
+ case 'model':if(S.model===v)return;change(()=>{S.model=v});return;
+ case 'size':change(()=>{S.size=v});return;
+ case 'occ':change(()=>{S.occasion=v},false);return;
+ case 'mainT':change(()=>{const o=S.items[S.mainT]||[5,0],n=o[0];if(S.mainT!==v){delete S.items[S.mainT];const ex=S.items[v];S.mainT=v;S.items[v]=ex?[Math.max(ex[0],n),Math.min(ex[1],FL[v].cols.length-1)]:[n,Math.min(o[1],FL[v].cols.length-1)]}});return;
+ case 'fc':change(()=>{S.items[k]=S.items[k]||[0,0];S.items[k][1]=+v;if(!S.items[k][0]&&pts(S)+FL[k].vol<=capOf(S))S.items[k][0]=1});return;
+ case 'plus':if(k==='green'){change(()=>{S.green.n++});return}if(pts(S)+FL[k].vol>capOf(S)+1e-9)return;change(()=>{S.items[k]=S.items[k]||[0,0];S.items[k][0]++});return;
+ case 'minus':if(k==='green'){change(()=>{S.green.n--});return}change(()=>{S.items[k][0]--;if(k===S.mainT&&S.items[k][0]<1)S.items[k][0]=1});return;
+ case 'green':change(()=>{if(v==='none')S.green.n=0;else{S.green.k=v;if(!S.green.n)S.green.n=2}});return;
+ case 'paper':change(()=>{S.paper.c=+v});return;
+ case 'pstyle':change(()=>{S.paper.style=v});return;
+ case 'boxCol':change(()=>{S.boxCol=+v});return;
+ case 'rbon':change(()=>{S.ribbon.on=v==='1'});return;
+ case 'rbc':change(()=>{S.ribbon.c=+v});return;
+ case 'rbs':change(()=>{S.ribbon.style=v});return;
+ case 'rbw':change(()=>{S.ribbon.w=v});return;
+ case 'jute':change(()=>{S.jute=v==='1'});return;
+ case 'cardon':change(()=>{S.card.on=v==='1'});return;
+ case 'cardm':change(()=>{S.card.m=v});return;
+ case 'photoDel':change(()=>{S.card.photo=null;S.card.photoImg=null});return;
+ case 'sugg':change(()=>{S.card.text=OCCASIONS[S.occasion][1][+v]});return;
+ case 'bloom':change(()=>{S.bloom=v;Object.keys(iconCache).forEach(x=>delete iconCache[x])});return;
+ case 'stem':change(()=>{S.stem=+v});return;
+ case 'ex':change(()=>{const i=S.extras.indexOf(v);i<0?S.extras.push(v):S.extras.splice(i,1)});return;
+ case 'dbranch':DELIV.branch=v;store.set('uf_deliv',DELIV);renderPanel(true);return;
+ case 'addcart':addToCart(S,S.kind==='box'?'باکس گل سفارشی':'دسته‌گل سفارشی');return;
+ case 'undo':if(hi>0){hi--;S=JSON.parse(hist[hi]);renderPanel(true);buildStudio(true)}return;
+ case 'redo':if(hi<hist.length-1){hi++;S=JSON.parse(hist[hi]);renderPanel(true);buildStudio(true)}return;
+ case 'shuffle':change(()=>{S.seed=Math.floor(Math.random()*9000)+1});return;
+ case 'overview':STUDIO.focus('all');return;
+ case 'save':{const L=store.get('uf_designs3',[]);const sn=clone(S);L.unshift({name:`طرح ${fa(L.length+1)} • ${T$(price(S))}`,cfg:sn});try{store.set('uf_designs3',L.slice(0,5))}catch(x){}renderSaved();toast('طرح ذخیره شد');return}
+ case 'loadd':{const d=store.get('uf_designs3',[])[+v];if(d){S=Object.assign(def(d.cfg.kind),d.cfg);commit();renderPanel(true);buildStudio(true);toast('طرح بارگذاری شد')}return}
+ case 'deld':{const L=store.get('uf_designs3',[]);L.splice(+v,1);store.set('uf_designs3',L);renderSaved();return}
+ case 'copy':{const code=btoa(unescape(encodeURIComponent(JSON.stringify(clone(S)))));const ta=$('#codeT');ta.value=code;ta.select();try{navigator.clipboard.writeText(code).then(()=>toast('کد کپی شد'),()=>toast('کد انتخاب شد، دستی کپی کن'))}catch(x){toast('کد انتخاب شد، دستی کپی کن')}return}
+ case 'import':try{const o=JSON.parse(decodeURIComponent(escape(atob($('#codeT').value.trim()))));if(!o.items||!o.kind)throw 0;S=Object.assign(def(o.kind),o);fixCap();commit();renderPanel(true);buildStudio(true);toast('طرح بارگذاری شد')}catch(x){toast('کد معتبر نیست')}return;
+ }
+});
+function goStep(){renderPanel();STUDIO.focus(STEPS[step].f);const el=$('#studio');if(el){const r=el.getBoundingClientRect();if(r.top<-200)el.scrollIntoView({behavior:REDUCE?'auto':'smooth',block:'start'})}}
+$('#stepper').addEventListener('click',e=>{const li=e.target.closest('li');if(!li)return;step=+li.dataset.i;goStep()});
+let tdeb;
+document.addEventListener('input',e=>{
+ const t=e.target;
+ if(t.id==='cardT'){S.card.text=t.value;$('#cc').textContent=fa(160-t.value.length)+' حرف باقی‌مونده';clearTimeout(tdeb);tdeb=setTimeout(()=>{commit();buildStudio(true)},280)}
+ else if(t.id==='noteT'){S.note=t.value}
+ else if(t.id==='dName'){DELIV.name=t.value;store.set('uf_deliv',DELIV)}
+ else if(t.id==='dPhone'){DELIV.phone=t.value;store.set('uf_deliv',DELIV)}
+});
+document.addEventListener('change',e=>{
+ const t=e.target;
+ if(t.id==='dDate'){DELIV.date=t.value;store.set('uf_deliv',DELIV)}
+ else if(t.id==='dTime'){DELIV.time=t.value;store.set('uf_deliv',DELIV)}
+ else if(t.id==='dAnon'){DELIV.anon=t.checked;store.set('uf_deliv',DELIV)}
+ else if(t.id==='photoIn'&&t.files&&t.files[0]){
+  const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,640/Math.max(im.width,im.height)),c=F.mkC(Math.round(im.width*k),Math.round(im.height*k));c.getContext('2d').drawImage(im,0,0,c.width,c.height);const u=c.toDataURL('image/jpeg',.82);change(()=>{S.card.photo=u});};im.src=fr.result};fr.readAsDataURL(t.files[0]);
+ }
+});
+$('#bUndo').onclick=()=>{if(hi>0){hi--;S=JSON.parse(hist[hi]);renderPanel(true);buildStudio(true)}};
+$('#bRedo').onclick=()=>{if(hi<hist.length-1){hi++;S=JSON.parse(hist[hi]);renderPanel(true);buildStudio(true)}};
+$('#bShuf').onclick=()=>change(()=>{S.seed=Math.floor(Math.random()*9000)+1});
+$('#bOver').onclick=()=>STUDIO.focus('all');
+
+/* ---------- شعبه‌ها ---------- */
+function renderBranches(){
+ $('#hdrBranch').innerHTML=BRANCHES.filter(b=>!b.soon).map(b=>`<option value="${b.id}" ${b.id===branch?'selected':''}>${b.name}</option>`).join('');
+ $('#branchGrid').innerHTML=BRANCHES.map(b=>`<button class="brow ${b.id===branch?'on':''}" style="--bc:${b.c}" data-b="${b.id}" ${b.soon?'disabled':''}><span class="bm"></span><span class="bn">${b.name}</span><span class="bu">${b.uni}</span><span class="bh">${b.soon?'':b.hours}</span></button>`).join('');
+ const b=curBranch(),rs=document.documentElement.style;
+ rs.setProperty('--accent',b.c);rs.setProperty('--accent-d',shade(b.c,-.22));rs.setProperty('--soft',b.c+'1c');
+ const nf=PRESETS.filter(p=>b.feat.includes(p.id)).length;
+ $('#binfo').innerHTML=`<small>شعبه‌ی انتخاب‌شده</small><h3 class="disp">${b.name}</h3><p>${b.uni}</p><dl><div><dt>ساعت کاری</dt><dd>${b.hours}</dd></div><div><dt>محل تحویل</dt><dd>${b.spot}</dd></div><div><dt>طرح ویژه</dt><dd>${fa(nf)} طرح</dd></div></dl>`;
+ $('#shopSub').textContent=`طرح‌های ویژه‌ی ${b.name} اول لیست و با برچسب مشخص شده‌اند.`;
+ $('#ftBranches').textContent=BRANCHES.filter(x=>!x.soon).map(x=>x.name).join(' • ');
+ store.set('uf_branch',branch);
+}
+function setBranch(id){branch=id;if(!DELIV.branch||true){DELIV.branch=id;store.set('uf_deliv',DELIV)}renderBranches();renderGrid();if(STEPS[step].id==='deliver')renderPanel(true)}
+document.addEventListener('click',e=>{const c=e.target.closest('[data-b]');if(c&&!c.disabled)setBranch(c.dataset.b)});
+$('#hdrBranch').onchange=e=>setBranch(e.target.value);
+
+/* ---------- کاتالوگ ---------- */
+let kind='all',sort='pop';const pThumb={};
+function tint(p){let best=null,bn=0;ORDER.forEach(k=>{const it=p.items[k];if(it&&it[0]>bn&&!FL[k].filler){bn=it[0];best=FL[k].cols[it[1]][1]}});return best||'#e8789a'}
+function renderGrid(){
+ const b=curBranch();let L=PRESETS.filter(p=>kind==='all'||p.kind===kind).map(p=>({p,pr:price(p),f:b.feat.indexOf(p.id)}));
+ if(sort==='asc')L.sort((a,b)=>a.pr-b.pr);else if(sort==='desc')L.sort((a,b)=>b.pr-a.pr);else L.sort((a,b)=>(b.f>=0)-(a.f>=0)||(a.f-b.f));
+ $('#grid').innerHTML=L.map(({p,pr,f},i)=>`<article class="pc" style="--i:${i%4}"><div class="tile" style="--t:${tint(p)}">${f>=0?`<span class="ftag">ویژه‌ی ${b.name}</span>`:''}<div class="ph" data-pid="${p.id}">${pThumb[p.id]?`<img alt="${p.name}" src="${pThumb[p.id]}">`:''}</div><button class="quick" data-add="${p.id}">افزودن به سبد</button></div><div class="pi"><h3>${p.name}</h3><span class="pp">${T$(pr)}</span></div><p class="pm">${p.kind==='box'?'باکس':'دسته‌گل'} • ${p.d} • ${fa(count(p))} گل</p><button class="lnk" data-cust="${p.id}">شخصی‌سازی این طرح</button></article>`).join('');
+ reveal($('#grid'));queueThumbs();
+}
+let thumbBusy=false;
+function queueThumbs(){
+ if(thumbBusy)return;const el=[...$$('.ph[data-pid]')].find(e=>!e.firstChild&&!pThumb[e.dataset.pid]);if(!el)return;thumbBusy=true;
+ setTimeout(()=>{const p=PRESETS.find(x=>x.id===el.dataset.pid);try{pThumb[p.id]=thumb().snapshotFree(prep(clone(p)),420)}catch(x){pThumb[p.id]='';}
+  $$(`.ph[data-pid="${p.id}"]`).forEach(h=>{if(pThumb[p.id]){const im=new Image();im.alt=p.name;im.src=pThumb[p.id];h.appendChild(im);requestAnimationFrame(()=>im.classList.add('in'))}});
+  thumbBusy=false;queueThumbs()},40);
+}
+$$('.chip').forEach(c=>c.onclick=()=>{kind=c.dataset.k;$$('.chip').forEach(x=>x.classList.toggle('on',x===c));renderGrid()});
+$('#sort').onchange=e=>{sort=e.target.value;renderGrid()};
+document.addEventListener('click',e=>{
+ const a=e.target.closest('[data-add]');if(a){const p=PRESETS.find(x=>x.id===a.dataset.add);addToCart(clone(p),p.name)}
+ const c=e.target.closest('[data-cust]');if(c){const p=PRESETS.find(x=>x.id===c.dataset.cust);S=Object.assign(def(p.kind),clone(p));delete S.id;delete S.name;delete S.d;hist=[];hi=-1;commit();step=1;renderPanel();buildStudio(true);STUDIO.focus('flowers');$('#studio').scrollIntoView({behavior:REDUCE?'auto':'smooth'});toast('طرح رو توی مرحله‌ها تغییر بده')}
+});
+
+/* ---------- سبد ---------- */
+let cart=store.get('uf_cart3',[]),stage='cart',lastOrder=null;
+function addToCart(cfg,name){
+ let img='';try{img=thumb().snapshotFree(prep(clone(cfg)),260)}catch(x){}
+ cart.push({uid:Date.now()+Math.random(),name,cfg:clone(cfg),qty:1,img});saveCart();toast('به سبد خرید اضافه شد');
+}
+function saveCart(){store.set('uf_cart3',cart);renderCart()}
+const total=()=>cart.reduce((a,i)=>a+price(i.cfg)*i.qty,0);
+function renderCart(){
+ $('#cartN').textContent=fa(cart.reduce((a,i)=>a+i.qty,0));
+ const body=$('#cartBody'),foot=$('#cartFoot');
+ if(stage==='done'){body.innerHTML=`<div class="ok"><h3 class="disp" style="font-size:2rem">سفارشت ثبت شد</h3><p>کد پیگیری: <b>${lastOrder.code}</b></p><p class="hint">${lastOrder.branch} • ${lastOrder.when}<br>مبلغ: ${T$(lastOrder.sum)}</p><p class="hint" style="margin-top:12px">این نسخه‌ی نمایشیه و پرداخت و ارسال واقعی نداره.</p></div>`;foot.innerHTML=`<button class="btn" style="width:100%" id="closeDone">بستن</button>`;return}
+ if(!cart.length){body.innerHTML=`<div class="ok"><p>سبد خریدت خالیه</p></div>`;foot.innerHTML='';return}
+ if(stage==='cart'){
+  body.innerHTML=cart.map(i=>`<div class="ci"><img alt="" src="${i.img||''}"><div class="t"><b>${i.name}</b><small>${desc(i.cfg)}</small>${i.cfg.card.on&&i.cfg.card.text?`<small>کارت: ${i.cfg.card.text.replace(/</g,'&lt;')}</small>`:''}<div class="step" style="margin-top:6px"><button type="button" data-q="-1" data-u="${i.uid}" aria-label="کم">−</button><span>${fa(i.qty)}</span><button type="button" data-q="1" data-u="${i.uid}" aria-label="زیاد">+</button><span style="flex:1"></span><b>${T$(price(i.cfg)*i.qty)}</b></div><button class="x" data-del="${i.uid}">حذف</button></div></div>`).join('');
+  foot.innerHTML=`<div style="display:flex;justify-content:space-between;font-weight:700;margin-bottom:10px"><span>جمع کل</span><span>${T$(total())}</span></div><button class="btn" style="width:100%" id="toCheckout">ادامه و ثبت سفارش</button>`;
+ }else{
+  const bid=DELIV.branch||branch,b=BRANCHES.find(x=>x.id===bid)||curBranch(),d=DELIV.date||new Date(Date.now()+864e5).toISOString().slice(0,10);
+  body.innerHTML=`<div class="fld"><label for="ckBranch">شعبه‌ی تحویل</label><select class="in" id="ckBranch">${BRANCHES.filter(x=>!x.soon).map(x=>`<option value="${x.id}" ${x.id===bid?'selected':''}>${x.name} | ${x.uni}</option>`).join('')}</select><small class="hint" id="ckSpot">${b.spot} • ${b.hours}</small></div><div class="f2"><div class="fld"><label for="ckDate">تاریخ</label><input class="in" type="date" id="ckDate" value="${d}" min="${new Date().toISOString().slice(0,10)}"></div><div class="fld"><label for="ckTime">ساعت</label><select class="in" id="ckTime">${['۹ تا ۱۱','۱۱ تا ۱۳','۱۳ تا ۱۵','۱۵ تا ۱۷','۱۷ تا ۱۹'].map(t=>`<option ${DELIV.time===t?'selected':''}>${t}</option>`).join('')}</select></div></div><div class="fld"><label for="ckName">نام گیرنده</label><input class="in" id="ckName" value="${(DELIV.name||'').replace(/"/g,'')}"></div><div class="fld"><label for="ckPhone">شماره‌ی تماس شما</label><input class="in" id="ckPhone" inputmode="tel" placeholder="۰۹۱۲..." value="${DELIV.phone||''}"></div><div class="fld"><label for="ckNote">توضیحات (اختیاری)</label><textarea id="ckNote"></textarea></div>`;
+  foot.innerHTML=`<div style="display:flex;justify-content:space-between;font-weight:700;margin-bottom:10px"><span>مبلغ قابل پرداخت</span><span>${T$(total())}</span></div><div class="f2"><button class="btn ghost" id="backCart">بازگشت</button><button class="btn" id="placeOrder">ثبت سفارش</button></div>`;
+ }
+}
+document.addEventListener('click',e=>{
+ const t=e.target;
+ if(t.closest('#openCart')){stage='cart';renderCart();openCart(true)}
+ else if(t.closest('#closeCart')||t.id==='ov'||t.id==='closeDone'){if(stage==='done')stage='cart';openCart(false);renderCart()}
+ else if(t.dataset.q){const i=cart.find(x=>x.uid==t.dataset.u);i.qty+=+t.dataset.q;if(i.qty<1)cart=cart.filter(x=>x!==i);saveCart()}
+ else if(t.dataset.del){cart=cart.filter(x=>x.uid!=t.dataset.del);saveCart()}
+ else if(t.id==='toCheckout'){stage='checkout';renderCart()}
+ else if(t.id==='backCart'){stage='cart';renderCart()}
+ else if(t.id==='placeOrder'){
+  const nm=$('#ckName').value.trim(),ph=$('#ckPhone').value.trim().replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+  if(!nm||ph.replace(/\D/g,'').length<10){toast('نام گیرنده و شماره‌ی تماس رو کامل کن');return}
+  const b=BRANCHES.find(x=>x.id===$('#ckBranch').value);
+  lastOrder={code:'UF-'+Math.random().toString(36).slice(2,7).toUpperCase(),branch:b.name,when:`${$('#ckDate').value} • ${$('#ckTime').value}`,sum:total()};
+  cart=[];store.set('uf_cart3',cart);stage='done';renderCart();
+ }
+});
+document.addEventListener('change',e=>{if(e.target.id==='ckBranch'){const b=BRANCHES.find(x=>x.id===e.target.value);$('#ckSpot').textContent=b.spot+' • '+b.hours}});
+function openCart(on){$('#drawer').classList.toggle('on',on);$('#ov').classList.toggle('on',on)}
+
+/* ---------- ورود ---------- */
+function reveal(root){
+ if(!('IntersectionObserver' in window)||REDUCE)return;
+ const els=[...(root||document).querySelectorAll('[data-rv],.pc')].filter(e=>e.getBoundingClientRect().top>innerHeight*.95);
+ const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.remove('pre');io.unobserve(x.target)}}),{threshold:.08});
+ els.forEach(e=>{e.classList.add('pre');io.observe(e)});setTimeout(()=>els.forEach(e=>e.classList.remove('pre')),4000);
+}
+function onScroll(){const s=scrollY>30;$('header').classList.toggle('solid',s);document.body.classList.toggle('solid',s)}
+addEventListener('scroll',onScroll,{passive:true});
+$('#logo').innerHTML=`<span class="lg"></span><span>یونی‌فلاور</span>`;
+$('#ticker').innerHTML=[0,1].map(()=>BRANCHES.filter(b=>!b.soon).map(b=>`<span>${b.name}</span><i></i>`).join('')).join('');
+function start(){
+ HERO=new Viewer($('#heroArt'),{auto:!REDUCE,stagger:true,yaw:.35,pitch:.22,fov:26,focusMode:'all'});
+ HERO.setConfig(prep(def('bouquet',{mainT:'rose',items:{rose:[9,1],lily:[3,1],gerbera:[3,0],daisy:[4,0],baby:[4,0]},paper:{c:2,style:'matte'},ribbon:{on:true,c:1,style:'organza',w:'L'},jute:false,green:{k:'euc',n:3},card:{on:false,m:'kraft',text:'',photo:null},bloom:'open',seed:12,size:'L'})));
+ STUDIO=new Viewer($('#stage'),{stagger:false,yaw:.22,pitch:.28,fov:27});
+ commit();renderBranches();renderGrid();renderStepper();renderPanel();buildStudio(true);renderCart();onScroll();reveal(document.querySelector('main'));
+}
+function renderStepper(){$('#stepper').innerHTML=STEPS.map((s,i)=>`<li data-i="${i}" tabindex="0" role="button"><i>${fa(i+1)}</i><span>${s.t}</span></li>`).join('');$('#stepper').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const li=e.target.closest('li');if(li){e.preventDefault();step=+li.dataset.i;goStep()}}})}
+const go=()=>{(document.fonts&&document.fonts.load?document.fonts.load('500 30px Vazirmatn').catch(()=>0):Promise.resolve()).then(start,start)};
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
+window.__app={get S(){return S},set S(v){S=v},buildStudio,STEPS,goStep:i=>{step=i;goStep()},get STUDIO(){return STUDIO},get HERO(){return HERO},get thumb(){return thumb()},def,PRESETS,addToCart,get cart(){return cart}};
+})();
+
+</script>
