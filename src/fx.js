@@ -168,7 +168,7 @@ U.poster=function(){
   y=wrap(flw.join('، '),y+44,900);
   x.font=`700 54px ${D}`;x.fillStyle=acc;x.fillText(a.T$(a.breakdown(S).tot),Wp/2,Math.min(Hp-70,y+96));
   const out=c.toDataURL('image/png');
-  const ov=document.createElement('div');ov.className='pmodal';ov.innerHTML=`<div class="pbox"><img alt="پوستر طرح" src="${out}"><div class="pact"><a class="btn" href="${out}" download="uniflower-design.png">دانلود تصویر</a><button type="button" class="btn ghost" data-x>بستن</button></div><small>اگه دانلود کار نکرد، روی تصویر نگه دار (یا راست‌کلیک) و ذخیره کن.</small></div>`;
+  const ov=document.createElement('div');ov.className='pmodal';ov.innerHTML=`<div class="pbox"><img alt="پوستر طرح" src="${out}"><div class="pact"><button type="button" class="btn ghost" data-x>بستن</button></div><small>روی تصویر نگه دار (یا راست‌کلیک کن) و ذخیره‌ش کن.</small></div>`;
   document.body.appendChild(ov);requestAnimationFrame(()=>ov.classList.add('on'));
   const close=()=>{ov.classList.remove('on');setTimeout(()=>ov.remove(),400)};
   ov.addEventListener('click',e=>{if(e.target===ov||e.target.closest('[data-x]'))close()});
