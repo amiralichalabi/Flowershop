@@ -225,6 +225,36 @@ header nav a{font-weight:300;font-size:.92rem}
 .okpg{text-align:center;padding:60px 0;display:flex;flex-direction:column;gap:14px;align-items:center}.okpg .code{font-size:2rem;letter-spacing:.2em;font-weight:200;direction:ltr}
 .tl{display:flex;gap:26px;list-style:none;padding:0;margin:10px 0;font-size:.84rem;color:var(--mut);flex-wrap:wrap;justify-content:center}.tl li::before{content:"";display:inline-block;width:8px;height:8px;border:1px solid currentColor;border-radius:50%;margin-inline-end:8px}.tl li.on{color:var(--accent)}.tl li.on::before{background:var(--accent)}
 '''
+NEW_CSS+=r'''
+.brq{display:flex;gap:18px;align-items:end;margin-top:40px;padding-top:22px;border-top:1px solid var(--line);flex-wrap:wrap}.brq div{flex:1;min-width:200px}.brq b{display:block}.brq small{color:var(--mut)}.brq .in{flex:1;min-width:180px}
+#menuBtn{display:none;color:inherit;padding:0 6px}
+.back,.btn,.views button,.ac,.tcard,.mcard,#userBtn{-webkit-tap-highlight-color:transparent}
+button,a,.btn{touch-action:manipulation}
+@media(max-width:760px){
+ .bar{gap:6px!important;height:60px!important}
+ #menuBtn{display:block}
+ header nav{display:none;position:absolute;inset-inline:0;top:100%;background:var(--bg);color:var(--ink);flex-direction:column;padding:8px 20px 16px;border-bottom:1px solid var(--line);box-shadow:0 16px 30px #0001}
+ header nav.open{display:flex;animation:mdIn .25s ease}
+ header nav a{padding:14px 0;border-bottom:1px solid var(--line);font-size:1rem}
+ .branchsel{max-width:120px;font-size:.8rem}
+ .ubtn span{display:none}.ubtn{padding:0 4px}
+ .hero h1{font-size:2.5rem}.heroart{width:100%;max-width:340px;height:340px;justify-self:center}
+ .sh h2{font-size:1.7rem}
+ .views{max-width:calc(100% - 20px);inset-inline-end:10px;bottom:48px}.views button{padding:5px 8px}
+ .lights{bottom:10px}
+ .mag{grid-template-columns:1fr 1fr;gap:20px 14px}
+ .ckpage .f2{grid-template-columns:1fr}.ckpage .f2.g{grid-template-columns:1fr auto}.ckpage h2{font-size:1.9rem}
+ .md-b{padding:30px 20px 22px}.ckside{position:static}
+ .tl{gap:12px;flex-direction:column;align-items:center}
+ .stepper{overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .stepper::-webkit-scrollbar{display:none}
+ .stepper li{min-width:64px}
+}
+@media(max-width:380px){.mag{grid-template-columns:1fr}.hero h1{font-size:2.1rem}}
+@media(hover:none){.hintT{display:none}.ac:hover canvas{transform:none}}
+button:focus-visible,a:focus-visible,.ac:focus-visible,li[role=button]:focus-visible,.in:focus-visible{outline:1.5px solid var(--accent);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.md-b,header nav.open{animation:none}.ac canvas{transition:none}}
+'''
 CSS=css3+NEW_CSS
 BODY='''<div id="prog" aria-hidden="true"></div>
 <div id="splash" aria-hidden="true"><div class="in"><svg viewBox="-100 -100 200 200"><g fill="none" stroke="#ff8fb3" stroke-width="3">'''+''.join(f'<g transform="rotate({i*45})"><ellipse class="pt" style="--i:{i}" cx="0" cy="-52" rx="19" ry="40" fill="#e83e78" fill-opacity=".85" stroke="#ffd0df"/></g>' for i in range(8))+'''</g><circle class="ct" r="20" fill="#f4c26b"/></svg><div class="t"><span>یونی‌فلاور</span></div><div class="s">دسته‌گلت رو خودت بساز</div></div></div>
@@ -301,8 +331,9 @@ def build(three_src,out,extra_head=''):
     ph={os.path.basename(f)[:-5]:'data:image/webp;base64,'+base64.b64encode(open(f,'rb').read()).decode() for f in sorted(glob.glob(D+'assets/*.webp'))}
     js='window.PHOTOS='+json.dumps(ph)+';\n'+''.join(open(D+'src/'+f,encoding='utf-8').read()+'\n' for f in ['data.js','engine.js','scene.js','photo.js','pflower.js','viewer.js','app.js','fx.js','site.js'])
     html=f'''<title>یونی‌فلاور</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#17a673">
 <meta name="claude:viewport-fit-sides" content="cover">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>{CSS}</style>
 {BODY}
 <script>{three}</script>

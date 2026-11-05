@@ -182,6 +182,6 @@ function gallery(){
 }
 U.init=function(){gallery();
  lights();themeBtn();countUp();U.onBranch();
- const h=$('.hintT');if(h&&!h.dataset.k){h.dataset.k=1;h.textContent+=' • کلید ← و → : مرحله‌ی بعد و قبل'}
+ const h=$('.hintT');if(h&&!h.dataset.k&&matchMedia('(hover:hover)').matches){h.dataset.k=1;h.textContent+=' • کلید ← و → : مرحله‌ی بعد و قبل'}
 };
 })();

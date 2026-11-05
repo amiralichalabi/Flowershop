@@ -15,7 +15,7 @@ function views(){
  d.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const S=A().STUDIO;
   if(b.dataset.v){S.view(b.dataset.v);$$('.views button[data-v]',d).forEach(x=>x.classList.toggle('on',x===b))}
   else S.zoomBy(+b.dataset.z)});
- const hint=document.createElement('div');hint.className='dragHint';hint.textContent='بکش و بچرخون • دو انگشت برای زوم';s.appendChild(hint);
+ const hint=document.createElement('div');hint.className='dragHint';hint.textContent='بکش و بچرخون';s.appendChild(hint);
  setTimeout(()=>hint.classList.add('off'),6000);s.addEventListener('pointerdown',()=>hint.classList.add('off'),{once:true});
 }
 
@@ -141,7 +141,23 @@ function magazine(){
  g.addEventListener('keydown',e=>{if(e.key==='Enter'){const c=e.target.closest('.ac');if(c)open(c.dataset.a)}});
 }
 
-function init(){
+function menu(){
+ const h=$('header .bar');if(!h||$('#menuBtn'))return;
+ const b=document.createElement('button');b.id='menuBtn';b.setAttribute('aria-label','منو');b.setAttribute('aria-expanded','false');b.innerHTML='<svg viewBox="0 0 24 24" width="22" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 8h16M4 16h16"/></svg>';
+ h.appendChild(b);const nav=$('header nav');
+ const set=on=>{nav.classList.toggle('open',on);b.setAttribute('aria-expanded',on)};
+ b.onclick=()=>set(!nav.classList.contains('open'));nav.addEventListener('click',e=>{if(e.target.closest('a'))set(false)});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')set(false)});
+}
+function branchReq(){
+ const w=$('#branches .wrap');if(!w||$('#brq'))return;
+ const f=document.createElement('form');f.id='brq';f.className='brq';
+ f.innerHTML='<div><b>دانشگاهت این‌جا نیست؟</b><small>اسمش رو بنویس؛ شعبه‌های بعدی بر اساس درخواست‌ها باز می‌شن.</small></div><input class="in" id="brqI" placeholder="مثلاً دانشگاه فردوسی" aria-label="نام دانشگاه"><button class="btn" type="submit">ثبت درخواست</button>';
+ w.appendChild(f);
+ f.onsubmit=e=>{e.preventDefault();const v=$('#brqI').value.trim();if(v.length<3){toast('نام دانشگاه رو بنویس');return}
+  const r=st.get('uf_branch_req',[]);r.push({v,at:Date.now()});st.set('uf_branch_req',r);$('#brqI').value='';toast('درخواستت ثبت شد، ممنون');};
+}
+function init(){menu();branchReq();
  views();magazine();userBtn();
  $('#userBtn').onclick=()=>user?accountUI():loginUI();
  document.addEventListener('click',e=>{if(e.target.id==='toCheckout'){e.stopImmediatePropagation();e.preventDefault();checkout()}},true);

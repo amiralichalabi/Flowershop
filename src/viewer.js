@@ -7,14 +7,14 @@ class Viewer{
  constructor(el,opt={}){
   this.el=el;this.opt=opt;this.vis=true;this.dirty=true;this.t0=performance.now();
   const r=this.r=new T.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:!!opt.keep});
-  r.setPixelRatio(Math.min(window.devicePixelRatio||1,opt.thumb?1:2));
+  const small=Math.min(screen.width||999,innerWidth)<700;this.small=small;this.pr=Math.min(window.devicePixelRatio||1,opt.thumb?1:(small?1.5:2));r.setPixelRatio(this.pr);if(small&&opt.motes)opt.motes=Math.round(opt.motes*.5);
   r.outputEncoding=T.sRGBEncoding;r.toneMapping=T.ACESFilmicToneMapping;r.toneMappingExposure=.82;
   r.shadowMap.enabled=true;r.shadowMap.type=T.PCFSoftShadowMap;
   r.domElement.style.cssText='width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab';
   el.appendChild(r.domElement);
   const s=this.scene=new T.Scene();
   const hm=this.hemi=new T.HemisphereLight('#fff4ec','#a89aad',.42);s.add(hm);
-  const k=this.key=new T.DirectionalLight('#fff0dd',1.15);k.position.set(9,16,12);k.castShadow=true;k.shadow.mapSize.set(opt.thumb?1024:2048,opt.thumb?1024:2048);
+  const k=this.key=new T.DirectionalLight('#fff0dd',1.15);k.position.set(9,16,12);k.castShadow=true;k.shadow.mapSize.set(opt.thumb||small?1024:2048,opt.thumb||small?1024:2048);
   Object.assign(k.shadow.camera,{left:-20,right:20,top:22,bottom:-22,near:1,far:60});k.shadow.bias=-.0004;k.shadow.normalBias=.04;s.add(k);
   const f=this.fill=new T.DirectionalLight('#dfe6ff',.38);f.position.set(-12,6,8);s.add(f);
   const b=this.back=new T.DirectionalLight('#ffe3ee',.5);b.position.set(-4,10,-14);s.add(b);
@@ -134,7 +134,7 @@ class Viewer{
   if(!this.base)return;this.focusName=name;const{d,c,sz,i}=this.base,r=this.rig;
   let t=c.clone(),dist=d,yaw=null,pitch=null;
   const heads=i.heads&&i.heads.length;
-  if(name==='flowers'){const top=i.box?i.top-.8:i.top*.82;t=V(0,top,0);dist=d*.62;pitch=.5}
+  if(name==='flowers'){const top=i.box?i.top-.8:i.top*.82;t=V(0,top+.9,0);dist=d*.78;pitch=.5}
   else if(name==='ribbon'){const y=i.ribbonY!=null?i.ribbonY:c.y;t=V(0,y+.4,i.front?i.front*.4:0);dist=d*.5;yaw=0;pitch=.18}
   else if(name==='card'){const a=i.cardAnchor||c;t=V(a.x*.7,a.y,a.z*.4);dist=d*.46;yaw=0;pitch=.12}
   else if(name==='pack'){t=V(c.x,c.y*.85,c.z);dist=d*.9;pitch=.35}
@@ -148,7 +148,10 @@ class Viewer{
  view(name){const P={front:[0,.2],three:[.62,.32],side:[PI/2,.14],back:[PI,.22],top:[0,1.3]}[name];if(!P)return;const r=this.rig,tw=2*PI;let y=P[0];y+=tw*Math.round((r.yaw-y)/tw);r.tYaw=y;r.tPitch=P[1];this.idle=0;this.lastInput=performance.now();this.dirty=true;}
  _loop(now){
   this.raf=requestAnimationFrame(this._loop);
-  if(!this.vis||document.hidden||!this.cur)return;
+  if(!this.vis||document.hidden||!this.cur){this._lt=0;return}
+  if(this._lt){const dt=now-this._lt;this._fa=(this._fa||16)*.95+dt*.05;this._fc=(this._fc||0)+1;
+   if(this._fc>90&&this._fa>30&&this.pr>1){this.pr=Math.max(1,this.pr-.25);this.r.setPixelRatio(this.pr);this._resize();this._fc=0;this._fa=16}}
+  this._lt=now;
   const r=this.rig;let ch=false,amb=false;
   const dt=Math.min(.1,(now-(this._lt||now))/1000);this._lt=now;const lerp=(a,b,k)=>a+(b-a)*k,k=1-Math.exp(-dt*7);
   ['Tx:tx','Ty:ty','Tz:tz','Dist:dist'].forEach(p=>{const[tk,ck]=p.split(':');const t=r['t'+tk],c=r[ck];if(Math.abs(t-c)>.002){r[ck]=lerp(c,t,k);ch=true}});
