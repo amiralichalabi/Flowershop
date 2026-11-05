@@ -175,7 +175,12 @@ U.poster=function(){
  };im.src=url;
 };
 
-U.init=function(){
+function gallery(){
+ const g=$('#gal');if(!g||!window.PHOTOS)return;const names=['عاشقانه، رز قرمز','رز صورتی','رز و کاغذ زرشکی','رز قرمز و مشکی','آفتابگردان و کرافت','رز صورتی ملایم','رز قرمز، کاغذ مشکی'];
+ g.innerHTML=[0,1,2,3,4,5,6].map(i=>`<button type="button" data-g="${i}" aria-label="${names[i]}"><img alt="${names[i]}" loading="lazy" src="${window.PHOTOS['rb'+i]}"><span>${names[i]}</span></button>`).join('');
+ g.addEventListener('click',e=>{if(e.target.closest('[data-g]'))$('#studio').scrollIntoView({behavior:REDUCE?'auto':'smooth'})});
+}
+U.init=function(){gallery();
  lights();themeBtn();countUp();U.onBranch();
  const h=$('.hintT');if(h&&!h.dataset.k){h.dataset.k=1;h.textContent+=' • کلید ← و → : مرحله‌ی بعد و قبل'}
 };

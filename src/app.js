@@ -26,15 +26,15 @@ const curBranch=()=>BRANCHES.find(b=>b.id===branch)||BRANCHES[3];
 const def=(k,o)=>Object.assign({kind:k,model:k==='box'?'round':'wrap',size:'M',occasion:'none',mainT:'rose',items:{rose:[9,0],baby:[3,0]},green:{k:'euc',n:2},paper:{c:0,style:'kraft'},boxCol:0,ribbon:{on:true,c:1,style:'satin',w:'M'},jute:false,card:{on:true,m:'kraft',text:'',photo:null},bloom:'half',stem:50,extras:[],seed:7,note:''},o||{});
 const PRESETS=[
  Object.assign(def('bouquet',{mainT:'rose',items:{rose:[12,0],baby:[3,0]},paper:{c:7,style:'matte'},ribbon:{on:true,c:1,style:'satin',w:'M'},bloom:'open',seed:3,card:{on:true,m:'rose',text:'دوستت دارم، امروز هم مثل همیشه.',photo:null}}),{id:'p1',name:'عاشقانه',d:'۱۲ رز قرمز در کاغذ زرشکی'}),
- Object.assign(def('bouquet',{mainT:'tulip',items:{tulip:[8,3],daisy:[4,0],gerbera:[3,2]},model:'posy',paper:{c:2,style:'tissue'},ribbon:{on:true,c:4,style:'organza',w:'M'},jute:true,seed:11,green:{k:'rus',n:2},card:{on:true,m:'water',text:'بهار با تو قشنگ‌تره.',photo:null}}),{id:'p2',name:'بهار',d:'لاله و مینا گل، گرد کوچک'}),
+ Object.assign(def('bouquet',{mainT:'tulip',items:{tulip:[8,3],carn:[4,2],gerbera:[3,2]},model:'posy',paper:{c:2,style:'tissue'},ribbon:{on:true,c:4,style:'organza',w:'M'},jute:true,seed:11,green:{k:'rus',n:2},card:{on:true,m:'water',text:'بهار با تو قشنگ‌تره.',photo:null}}),{id:'p2',name:'بهار',d:'لاله و مینا گل، گرد کوچک'}),
  Object.assign(def('bouquet',{mainT:'rose',items:{rose:[7,2],lily:[3,1],baby:[3,0]},paper:{c:2,style:'matte'},ribbon:{on:true,c:2,style:'grosgrain',w:'M'},stem:60,seed:5,card:{on:true,m:'noir',text:'تبریک بابت این موفقیت بزرگ!',photo:null}}),{id:'p3',name:'فارغ‌التحصیلی',d:'رز و لیلیوم سفید'}),
- Object.assign(def('bouquet',{mainT:'gerbera',items:{gerbera:[9,0],daisy:[5,0],baby:[2,0]},model:'hand',ribbon:{on:true,c:2,style:'satin',w:'M'},jute:true,seed:9,green:{k:'euc',n:3},card:{on:false,m:'kraft',text:'',photo:null}}),{id:'p4',name:'شادی',d:'ژربرای نارنجی، ساقه‌بلند'}),
+ Object.assign(def('bouquet',{mainT:'gerbera',items:{gerbera:[9,0],carn:[5,2],baby:[2,0]},model:'hand',ribbon:{on:true,c:2,style:'satin',w:'M'},jute:true,seed:9,green:{k:'euc',n:3},card:{on:false,m:'kraft',text:'',photo:null}}),{id:'p4',name:'شادی',d:'ژربرای نارنجی، ساقه‌بلند'}),
  Object.assign(def('bouquet',{mainT:'rose',items:{rose:[9,1],lily:[2,0],baby:[3,0]},paper:{c:1,style:'tissue'},ribbon:{on:true,c:2,style:'organza',w:'L'},bloom:'open',seed:14,card:{on:true,m:'water',text:'',photo:null}}),{id:'p5',name:'رویای صورتی',d:'رز و لیلیوم صورتی'}),
- Object.assign(def('bouquet',{mainT:'rose',items:{rose:[6,5],gerbera:[5,0],lily:[2,3]},model:'arm',paper:{c:0,style:'kraft'},ribbon:{on:true,c:5,style:'grosgrain',w:'M'},jute:true,seed:21,green:{k:'rus',n:3},card:{on:true,m:'kraft',text:'',photo:null}}),{id:'p6',name:'پاییزی',d:'رنگ‌های گرم، بغلی'}),
+ Object.assign(def('bouquet',{mainT:'rose',items:{rose:[6,5],gerbera:[5,0],lily:[2,1]},model:'arm',paper:{c:0,style:'kraft'},ribbon:{on:true,c:5,style:'grosgrain',w:'M'},jute:true,seed:21,green:{k:'rus',n:3},card:{on:true,m:'kraft',text:'',photo:null}}),{id:'p6',name:'پاییزی',d:'رنگ‌های گرم، بغلی'}),
  Object.assign(def('box',{model:'round',mainT:'rose',items:{rose:[12,0],baby:[2,0]},boxCol:2,ribbon:{on:true,c:1,style:'satin',w:'M'},bloom:'open',seed:4,card:{on:true,m:'noir',text:'',photo:null},green:{k:'euc',n:2}}),{id:'b1',name:'باکس رز سرخ',d:'باکس گرد مشکی'}),
  Object.assign(def('box',{model:'heart',mainT:'rose',items:{rose:[10,1],baby:[3,0]},boxCol:0,ribbon:{on:true,c:2,style:'satin',w:'M'},seed:8,card:{on:true,m:'rose',text:'',photo:null},green:{k:'euc',n:0}}),{id:'b2',name:'باکس قلب',d:'باکس قلبی صورتی'}),
- Object.assign(def('box',{model:'square',size:'S',mainT:'rose',items:{rose:[5,2],daisy:[3,0]},boxCol:1,ribbon:{on:false,c:2,style:'satin',w:'M'},seed:6,card:{on:false,m:'kraft',text:'',photo:null},green:{k:'euc',n:1}}),{id:'b3',name:'باکس مینیمال',d:'سفید و ساده'}),
- Object.assign(def('box',{model:'rect',size:'L',mainT:'tulip',items:{tulip:[8,3],gerbera:[5,2],daisy:[6,1],baby:[3,0]},boxCol:5,ribbon:{on:true,c:4,style:'grosgrain',w:'M'},seed:17,jute:true,green:{k:'rus',n:2},card:{on:true,m:'water',text:'',photo:null}}),{id:'b4',name:'باکس بهاری',d:'مخلوط رنگارنگ'}),
+ Object.assign(def('box',{model:'square',size:'S',mainT:'rose',items:{rose:[5,2],carn:[3,2]},boxCol:1,ribbon:{on:false,c:2,style:'satin',w:'M'},seed:6,card:{on:false,m:'kraft',text:'',photo:null},green:{k:'euc',n:1}}),{id:'b3',name:'باکس مینیمال',d:'سفید و ساده'}),
+ Object.assign(def('box',{model:'rect',size:'L',mainT:'tulip',items:{tulip:[8,3],gerbera:[5,2],carn:[6,1],baby:[3,0]},boxCol:5,ribbon:{on:true,c:4,style:'grosgrain',w:'M'},seed:17,jute:true,green:{k:'rus',n:2},card:{on:true,m:'water',text:'',photo:null}}),{id:'b4',name:'باکس بهاری',d:'مخلوط رنگارنگ'}),
  Object.assign(def('box',{model:'round',mainT:'rose',items:{rose:[8,0],lily:[3,1]},boxCol:4,ribbon:{on:true,c:3,style:'satin',w:'M'},extras:['choc'],seed:2,card:{on:true,m:'kraft',text:'',photo:null}}),{id:'b5',name:'باکس هدیه ویژه',d:'همراه شکلات'})
 ];
 
@@ -97,7 +97,7 @@ let HERO,STUDIO,THUMB;
 const thumbEl=document.createElement('div');
 function thumb(){return THUMB||(THUMB=new Viewer(thumbEl,{thumb:true,fov:27}))}
 const photoCache={};
-function prep(c){if(c.card&&c.card.photo){const u=c.card.photo;if(!photoCache[u]){const im=new Image();im.onload=()=>{if(S&&S.card&&S.card.photo===u)buildStudio()};im.src=u;photoCache[u]=im}c.card.photoImg=photoCache[u]}return c}
+function prep(c){if(c.items){Object.keys(c.items).forEach(k=>{if(!FL[k])delete c.items[k];else if(c.items[k][1]>=FL[k].cols.length)c.items[k][1]=0})}if(c.card&&c.card.photo){const u=c.card.photo;if(!photoCache[u]){const im=new Image();im.onload=()=>{if(S&&S.card&&S.card.photo===u)buildStudio()};im.src=u;photoCache[u]=im}c.card.photoImg=photoCache[u]}return c}
 const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2200)};
 
 /* ---------- وضعیت ویزارد ---------- */
@@ -139,7 +139,7 @@ function change(fn,rebuild=true){const before=count(S);fn();fixCap();commit();re
 
 /* ---------- تصاویر آیکن ---------- */
 const iconCache={};
-function flowerIcon(type,hex,open){const k=type+hex+open;return iconCache[k]||(iconCache[k]=thumb().icon(type,hex,open,170))}
+function flowerIcon(type,hex,open){const k=type+hex;return iconCache[k]||(iconCache[k]=thumb().icon(type,hex,open,170))}
 const modelCache={};
 function modelThumb(kind,model){
  const k=kind+model+'|'+S.items[S.mainT][1]+S.mainT+'|'+S.paper.c+S.boxCol;if(modelCache[k])return modelCache[k];
@@ -255,7 +255,7 @@ function renderFinal(){
  <div class="acts"><button type="button" class="btn ghost sm" data-a="save">ذخیره‌ی طرح</button><button type="button" class="btn ghost sm" data-a="copy">کپی کد طرح</button><button type="button" class="btn ghost sm" data-a="import">بارگذاری کد</button><button type="button" class="btn ghost sm" data-a="poster">تصویر پوستر طرح</button></div><textarea id="codeT" placeholder="کد طرح رو اینجا بچسبون" style="direction:ltr;font-size:.74rem;min-height:46px;margin-top:8px"></textarea><div class="saved" id="saved"></div></div>`;
  renderSaved();
 }
-function renderSaved(){const el=$('#saved');if(!el)return;const L=store.get('uf_designs3',[]);el.innerHTML=L.map((d,i)=>`<div><span>${d.name}</span><button type="button" class="btn ghost sm" data-a="loadd" data-v="${i}">باز کن</button><button type="button" class="x" data-a="deld" data-v="${i}" aria-label="حذف">✕</button></div>`).join('')}
+function renderSaved(){const el=$('#saved');if(!el)return;const L=store.get('uf_designs4',[]);el.innerHTML=L.map((d,i)=>`<div><span>${d.name}</span><button type="button" class="btn ghost sm" data-a="loadd" data-v="${i}">باز کن</button><button type="button" class="x" data-a="deld" data-v="${i}" aria-label="حذف">✕</button></div>`).join('')}
 
 /* ---------- رویدادها ---------- */
 document.addEventListener('click',e=>{
@@ -297,9 +297,9 @@ document.addEventListener('click',e=>{
  case 'redo':if(hi<hist.length-1){hi++;S=JSON.parse(hist[hi]);renderPanel(true);buildStudio(true)}return;
  case 'shuffle':change(()=>{S.seed=Math.floor(Math.random()*9000)+1});return;
  case 'overview':STUDIO.focus('all');return;
- case 'save':{const L=store.get('uf_designs3',[]);const sn=clone(S);L.unshift({name:`طرح ${fa(L.length+1)} • ${T$(price(S))}`,cfg:sn});try{store.set('uf_designs3',L.slice(0,5))}catch(x){}renderSaved();toast('طرح ذخیره شد');return}
- case 'loadd':{const d=store.get('uf_designs3',[])[+v];if(d){S=Object.assign(def(d.cfg.kind),d.cfg);commit();renderPanel(true);buildStudio(true);toast('طرح بارگذاری شد')}return}
- case 'deld':{const L=store.get('uf_designs3',[]);L.splice(+v,1);store.set('uf_designs3',L);renderSaved();return}
+ case 'save':{const L=store.get('uf_designs4',[]);const sn=clone(S);L.unshift({name:`طرح ${fa(L.length+1)} • ${T$(price(S))}`,cfg:sn});try{store.set('uf_designs4',L.slice(0,5))}catch(x){}renderSaved();toast('طرح ذخیره شد');return}
+ case 'loadd':{const d=store.get('uf_designs4',[])[+v];if(d){S=Object.assign(def(d.cfg.kind),d.cfg);commit();renderPanel(true);buildStudio(true);toast('طرح بارگذاری شد')}return}
+ case 'deld':{const L=store.get('uf_designs4',[]);L.splice(+v,1);store.set('uf_designs4',L);renderSaved();return}
  case 'copy':{const code=btoa(unescape(encodeURIComponent(JSON.stringify(clone(S)))));const ta=$('#codeT');ta.value=code;ta.select();try{navigator.clipboard.writeText(code).then(()=>toast('کد کپی شد'),()=>toast('کد انتخاب شد، دستی کپی کن'))}catch(x){toast('کد انتخاب شد، دستی کپی کن')}return}
  case 'import':try{const o=JSON.parse(decodeURIComponent(escape(atob($('#codeT').value.trim()))));if(!o.items||!o.kind)throw 0;S=Object.assign(def(o.kind),o);fixCap();commit();renderPanel(true);buildStudio(true);toast('طرح بارگذاری شد')}catch(x){toast('کد معتبر نیست')}return;
  }
@@ -369,12 +369,12 @@ document.addEventListener('click',e=>{
 });
 
 /* ---------- سبد ---------- */
-let cart=store.get('uf_cart3',[]),stage='cart',lastOrder=null;
+let cart=store.get('uf_cart4',[]),stage='cart',lastOrder=null;
 function addToCart(cfg,name){
  let img='';try{img=thumb().snapshotFree(prep(clone(cfg)),260)}catch(x){}
  cart.push({uid:Date.now()+Math.random(),name,cfg:clone(cfg),qty:1,img});saveCart();toast('به سبد خرید اضافه شد');if(window.UFX)UFX.onAdd(img);
 }
-function saveCart(){store.set('uf_cart3',cart);renderCart()}
+function saveCart(){store.set('uf_cart4',cart);renderCart()}
 const total=()=>cart.reduce((a,i)=>a+price(i.cfg)*i.qty,0);
 function renderCart(){
  $('#cartN').textContent=fa(cart.reduce((a,i)=>a+i.qty,0));
@@ -403,7 +403,7 @@ document.addEventListener('click',e=>{
   if(!nm||ph.replace(/\D/g,'').length<10){toast('نام گیرنده و شماره‌ی تماس رو کامل کن');return}
   const b=BRANCHES.find(x=>x.id===$('#ckBranch').value);
   lastOrder={code:'UF-'+Math.random().toString(36).slice(2,7).toUpperCase(),branch:b.name,when:`${$('#ckDate').value} • ${$('#ckTime').value}`,sum:total()};
-  cart=[];store.set('uf_cart3',cart);stage='done';renderCart();
+  cart=[];store.set('uf_cart4',cart);stage='done';renderCart();
  }
 });
 document.addEventListener('change',e=>{if(e.target.id==='ckBranch'){const b=BRANCHES.find(x=>x.id===e.target.value);$('#ckSpot').textContent=b.spot+' • '+b.hours}});
@@ -422,13 +422,13 @@ $('#logo').innerHTML=`<span class="lg"></span><span>یونی‌فلاور</span>
 $('#ticker').innerHTML=[0,1].map(()=>BRANCHES.filter(b=>!b.soon).map(b=>`<span>${b.name}</span><i></i>`).join('')).join('');
 function start(){
  HERO=new Viewer($('#heroArt'),{auto:!REDUCE,stagger:true,yaw:.35,pitch:.22,fov:26,focusMode:'all',breathe:true,parallax:true,motes:90});
- HERO.setConfig(prep(def('bouquet',{mainT:'rose',items:{rose:[9,1],lily:[3,1],gerbera:[3,0],daisy:[4,0],baby:[4,0]},paper:{c:2,style:'matte'},ribbon:{on:true,c:1,style:'organza',w:'L'},jute:false,green:{k:'euc',n:3},card:{on:false,m:'kraft',text:'',photo:null},bloom:'open',seed:12,size:'L'})));
+ HERO.setConfig(prep(def('bouquet',{mainT:'rose',items:{rose:[9,1],lily:[3,1],gerbera:[3,0],carn:[4,2],baby:[4,0]},paper:{c:2,style:'matte'},ribbon:{on:true,c:1,style:'organza',w:'L'},jute:false,green:{k:'euc',n:3},card:{on:false,m:'kraft',text:'',photo:null},bloom:'open',seed:12,size:'L'})));
  STUDIO=new Viewer($('#stage'),{stagger:false,yaw:.22,pitch:.28,fov:27,breathe:true,motes:60});
  commit();renderBranches();renderGrid();renderStepper();renderPanel();buildStudio(true);renderCart();onScroll();reveal(document.querySelector('main'));
  if(window.UFX)UFX.init();
 }
 function renderStepper(){$('#stepper').innerHTML=STEPS.map((s,i)=>`<li data-i="${i}" tabindex="0" role="button"><i>${fa(i+1)}</i><span>${s.t}</span></li>`).join('');$('#stepper').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const li=e.target.closest('li');if(li){e.preventDefault();step=+li.dataset.i;goStep()}}})}
-const go=()=>{(document.fonts&&document.fonts.load?document.fonts.load('500 30px Vazirmatn').catch(()=>0):Promise.resolve()).then(start,start)};
+const go=()=>{Promise.all([(document.fonts&&document.fonts.load?document.fonts.load('500 30px Vazirmatn').catch(()=>0):Promise.resolve()),(window.PH&&PH.ready)||0]).then(start,start)};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
 window.__app={get S(){return S},get branchObj(){return curBranch()},T$,fa,breakdown,analyze,desc,SIZES,MODELS,FL,BLOOM,ORDER,get step(){return step},smartDesign,set S(v){S=v},buildStudio,STEPS,goStep:i=>{step=i;goStep()},get STUDIO(){return STUDIO},get HERO(){return HERO},get thumb(){return thumb()},def,PRESETS,addToCart,get cart(){return cart}};
 })();

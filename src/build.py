@@ -1,5 +1,4 @@
-import re,sys
-import os
+import re,sys,os
 D=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+'/'
 v3=open(D+'src/v3-base.html',encoding='utf-8').read()
 css3=re.search(r'<style>(.*?)</style>',v3,re.S).group(1)
@@ -121,6 +120,13 @@ textarea{resize:vertical;min-height:76px}
 @media(max-width:900px){.wz{grid-template-columns:1fr;gap:26px}.stageWrap{order:-1;position:sticky;top:calc(64px + env(safe-area-inset-top,0px));z-index:6;background:var(--bg)}.stage{aspect-ratio:auto;height:38vh;min-height:260px}.sbar{padding:8px 14px}.sbar .pr{font-size:1.4rem}.heroart{min-height:380px}.specs{grid-template-columns:1fr 1fr}}
 '''
 NEW_CSS+=r'''
+/* ---- v6: گالری و عکس واقعی ---- */
+.gal{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(210px,24%);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;scrollbar-width:thin}
+.gal button{scroll-snap-align:start;background:color-mix(in srgb,var(--accent) 9%,var(--card));aspect-ratio:3/4;display:grid;place-items:center;padding:14px;position:relative;overflow:hidden;transition:background-color .4s}
+.gal img{width:100%;height:100%;object-fit:contain;transition:transform .8s var(--ease);filter:drop-shadow(0 14px 14px rgba(29,22,38,.22))}
+.gal button:hover img{transform:scale(1.06) translateY(-4px)}
+.gal button span{position:absolute;inset-inline:0;bottom:0;padding:10px 12px;font-size:.82rem;background:linear-gradient(transparent,#0007);color:#fff;opacity:0;transition:opacity .3s}
+.gal button:hover span,.gal button:focus-visible span{opacity:1}
 /* ---- v5: جلوه‌ها ---- */
 #fxc{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:28}
 #prog{position:fixed;top:env(safe-area-inset-top,0px);inset-inline:0;height:3px;background:var(--accent);transform-origin:right center;transform:scaleX(0);z-index:45;transition:background-color .5s}
@@ -205,6 +211,11 @@ BODY='''<div id="prog" aria-hidden="true"></div>
   <div class="bidx"><div id="branchGrid" data-rv></div><div class="binfo" id="binfo" data-rv></div></div>
 </div></section>
 
+<section id="gallery" style="padding:64px 0 8px"><div class="wrap">
+  <div class="sh" data-rv><div><h2>نمونه‌ی دسته‌گل‌ها</h2><p>چند نمونه‌ی آماده با گل‌های واقعی. هر کدوم رو می‌تونی توی طراحی سفارشی خودت بسازی و عوض کنی.</p></div></div>
+  <div class="gal" id="gal"></div>
+</div></section>
+
 <section id="shop" style="padding-top:20px"><div class="wrap">
   <div class="sh" data-rv><div><h2>طرح‌های آماده</h2><p id="shopSub"></p></div></div>
   <div class="toolbar" data-rv>
@@ -227,7 +238,7 @@ BODY='''<div id="prog" aria-hidden="true"></div>
       <div id="stepNav"></div>
     </div>
     <div class="stageWrap">
-      <div class="stage" id="stage"><div class="tools"><button type="button" id="bUndo">برگشت</button><button type="button" id="bRedo">جلو</button><button type="button" id="bShuf">چیدمان جدید</button><button type="button" id="bOver">نمای کلی</button></div><div class="hintT">بکشید تا بچرخه • دوبار کلیک: نمای کلی</div></div>
+      <div class="stage" id="stage"><div class="tools"><button type="button" id="bUndo">برگشت</button><button type="button" id="bRedo">جلو</button><button type="button" id="bShuf">چیدمان جدید</button><button type="button" id="bOver">نمای کلی</button></div><div class="hintT">بکشید تا تکون بخوره • دوبار کلیک: نمای کلی</div></div>
       <div class="sbar"><div class="r1"><small>قیمت تخمینی</small><span class="pr" id="sPrice">۰ تومان</span></div><div class="meter"><i id="sCap"></i></div><small id="sCapT"></small></div>
     </div>
   </div>
@@ -241,16 +252,17 @@ BODY='''<div id="prog" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status"></div>
 '''
 def build(three_src,out,extra_head=''):
-    js=''.join(open(D+'src/'+f,encoding='utf-8').read()+'\n' for f in ['data.js','engine.js','scene.js','viewer.js','app.js','fx.js'])
+    import base64,glob,json
+    ph={os.path.basename(f)[:-5]:'data:image/webp;base64,'+base64.b64encode(open(f,'rb').read()).decode() for f in sorted(glob.glob(D+'assets/*.webp'))}
+    js='window.PHOTOS='+json.dumps(ph)+';\n'+''.join(open(D+'src/'+f,encoding='utf-8').read()+'\n' for f in ['data.js','photo.js','app.js','fx.js'])
     html=f'''<title>یونی‌فلاور</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>{CSS}</style>
 {BODY}
-<script src="{three_src}"></script>
 <script>document.documentElement.dir='rtl';document.documentElement.lang='fa';
 {js}</script>'''
     open(out,'w',encoding='utf-8').write(html)
     print(out,len(html))
-build('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',D+'index.html')
-build('three.min.js',D+'src/local.html')
+build('',D+'index.html')
+
