@@ -154,7 +154,7 @@ U.poster=function(){
   const Wp=1080,Hp=1560,c=document.createElement('canvas');c.width=Wp;c.height=Hp;const x=c.getContext('2d');
   const g=x.createLinearGradient(0,0,0,Hp);g.addColorStop(0,mix(acc,'#ffffff',.9));g.addColorStop(1,mix(acc,'#ffffff',.62));x.fillStyle=g;x.fillRect(0,0,Wp,Hp);
   x.direction='rtl';x.textAlign='center';x.fillStyle='#1d1626';
-  const F='Vazirmatn, Tahoma, "Segoe UI", sans-serif',D='Amiri, "Times New Roman", serif';
+  const F='Vazirmatn, Tahoma, "Segoe UI", sans-serif',D='Vazirmatn, Tahoma, sans-serif';
   x.font=`700 74px ${D}`;x.fillText('یونی‌فلاور',Wp/2,128);
   x.font=`400 30px ${F}`;x.fillStyle=mix(acc,'#000000',.25);x.fillText(`${B.name} • ${B.uni}`,Wp/2,184);
   x.fillStyle=bgc;x.fillRect(70,226,940,940);x.drawImage(im,70,226,940,940);

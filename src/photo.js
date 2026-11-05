@@ -7,7 +7,6 @@ const rngf=seed=>{let s=(seed*2654435761)>>>0||1;return()=>{s^=s<<13;s>>>=0;s^=s
 const rgb=h=>{const n=parseInt(h.slice(1),16);return[n>>16,n>>8&255,n&255]};
 const rgba=(h,a)=>{const c=rgb(h);return`rgba(${c[0]},${c[1]},${c[2]},${a})`};
 const GOLD=2.39996323;
-window.__F3parts={shadeHex,mkC,rngf};
 
 /* ---------- بارگذاری عکس‌ها ---------- */
 const IMG={};
@@ -69,7 +68,6 @@ function drawCard(card,W=768,H=512){
  lines.forEach((l,i)=>x.fillText(l,W/2,y0+i*fs*1.55));
  return c;
 }
-window.SC={drawCard};
 
 /* ---------- ابزار چیدمان ---------- */
 function shuffle(a,r){for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
@@ -447,5 +445,5 @@ class Viewer{
  }
  dispose(){cancelAnimationFrame(this.raf)}
 }
-window.Viewer=Viewer;
+window.PhotoViewer=Viewer;
 })();

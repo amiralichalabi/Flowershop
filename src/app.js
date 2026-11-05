@@ -139,7 +139,7 @@ function change(fn,rebuild=true){const before=count(S);fn();fixCap();commit();re
 
 /* ---------- تصاویر آیکن ---------- */
 const iconCache={};
-function flowerIcon(type,hex,open){const k=type+hex;return iconCache[k]||(iconCache[k]=thumb().icon(type,hex,open,170))}
+let ICONV;function flowerIcon(type,hex,open){const k=type+hex;return iconCache[k]||(iconCache[k]=(ICONV||(ICONV=new PhotoViewer(null,{thumb:true}))).icon(type,hex,open,170))}
 const modelCache={};
 function modelThumb(kind,model){
  const k=kind+model+'|'+S.items[S.mainT][1]+S.mainT+'|'+S.paper.c+S.boxCol;if(modelCache[k])return modelCache[k];
@@ -430,5 +430,5 @@ function start(){
 function renderStepper(){$('#stepper').innerHTML=STEPS.map((s,i)=>`<li data-i="${i}" tabindex="0" role="button"><i>${fa(i+1)}</i><span>${s.t}</span></li>`).join('');$('#stepper').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const li=e.target.closest('li');if(li){e.preventDefault();step=+li.dataset.i;goStep()}}})}
 const go=()=>{Promise.all([(document.fonts&&document.fonts.load?document.fonts.load('500 30px Vazirmatn').catch(()=>0):Promise.resolve()),(window.PH&&PH.ready)||0]).then(start,start)};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
-window.__app={get S(){return S},get branchObj(){return curBranch()},T$,fa,breakdown,analyze,desc,SIZES,MODELS,FL,BLOOM,ORDER,get step(){return step},smartDesign,set S(v){S=v},buildStudio,STEPS,goStep:i=>{step=i;goStep()},get STUDIO(){return STUDIO},get HERO(){return HERO},get thumb(){return thumb()},def,PRESETS,addToCart,get cart(){return cart}};
+window.__app={get S(){return S},get branchObj(){return curBranch()},T$,fa,breakdown,analyze,desc,SIZES,MODELS,FL,BLOOM,ORDER,get step(){return step},smartDesign,set S(v){S=v},buildStudio,STEPS,goStep:i=>{step=i;goStep()},get STUDIO(){return STUDIO},get HERO(){return HERO},get thumb(){return thumb()},def,PRESETS,addToCart,get cart(){return cart},flowerIcon,BRANCHES,price,get DELIV(){return DELIV},clearCart(){cart=[];saveCart()},loadCfg(c){S=c;hist=[];hi=-1;commit();step=1;renderPanel();buildStudio(true);STUDIO.focus('flowers')},openCart};
 })();

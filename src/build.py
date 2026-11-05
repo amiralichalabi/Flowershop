@@ -183,14 +183,57 @@ body.splashing .hero .ln span,body.splashing .hero .lead,body.splashing .hero .c
 @media(max-width:700px){.band .wrap{grid-template-columns:1fr 1fr}.lights button{padding:3px 7px}}
 @media(prefers-reduced-motion:reduce){#fxc,#splash{display:none}}
 '''
+NEW_CSS+=r'''
+/* ===== v7 مینیمال و ظریف ===== */
+:root{--disp:Vazirmatn,Tahoma,sans-serif}
+body{font-weight:300;letter-spacing:0}
+h1,h2,h3,h4,.disp,.hero h1{font-weight:200!important;letter-spacing:-.01em}
+b,strong,.btn,.cartbtn b{font-weight:400!important}
+.hero h1{font-weight:200!important}
+.sbar .pr,.band b,.bd2 tr.t td,.rng output,.mcard b,.tcard b,.ccard b,.frow .nm b,.bsel button b,#splash .t,.stepper li i{font-weight:300!important}
+.tick,.band{display:none!important}
+header{box-shadow:none!important;background:transparent!important;border-bottom:1px solid transparent}
+header.solid{background:color-mix(in srgb,var(--bg) 88%,transparent)!important;backdrop-filter:blur(14px);border-bottom-color:var(--line)}
+header nav a{font-weight:300;font-size:.92rem}
+.btn{border-radius:0;letter-spacing:.02em}
+.sh h2{font-size:clamp(1.8rem,3.6vw,2.6rem)}
+.ubtn{display:flex;align-items:center;gap:6px;font-size:.84rem;padding:0 10px;color:inherit}.ubtn svg{width:20px}
+.views{position:absolute;inset-inline-start:10px;bottom:10px;z-index:3;display:flex;gap:2px;align-items:center;background:#ffffffcc;backdrop-filter:blur(8px);padding:3px;flex-wrap:wrap;max-width:calc(100% - 120px)}
+.views button{font-size:.72rem;padding:4px 9px;color:#1d1626;transition:background-color .2s,color .2s}
+.views button.on,.views button:hover{background:#1d1626;color:#fff}.views i{width:1px;height:14px;background:#0003;margin:0 3px}
+.dragHint{position:absolute;inset-inline:0;top:52px;text-align:center;font-size:.76rem;color:#1d1626a0;pointer-events:none;transition:opacity .6s}.dragHint.off{opacity:0}
+.md{position:fixed;inset:0;z-index:80;background:#150f1b66;backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:16px}.md.on{display:flex}
+.md-b{position:relative;background:var(--card);color:var(--ink);width:min(440px,100%);max-height:88vh;overflow:auto;padding:36px 30px 28px;display:flex;flex-direction:column;gap:12px;animation:mdIn .35s cubic-bezier(.2,.8,.2,1)}
+.md.art .md-b{width:min(560px,100%)}@keyframes mdIn{from{opacity:0;transform:translateY(14px)}}
+.md-b .x{position:absolute;inset-inline-end:14px;top:12px;font-size:1.1rem;opacity:.6}.md-b h3{font-size:1.9rem}.md-b h4{font-size:1rem;font-weight:400;margin-top:8px}
+.md-b p{line-height:2;margin:0}.md-b .sub,.sub{color:var(--mut);font-size:.88rem}.md-b .kick{color:var(--accent);font-size:.78rem}
+.md-b label,.ckpage label{font-size:.8rem;color:var(--mut)}.md-b li{line-height:2}
+.in{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;padding:10px 2px;font:inherit;color:inherit;border-radius:0}.in:focus{outline:0;border-bottom-color:var(--accent)}
+.ord{display:flex;gap:10px;justify-content:space-between;font-size:.84rem;padding:8px 0;border-bottom:1px solid var(--line)}
+.mag{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:28px 22px;margin-top:28px}
+.ac{cursor:pointer}.ac .ph{aspect-ratio:1;background:color-mix(in srgb,var(--accent) 7%,var(--bg));display:grid;place-items:center;overflow:hidden}.ac .ph.nop{aspect-ratio:auto;height:6px;background:var(--accent);opacity:.5}.ac .ph.nop canvas{display:none}.ac canvas{width:80%;transition:transform .6s cubic-bezier(.2,.8,.2,1)}.ac:hover canvas{transform:scale(1.08) rotate(-3deg)}
+.ac small{display:block;margin-top:12px;color:var(--accent);font-size:.74rem}.ac h3{font-size:1.25rem;margin:2px 0}.ac p{margin:0;color:var(--mut);font-size:.86rem}
+.ckpage{position:fixed;inset:0;z-index:90;background:var(--bg);color:var(--ink);overflow:auto;opacity:0;transition:opacity .35s}.ckpage.on{opacity:1}
+.ckpage .wrap{padding-top:28px;padding-bottom:60px;max-width:1080px}.ckpage h2{font-size:2.4rem;margin:12px 0 24px}.back{font-size:.84rem;color:var(--mut)}
+.ckgrid{display:grid;grid-template-columns:1.25fr 1fr;gap:48px}@media(max-width:820px){.ckgrid{grid-template-columns:1fr;gap:28px}}
+.ckpage fieldset{border:0;border-top:1px solid var(--line);padding:18px 0 10px;margin:0 0 6px}.ckpage legend{font-size:.8rem;color:var(--accent);padding-inline-end:10px}
+.ckpage .fld{margin-bottom:14px}.ckpage .f2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.ckpage .f2.g{grid-template-columns:1fr auto}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:12px 0;cursor:pointer}.opt input{margin-top:6px;accent-color:var(--accent)}.opt b{display:block}.opt small{color:var(--mut)}
+.btn.big{width:100%;padding:16px}.ckside{background:color-mix(in srgb,var(--accent) 5%,var(--bg));padding:26px;align-self:start;position:sticky;top:20px}.ckside h3{font-size:1.3rem;margin:0 0 14px}
+.ckit{display:flex;gap:12px;align-items:center;padding:8px 0}.ckit img{width:56px;height:56px;object-fit:contain}.ckit div{flex:1}.ckit small{display:block;color:var(--mut)}.ckit em{font-style:normal;font-size:.88rem}
+.ckside .row{display:flex;justify-content:space-between;padding:8px 0;font-size:.9rem;border-top:1px solid var(--line)}.ckside .tot{font-size:1.2rem;font-weight:400}
+.okpg{text-align:center;padding:60px 0;display:flex;flex-direction:column;gap:14px;align-items:center}.okpg .code{font-size:2rem;letter-spacing:.2em;font-weight:200;direction:ltr}
+.tl{display:flex;gap:26px;list-style:none;padding:0;margin:10px 0;font-size:.84rem;color:var(--mut);flex-wrap:wrap;justify-content:center}.tl li::before{content:"";display:inline-block;width:8px;height:8px;border:1px solid currentColor;border-radius:50%;margin-inline-end:8px}.tl li.on{color:var(--accent)}.tl li.on::before{background:var(--accent)}
+'''
 CSS=css3+NEW_CSS
 BODY='''<div id="prog" aria-hidden="true"></div>
 <div id="splash" aria-hidden="true"><div class="in"><svg viewBox="-100 -100 200 200"><g fill="none" stroke="#ff8fb3" stroke-width="3">'''+''.join(f'<g transform="rotate({i*45})"><ellipse class="pt" style="--i:{i}" cx="0" cy="-52" rx="19" ry="40" fill="#e83e78" fill-opacity=".85" stroke="#ffd0df"/></g>' for i in range(8))+'''</g><circle class="ct" r="20" fill="#f4c26b"/></svg><div class="t"><span>یونی‌فلاور</span></div><div class="s">دسته‌گلت رو خودت بساز</div></div></div>
 <header><div class="wrap bar">
   <a href="#" class="logo" id="logo"></a>
-  <nav><a href="#branches">شعبه‌ها</a><a href="#shop">طرح‌های آماده</a><a href="#studio">طراحی سفارشی</a></nav>
+  <nav><a href="#branches">شعبه‌ها</a><a href="#shop">طرح‌های آماده</a><a href="#studio">طراحی سفارشی</a><a href="#magazine">مجله‌ی گل</a></nav>
   <div class="sp"></div>
   <select id="hdrBranch" class="branchsel" aria-label="شعبه"></select>
+  <button class="ubtn" id="userBtn" aria-label="حساب کاربری"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span>ورود</span></button>
   <button class="cartbtn" id="openCart" aria-label="سبد خرید"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><b id="cartN">۰</b></button>
 </div></header>
 <main>
@@ -238,11 +281,12 @@ BODY='''<div id="prog" aria-hidden="true"></div>
       <div id="stepNav"></div>
     </div>
     <div class="stageWrap">
-      <div class="stage" id="stage"><div class="tools"><button type="button" id="bUndo">برگشت</button><button type="button" id="bRedo">جلو</button><button type="button" id="bShuf">چیدمان جدید</button><button type="button" id="bOver">نمای کلی</button></div><div class="hintT">بکشید تا تکون بخوره • دوبار کلیک: نمای کلی</div></div>
+      <div class="stage" id="stage"><div class="tools"><button type="button" id="bUndo">برگشت</button><button type="button" id="bRedo">جلو</button><button type="button" id="bShuf">چیدمان جدید</button><button type="button" id="bOver">نمای کلی</button></div><div class="hintT">بکشید تا بچرخه • دوبار کلیک: نمای کلی</div></div>
       <div class="sbar"><div class="r1"><small>قیمت تخمینی</small><span class="pr" id="sPrice">۰ تومان</span></div><div class="meter"><i id="sCap"></i></div><small id="sCapT"></small></div>
     </div>
   </div>
 </div></section>
+<section id="magazine"><div class="wrap"><div class="sh"><div><h2>مجله‌ی گل</h2><p>با گل‌ها آشنا شو؛ معنی، فصل، ماندگاری و نگهداری هر کدوم.</p></div></div><div class="mag" id="mag"></div></div></section>
 </main>
 <footer><div class="wrap"><div class="big" aria-hidden="true">یونی‌فلاور</div>
   <div><small>نام و اطلاعات تماس نمونه‌ست و بعداً با اطلاعات واقعی جایگزین می‌شه.</small><div><small>شعبه‌ها: <span id="ftBranches"></span></small></div></div>
@@ -252,17 +296,19 @@ BODY='''<div id="prog" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status"></div>
 '''
 def build(three_src,out,extra_head=''):
+    three=open(D+'src/three.min.js',encoding='utf-8').read()
     import base64,glob,json
     ph={os.path.basename(f)[:-5]:'data:image/webp;base64,'+base64.b64encode(open(f,'rb').read()).decode() for f in sorted(glob.glob(D+'assets/*.webp'))}
-    js='window.PHOTOS='+json.dumps(ph)+';\n'+''.join(open(D+'src/'+f,encoding='utf-8').read()+'\n' for f in ['data.js','photo.js','app.js','fx.js'])
+    js='window.PHOTOS='+json.dumps(ph)+';\n'+''.join(open(D+'src/'+f,encoding='utf-8').read()+'\n' for f in ['data.js','engine.js','scene.js','photo.js','pflower.js','viewer.js','app.js','fx.js','site.js'])
     html=f'''<title>یونی‌فلاور</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>{CSS}</style>
 {BODY}
+<script>{three}</script>
 <script>document.documentElement.dir='rtl';document.documentElement.lang='fa';
 {js}</script>'''
     open(out,'w',encoding='utf-8').write(html)
     print(out,len(html))
-build('',D+'index.html')
-
+build('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',D+'index.html')
+build('three.min.js',D+'src/local.html')
