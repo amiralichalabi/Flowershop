@@ -127,7 +127,7 @@ function buildStudio(now){
 }
 function refreshInfo(){
  const W=analyze(S),B=breakdown(S),cap=capOf(S),p=pts(S);
- $('#sPrice').textContent=T$(lastTot);tween($('#sPrice'),B.tot);
+ $('#sPrice').textContent=T$(lastTot);{const np=$("#navPrice");if(np)np.textContent=T$(B.tot)}tween($('#sPrice'),B.tot);
  $('#sCap').style.width=Math.min(100,p/cap*100)+'%';
  $('#sCapT').textContent=`${fa(Math.round(p*10)/10)} از ${fa(cap)} واحد`;
  const el=$('#stepWarn');if(el)el.innerHTML=W.map(w=>`<div class="${w[0]}">${w[1]}</div>`).join('');
@@ -161,6 +161,10 @@ function flowerRow(k,main){
 /* ---------- طراح هوشمند ---------- */
 let BUD=store.get('uf_bud',2000000),VIBE=store.get('uf_vibe','love');
 const VIBES=[['love','عاشقانه',['p1','b1']],['soft','لطیف و صورتی',['p5','b2']],['elegant','شیک و مینیمال',['p3','b3']],['fresh','شاد و بهاری',['p2','b4']],['sunny','پرانرژی',['p4','b4']],['warm','گرم و پاییزی',['p6','b5']]];
+function quickBlock(){
+ const cards=PRESETS.map(p=>{let pr='';try{pr=T$(price(Object.assign(def(p.kind),clone(p))))}catch(e){}return `<button type="button" class="pq" data-cust="${p.id}"><b>${p.name}</b><small>${p.d||''}</small><em>${pr}</em></button>`}).join('');
+ return `<div class="blk pquick"><h4>شروع سریع <small>یک طرح آماده انتخاب کن؛ بعد هر چیزش رو عوض کن</small></h4><div class="pqs">${cards}</div></div><details class="blk more" ${window.__moreOpen?'open':''}><summary>یا از صفر بساز: طراح هوشمند و گزینه‌های مدل</summary>`;
+}
 function smartBlock(){
  return `<div class="blk smart"><h4>طراح هوشمند <small>حال‌وهوا و بودجه‌ات رو بگو، یک طرح کامل پیشنهاد می‌دم</small></h4>
  <div class="chips">${VIBES.map(v=>`<button type="button" class="chip2 ${VIBE===v[0]?'on':''}" data-a="vibe" data-v="${v[0]}">${v[1]}</button>`).join('')}</div>
@@ -191,10 +195,10 @@ function smartDesign(){
 function panel(){
  const s=STEPS[step],c=S;
  switch(s.id){
- case 'model':return `${smartBlock()}<div class="blk"><h4>نوع</h4>${seg([['bouquet','دسته‌گل'],['box','باکس گل']],c.kind,'kind')}</div>
+ case 'model':return `${quickBlock()}${smartBlock()}<div class="blk"><h4>نوع</h4>${seg([['bouquet','دسته‌گل'],['box','باکس گل']],c.kind,'kind')}</div>
   <div class="blk"><h4>مدل <small>${c.kind==='box'?'شکل باکس':'فرم دسته'}</small></h4><div class="mgrid">${MODELS[c.kind].map(m=>`<button type="button" class="mcard ${c.model===m[0]?'on':''}" data-a="model" data-v="${m[0]}"><span class="mi" data-mt="${m[0]}"></span><b>${m[1]}</b><small>${m[2]}</small></button>`).join('')}</div></div>
   <div class="blk"><h4>اندازه <small>ظرفیت بر حسب واحد حجم گل</small></h4>${seg(Object.entries(SIZES[c.kind]).map(([k,v])=>[k,v]),c.size,'size',o=>`${o[1].n}<small>تا ${fa(o[1].cap)} واحد</small>`)}</div>
-  <div class="blk"><h4>مناسبت <small>اختیاری؛ برای پیشنهاد متن کارت</small></h4><div class="chips">${Object.entries(OCCASIONS).map(([k,v])=>`<button type="button" class="chip2 ${c.occasion===k?'on':''}" data-a="occ" data-v="${k}">${v[0]}</button>`).join('')}</div></div>`;
+  <div class="blk"><h4>مناسبت <small>اختیاری؛ برای پیشنهاد متن کارت</small></h4><div class="chips">${Object.entries(OCCASIONS).map(([k,v])=>`<button type="button" class="chip2 ${c.occasion===k?'on':''}" data-a="occ" data-v="${k}">${v[0]}</button>`).join('')}</div></div></details>`;
  case 'main':return `<div class="blk"><h4>نوع گل اصلی</h4><div class="tgrid">${MAINS.map(k=>`<button type="button" class="tcard ${c.mainT===k?'on':''}" data-a="mainT" data-v="${k}"><img alt="" src="${flowerIcon(k,FL[k].cols[(c.items[k]||[0,0])[1]||0][1],BLOOM[c.bloom][1])}"><b>${FL[k].n}</b><small>${FL[k].desc}</small></button>`).join('')}</div></div>
   <div class="blk"><h4>رنگ و تعداد <small>حداقل ${fa(MIN_F)} شاخه‌ی کل طرح</small></h4>${flowerRow(c.mainT,true)}</div>`;
  case 'subs':{const subs=ORDER.filter(k=>k!==c.mainT);
@@ -229,12 +233,12 @@ function panel(){
 }
 function renderPanel(keepScroll){
  const s=STEPS[step],body=$('#stepBody');
- $('#stepHead').innerHTML=`<small>مرحله‌ی ${fa(step+1)} از ${fa(STEPS.length)}</small><h3 class="disp">${s.h}</h3><p>${s.p}</p>`;
+ {const ph=PHASES[phaseOf(step)],k=ph.s.indexOf(step);$('#stepHead').innerHTML=`<small>بخش ${fa(phaseOf(step)+1)} از ${fa(PHASES.length)} • ${ph.t}</small><div class="dots" aria-hidden="true">${ph.s.map((_,j)=>`<i class="${j<k?'d':j===k?'c':''}"></i>`).join('')}</div><h3 class="disp">${s.h}</h3><p>${s.p}</p>`}
  const sc=keepScroll?window.scrollY:0;
  body.innerHTML=panel();
  if(!keepScroll){const h=$('#stepHead');[h,body].forEach(e=>{e.classList.remove('enter');void e.offsetWidth;e.classList.add('enter')})}
- $('#stepNav').innerHTML=`<button type="button" class="btn ghost" data-a="prev" ${step===0?'disabled':''}>قبلی</button>${step<STEPS.length-1?`<button type="button" class="btn" data-a="next">${STEPS[step+1].t}</button>`:`<button type="button" class="btn" data-a="addcart" ${analyze(S).some(w=>w[0]==='e')?'disabled':''}>افزودن به سبد خرید</button>`}`;
- $$('#stepper li').forEach((li,i)=>{li.classList.toggle('on',i===step);li.classList.toggle('done',i<step)});
+ $('#stepNav').innerHTML=`<span class="navPrice"><small>قیمت</small><b id="navPrice">${T$(lastTot)}</b></span><button type="button" class="btn ghost" data-a="prev" ${step===0?'disabled':''}>قبلی</button>${step<STEPS.length-1?`<button type="button" class="btn" data-a="next">${STEPS[step+1].t}</button>`:`<button type="button" class="btn" data-a="addcart" ${analyze(S).some(w=>w[0]==='e')?'disabled':''}>افزودن به سبد خرید</button>`}`;
+ {const ph=phaseOf(step);$$('#stepper li').forEach((li,i)=>{li.classList.toggle('on',i===ph);li.classList.toggle('done',i<ph)})}
  STUDIO.idle=(s.id==='final'&&!REDUCE)?1:0;
  // تصاویر مدل‌ها را تنبل بساز
  if(s.id==='model'){$$('.mi[data-mt]').forEach((el,i)=>setTimeout(()=>{if(el.isConnected&&!el.firstChild){const im=new Image();im.alt='';im.src=modelThumb(S.kind,el.dataset.mt);el.appendChild(im)}},i*60))}
@@ -427,7 +431,10 @@ function start(){
  commit();renderBranches();renderGrid();renderStepper();renderPanel();buildStudio(true);renderCart();onScroll();reveal(document.querySelector('main'));
  if(window.UFX)UFX.init();
 }
-function renderStepper(){$('#stepper').innerHTML=STEPS.map((s,i)=>`<li data-i="${i}" tabindex="0" role="button"><i>${fa(i+1)}</i><span>${s.t}</span></li>`).join('');$('#stepper').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const li=e.target.closest('li');if(li){e.preventDefault();step=+li.dataset.i;goStep()}}})}
+const PHASES=[{t:'گل‌ها',s:[0,1,2]},{t:'بسته‌بندی',s:[3,4,5,6,7]},{t:'تحویل',s:[8,9]}];
+const phaseOf=i=>PHASES.findIndex(p=>p.s.includes(i));
+function renderStepper(){$('#stepper').innerHTML=PHASES.map((p,i)=>`<li data-i="${p.s[0]}" data-p="${i}" tabindex="0" role="button"><i>${fa(i+1)}</i><span>${p.t}</span></li>`).join('');$('#stepper').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const li=e.target.closest('li');if(li){e.preventDefault();step=+li.dataset.i;goStep()}}})}
+function renderStepperOld(){$('#stepper').innerHTML=STEPS.map((s,i)=>`<li data-i="${i}" tabindex="0" role="button"><i>${fa(i+1)}</i><span>${s.t}</span></li>`).join('');$('#stepper').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){const li=e.target.closest('li');if(li){e.preventDefault();step=+li.dataset.i;goStep()}}})}
 const go=()=>{Promise.all([(document.fonts&&document.fonts.load?document.fonts.load('500 30px Vazirmatn').catch(()=>0):Promise.resolve()),(window.PH&&PH.ready)||0]).then(start,start)};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
 window.__app={get S(){return S},get branchObj(){return curBranch()},T$,fa,breakdown,analyze,desc,SIZES,MODELS,FL,BLOOM,ORDER,get step(){return step},smartDesign,set S(v){S=v},buildStudio,STEPS,goStep:i=>{step=i;goStep()},get STUDIO(){return STUDIO},get HERO(){return HERO},get thumb(){return thumb()},def,PRESETS,addToCart,get cart(){return cart},flowerIcon,BRANCHES,price,get DELIV(){return DELIV},clearCart(){cart=[];saveCart()},loadCfg(c){S=c;hist=[];hi=-1;commit();step=1;renderPanel();buildStudio(true);STUDIO.focus('flowers')},openCart};

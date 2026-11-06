@@ -255,6 +255,23 @@ button,a,.btn{touch-action:manipulation}
 button:focus-visible,a:focus-visible,.ac:focus-visible,li[role=button]:focus-visible,.in:focus-visible{outline:1.5px solid var(--accent);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.md-b,header nav.open{animation:none}.ac canvas{transition:none}}
 '''
+NEW_CSS+=r'''
+.dots{display:flex;gap:5px;margin:8px 0 2px}.dots i{width:18px;height:2px;background:var(--line);transition:background-color .3s,width .3s}.dots i.d{background:var(--accent)}.dots i.c{background:var(--ink);width:30px}
+.stepper li{flex:1;min-width:0}.stepper li span{font-size:.9rem}
+.pqs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.pq{text-align:start;display:flex;flex-direction:column;gap:4px;padding:14px;border:1px solid var(--line);background:var(--card);transition:border-color .25s,transform .25s}
+.pq:hover{border-color:var(--accent);transform:translateY(-2px)}.pq b{font-weight:400}.pq small{color:var(--mut);font-size:.76rem;line-height:1.6}.pq em{font-style:normal;color:var(--accent);font-size:.82rem;margin-top:auto}
+details.more{border-top:1px solid var(--line);padding-top:6px}details.more>summary{cursor:pointer;color:var(--mut);font-size:.88rem;padding:10px 0;list-style:none}details.more>summary::before{content:"+ ";color:var(--accent)}details.more[open]>summary::before{content:"− "}details.more>summary::-webkit-details-marker{display:none}
+.navPrice{display:none}
+@media(max-width:900px){
+ .sbar .r1{display:none}.sbar{padding:6px 14px}
+ #stepNav{position:sticky;bottom:0;z-index:7;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(12px);margin:20px -18px 0;padding:10px 18px calc(10px + env(safe-area-inset-bottom,0px));align-items:center}
+ .navPrice{display:flex;flex-direction:column;line-height:1.3;margin-inline-end:auto}.navPrice small{color:var(--mut);font-size:.7rem}.navPrice b{font-weight:300;font-size:1.05rem;font-variant-numeric:tabular-nums}
+ #stepNav .btn{padding:12px 16px;white-space:nowrap}
+ .stage{height:44vh!important}
+ .pqs{grid-template-columns:1fr 1fr}
+}
+'''
 CSS=css3+NEW_CSS
 BODY='''<div id="prog" aria-hidden="true"></div>
 <div id="splash" aria-hidden="true"><div class="in"><svg viewBox="-100 -100 200 200"><g fill="none" stroke="#ff8fb3" stroke-width="3">'''+''.join(f'<g transform="rotate({i*45})"><ellipse class="pt" style="--i:{i}" cx="0" cy="-52" rx="19" ry="40" fill="#e83e78" fill-opacity=".85" stroke="#ffd0df"/></g>' for i in range(8))+'''</g><circle class="ct" r="20" fill="#f4c26b"/></svg><div class="t"><span>یونی‌فلاور</span></div><div class="s">دسته‌گلت رو خودت بساز</div></div></div>
@@ -301,7 +318,7 @@ BODY='''<div id="prog" aria-hidden="true"></div>
 </div></section>
 
 <section id="studio"><div class="wrap">
-  <div class="sh" data-rv><div><h2>طراحی سفارشی</h2><p>ده مرحله‌ی کوتاه. هر انتخاب همون لحظه روی دسته‌گل سه‌بعدی سمت چپ اثر می‌ذاره.</p></div></div>
+  <div class="sh" data-rv><div><h2>طراحی سفارشی</h2><p>سه بخش ساده: گل‌ها، بسته‌بندی، تحویل. هر انتخاب همون لحظه روی دسته‌گل سه‌بعدی سمت چپ اثر می‌ذاره.</p></div></div>
   <ol class="stepper" id="stepper"></ol>
   <div class="wz">
     <div>
