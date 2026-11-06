@@ -9,8 +9,8 @@ function tex(name){
 }
 function mat(name,emi){
  const k=name+emi;if(matC[k])return matC[k];const t=tex(name);
- const m=new T.MeshLambertMaterial({map:t,alphaTest:.45,side:T.DoubleSide,emissive:'#ffffff',emissiveMap:t,emissiveIntensity:emi});
- m.userData.depth=new T.MeshDepthMaterial({depthPacking:T.RGBADepthPacking,map:t,alphaTest:.45,side:T.DoubleSide});
+ const m=new T.MeshLambertMaterial({map:t,alphaTest:.6,side:T.DoubleSide,emissive:'#ffffff',emissiveMap:t,emissiveIntensity:emi});
+ m.userData.depth=new T.MeshDepthMaterial({depthPacking:T.RGBADepthPacking,map:t,alphaTest:.6,side:T.DoubleSide});
  return matC[k]=m;
 }
 const mesh=(geo,m)=>{const me=new T.Mesh(geo,m);me.castShadow=true;me.receiveShadow=true;me.customDepthMaterial=m.userData.depth;return me};
@@ -48,12 +48,30 @@ function crossed(sprite,w,h,y0,crop,n,emi,flip){
 const sepalGeo=new T.ConeGeometry(.55,.9,10,1,true);sepalGeo.translate(0,-.45,0);
 const stubGeo=new T.CylinderGeometry(.07,.09,.9,8);stubGeo.translate(0,-.9,0);
 
+const flGeo=new T.IcosahedronGeometry(1,0),stGeo=new T.CylinderGeometry(.012,.018,1,4);stGeo.translate(0,.5,0);
+let flM=null;const flMat=hex=>flM||(flM=new T.MeshStandardMaterial({color:'#ffffff',roughness:.85,emissive:'#fff7ee',emissiveIntensity:.18,flatShading:true})),stM=solidM('#7d9a62',.8);
+function rng(s){return()=>(s=(s*16807)%2147483647)/2147483647}
+function babyGroup(hex,variant,asp){
+ const g=new T.Group(),R=rng(1234+variant*97),h=Math.min(2.6,2.1*asp),m=flMat();
+ const tint=new T.Color(hex);
+ for(let b=0;b<8;b++){
+  const a=b/8*PI*2+R()*.6,r=.35+R()*.6,ex=Math.cos(a)*r,ez=Math.sin(a)*r,ey=h*(.5+R()*.45),
+   P=new T.Vector3(ex,ey,ez),D=P.clone(),len=D.length();
+  const st=new T.Mesh(stGeo,stM);st.scale.set(1,len,1);st.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),D.normalize());st.position.set(0,0,0);g.add(st);
+  for(let k=0;k<6;k++){
+   const q=new T.Mesh(flGeo,m.clone());q.material.color.copy(tint).lerp(new T.Color('#ffffff'),.55+R()*.4);
+   const s=.075+R()*.05;q.scale.set(s,s*.8,s);q.position.set(ex+(R()-.5)*.45,ey+(R()-.5)*.4,ez+(R()-.5)*.45);q.rotation.set(R()*3,R()*3,R()*3);g.add(q);
+  }
+ }
+ return g;
+}
 function flowerGroup(type,hex,open,variant){
  const sp=spriteOf(type,hex),g=new T.Group(),im=PH.IMG[sp];
  if(!im)return g;
  const o=.88+.2*(open||0),flip=(variant||0)%2===1;
  if(type==='rose'){
   const me=mesh(surface(sp,{W:2.1,cu:.5,cv:.44,rh:.47,H:.9*(.75+.35*(open||0)),mode:'dome'}),mat(sp,.5));if(flip)me.scale.x=-1;g.add(me);
+  const me2=mesh(surface(sp,{W:1.35,cu:.5,cv:.44,rh:.47,H:1.05*(.75+.35*(open||0)),mode:'dome'}),mat(sp,.5));me2.position.y=.14;me2.rotation.y=.6;if(flip)me2.scale.x=-1;g.add(me2);
   const s=new T.Mesh(sepalGeo,solidM('#4c7a38'));s.position.y=.05;s.scale.setScalar(.95);s.castShadow=true;g.add(s);
  }else if(type==='carn'){
   const me=mesh(surface(sp,{W:2.0,cu:.5,cv:.4,rh:.5,H:.75*(.8+.3*(open||0)),crop:.52,mode:'dome'}),mat(sp,.5));if(flip)me.scale.x=-1;g.add(me);
@@ -68,8 +86,7 @@ function flowerGroup(type,hex,open,variant){
   const cr=.62,w=1.9,h=w*im.height*cr/im.width;
   g.add(crossed(sp,w,h,-.45,cr,3,.5,flip));
  }else if(type==='baby'){
-  const w=2.1,h=w*im.height/im.width;
-  g.add(crossed(sp,w,h,-.05,1,3,.62,flip));
+  g.add(babyGroup(hex,variant||0,im.height/im.width));
  }
  g.scale.setScalar(1);
  return g;

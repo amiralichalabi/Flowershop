@@ -125,7 +125,7 @@ class Viewer{
  _fit(snap){
   const b=this.bbox;if(!b)return;const sz=b.getSize(V(0,0,0)),ct=b.getCenter(V(0,0,0)),i=this.cur.info;
   const fov=this.cam.fov*PI/180,asp=this.cam.aspect;
-  const needH=sz.y*1.0,needW=Math.max(sz.x,sz.z)*(this.opt.thumb?1.12:1.08);
+  const needH=sz.y*1.16,needW=Math.max(sz.x,sz.z)*(this.opt.thumb?1.12:1.08);
   const d=Math.max(needH/(2*Math.tan(fov/2)),needW/(2*Math.tan(fov/2)*asp))+Math.max(sz.z,sz.x)*.22;
   this.base={d,c:ct,sz,i};
   const f=this.opt.focusMode||'all';this.focus(this.focusName||f,snap);
@@ -145,7 +145,7 @@ class Viewer{
  }
  _tick(){if(!this.opt.thumb)return;}
  zoomBy(f){this.userZoom=Math.max(.5,Math.min(1.6,(this.userZoom||1)*f));this.focus(this.focusName||'all');}
- view(name){const P={front:[0,.2],three:[.62,.32],side:[PI/2,.14],back:[PI,.22],top:[0,1.3]}[name];if(!P)return;const r=this.rig,tw=2*PI;let y=P[0];y+=tw*Math.round((r.yaw-y)/tw);r.tYaw=y;r.tPitch=P[1];this.idle=0;this.lastInput=performance.now();this.dirty=true;}
+ view(name){this.focus('all');const P={front:[0,.2],three:[.62,.32],side:[PI/2,.14],back:[PI,.22],top:[0,1.3]}[name];if(!P)return;const r=this.rig,tw=2*PI;let y=P[0];y+=tw*Math.round((r.yaw-y)/tw);r.tYaw=y;r.tPitch=P[1];this.idle=0;this.lastInput=performance.now();this.dirty=true;}
  _loop(now){
   this.raf=requestAnimationFrame(this._loop);
   if(!this.vis||document.hidden||!this.cur){this._lt=0;return}
